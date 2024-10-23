@@ -21,6 +21,7 @@ import ListItemText from '@mui/material/ListItemText'
 import { isEmpty } from 'lodash'
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import Overview from './Overview'
 
 function Home() {
 	const DRAWER_WIDTH = '320px'
@@ -35,92 +36,100 @@ function Home() {
 		setTitle(item)
 	}
 	return (
-		<Box sx={{ display: 'flex' }}>
-			<Box sx={{ ml: openDrawer ? DRAWER_WIDTH : '0', mr: `-${DRAWER_WIDTH}`, flexGrow: '1', width: '100%' }} >
-				<AppBar position="static">
-					<Toolbar>
-						{!openDrawer &&
-							<IconButton
-								size="large"
-								edge="start"
-								color="inherit"
-								sx={{ mr: 2 }}
-								onClick={handleToggleDrawer}
-							>
-								<MenuIcon />
-							</IconButton>
-						}
+		<Box sx={{ backgroundColor: '#f8f8f8' }}>
+			<Box sx={{ display: 'flex' }}>
+				<Box sx={{ ml: openDrawer ? DRAWER_WIDTH : '0', mr: `-${DRAWER_WIDTH}`, flexGrow: '1', width: '100%' }} >
+					<AppBar position="static">
+						<Toolbar>
+							{!openDrawer &&
+								<IconButton
+									size="large"
+									edge="start"
+									color="inherit"
+									sx={{ mr: 2 }}
+									onClick={handleToggleDrawer}
+								>
+									<MenuIcon />
+								</IconButton>
+							}
 
-						<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+							<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 
-						</Typography>
+							</Typography>
 
-					</Toolbar>
-				</AppBar>
-			</Box>
+						</Toolbar>
+					</AppBar>
+				</Box>
 
-			<Drawer
-				sx={{
-					width: DRAWER_WIDTH,
-					flexShrink: 0,
-					'& .MuiDrawer-paper': {
+				<Drawer
+					sx={{
 						width: DRAWER_WIDTH,
-						boxSizing: 'border-box',
+						flexShrink: 0,
+						'& .MuiDrawer-paper': {
+							width: DRAWER_WIDTH,
+							boxSizing: 'border-box',
 
-						backgroundColor: 'secondary.main',
-						color: 'primary.main'
-					}
-				}}
-				variant="persistent"
-				anchor="left"
-				open={openDrawer}
-			>
-				<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px 8px 15px 20px' }}>
-					<Typography variant='h5'>Sample Collecting</Typography>
-					<IconButton onClick={handleToggleDrawer}
-						sx={{
-							border: '1px solid ',
-							padding: '4px',
+							backgroundColor: 'secondary.main',
 							color: 'primary.main'
-						}}>
-						<ChevronLeftIcon sx={{
-							transform: 'scale(1.2)'
-						}} />
-					</IconButton>
-				</Box>
-				<Divider />
-				<List>
-					<ListItem disablePadding onClick={() => handleChangeNav('Giới thiệu')}
-						sx={{ backgroundColor: 'Giới thiệu' === title ? '#49664c' : 'transparent' }}
-					>
-						<ListItemButton>
-							<ListItemText primary={'Giới thiệu'} />
-						</ListItemButton>
-					</ListItem>
-				</List>
-				<Divider textAlign='left'><Chip label="Dự án của tôi" size="medium" sx={{ color: '#fff ' }} /></Divider>
-				<Box>
-					{isEmpty(projectList) && <p>Tạo dự án mới</p>}
+						}
+					}}
+					variant="persistent"
+					anchor="left"
+					open={openDrawer}
+				>
+					<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px 8px 15px 20px' }}>
+						<Typography variant='h5'>Sample Collecting</Typography>
+						<IconButton onClick={handleToggleDrawer}
+							sx={{
+								border: '1px solid ',
+								padding: '4px',
+								color: 'primary.main'
+							}}>
+							<ChevronLeftIcon sx={{
+								transform: 'scale(1.2)'
+							}} />
+						</IconButton>
+					</Box>
+					<Divider />
 					<List>
-						<ListItem disablePadding>
+						<ListItem disablePadding onClick={() => handleChangeNav('Giới thiệu')}
+							sx={{ backgroundColor: 'Giới thiệu' === title ? '#49664c' : 'transparent' }}
+						>
 							<ListItemButton>
-								<ListItemText primary={'áđâsđá'} />
+								<ListItemText primary={'Giới thiệu'} />
 							</ListItemButton>
 						</ListItem>
 					</List>
-				</Box>
-				<Divider textAlign='left'><Chip label="Dự án tôi đã tham gia" size="medium" sx={{ color: '#fff ' }} /></Divider>
-				<Box>
-					{isEmpty(projectList) && <p>Bạn chưa tham gia dự án nào</p>}
-					<List>
-						<ListItem disablePadding>
-							<ListItemButton>
-								<ListItemText primary={'áđâsđá'} />
-							</ListItemButton>
-						</ListItem>
-					</List>
-				</Box>
-			</Drawer>
+					<Divider textAlign='left'><Chip label="Dự án của tôi" size="medium" sx={{ color: '#fff ' }} /></Divider>
+					<Box>
+						{isEmpty(projectList) && <p>Tạo dự án mới</p>}
+						<List>
+							<ListItem disablePadding>
+								<ListItemButton>
+									<ListItemText primary={'áđâsđá'} />
+								</ListItemButton>
+							</ListItem>
+						</List>
+					</Box>
+					<Divider textAlign='left'><Chip label="Dự án tôi đã tham gia" size="medium" sx={{ color: '#fff ' }} /></Divider>
+					<Box>
+						{isEmpty(projectList) && <p>Bạn chưa tham gia dự án nào</p>}
+						<List>
+							<ListItem disablePadding>
+								<ListItemButton>
+									<ListItemText primary={'áđâsđá'} />
+								</ListItemButton>
+							</ListItem>
+						</List>
+					</Box>
+				</Drawer>
+			</Box>
+			<Box sx={{
+				ml: openDrawer ? DRAWER_WIDTH : '0', mr: `-${DRAWER_WIDTH}`, width: openDrawer ? `calc(100% - ${DRAWER_WIDTH})` : '100%'
+			}}>
+				{title === 'Giới thiệu' && <Overview />}
+
+			</Box>
 		</Box>
 	)
 }
