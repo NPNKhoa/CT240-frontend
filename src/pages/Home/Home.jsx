@@ -6,6 +6,7 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button';  //Import thêm Button
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
 import MenuItem from '@mui/material/MenuItem'
@@ -35,9 +36,52 @@ function Home() {
 	const handleChangeNav = (item) => {
 		setTitle(item)
 	}
+
+	// Navbar styles
+	const styles = {
+		navbar: {
+		  width: '1200px',
+		  height: '75px',
+		  margin: 'auto',
+		  display: 'flex',
+		  alignItems: 'center',
+		  justifyContent: 'space-between',
+		  backgroundColor: '#333' // Background color for the navbar
+		},
+		menuItem: {
+		  listStyle: 'none',
+		  marginLeft: '62px',
+		  marginTop: '27px',
+		  fontSize: '15px'
+		},
+		link: {
+		  textDecoration: 'none',
+		  color: '#fff',
+		  fontFamily: 'Arial',
+		  fontWeight: 'bold',
+		  transition: '0.4s ease-in-out'
+		}
+	  }
 	return (
 		<Box sx={{ backgroundColor: '#f8f8f8' }}>
 
+			{/* Navbar */}
+			<Box sx={styles.navbar}>
+					<ul style={{ display: 'flex', justifyContent: 'space-between', width: '100%', padding: 0 }}>
+					<li style={styles.menuItem}>
+						<a style={styles.link} href="#home">HOME</a>
+					</li>
+					<li style={styles.menuItem}>
+						<a style={styles.link} href="#about">ABOUT</a>
+					</li>
+					<li style={styles.menuItem}>
+						<a style={styles.link} href="#project">PROJECT</a>
+					</li>
+					<li style={styles.menuItem}>
+						<a style={styles.link} href="#phase">PHASE</a>
+					</li>
+					</ul>
+			</Box>
 
 			<Box sx={{ display: 'flex' }}>
 				<Box sx={{ ml: openDrawer ? DRAWER_WIDTH : '0', mr: `-${DRAWER_WIDTH}`, flexGrow: '1', width: '100%' }} >
@@ -58,11 +102,16 @@ function Home() {
 							<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 
 							</Typography>
+							{/* Thêm navbar */}
+							 {/* Navigation Links */}
+							 {/* <Button color="inherit" href="#home">HOME</Button>
+							 <Button color="inherit" href="#about">ABOUT</Button>
+							 <Button color="inherit" href="#project">PROJECT</Button>
+							 <Button color="inherit" href="#phase">PHASE</Button> */}
 
 						</Toolbar>
 					</AppBar>
 				</Box>
-
 				<Drawer
 					sx={{
 						width: DRAWER_WIDTH,
@@ -135,4 +184,6 @@ function Home() {
 	)
 }
 
+
+  
 export default Home
