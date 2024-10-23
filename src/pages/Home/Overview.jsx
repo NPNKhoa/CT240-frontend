@@ -30,7 +30,7 @@ function Overview() {
 		fontFamily: '"Times New Roman"',
 		fontSize: '50px',
 		paddingLeft: '20px',
-		marginTop: '9%',
+		marginTop: '0px',
 		letterSpacing: '2px'
 	  },
 	  Agriculture:{
@@ -60,14 +60,14 @@ function Overview() {
 
   return (
 	<Box sx={styles.main}>
-	<Box sx={styles.navbar}>
+	{/* <Box sx={styles.navbar}>
 	  <ul style={{ display: 'flex', justifyContent: 'space-between' }}>
 		<li style={styles.menuItem}><a style={styles.link} href="#">HOME</a></li>
 		<li style={styles.menuItem}><a style={styles.link} href="#">ABOUT</a></li>
 		<li style={styles.menuItem}><a style={styles.link} href="#">PROJECT</a></li>
 		<li style={styles.menuItem}><a style={styles.link} href="#">PHASE</a></li>
 	  </ul>
-	</Box>
+	</Box> */}
 
 	<Box sx={styles.content}>
 	  <h1 style={styles.heading}>
