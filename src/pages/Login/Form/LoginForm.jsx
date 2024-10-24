@@ -3,13 +3,13 @@ import { Alert, Box, Button, CardActions, TextField, Typography, Zoom } from '@m
 import { Card as MuiCard } from '@mui/material'
 import { useForm } from 'react-hook-form'
 
-function LoginForm({ goToOtherForm }) {
+function LoginForm({ goToOtherForm, submitLogIn }) {
 	const { register, handleSubmit, formState: { errors } } = useForm()
-	const submitLogIn = (data) => {
-		console.log(data)
+	const handleSubmitForm = async (data) => {
+		await submitLogIn(data)
 	}
 	return (
-		<form onSubmit={handleSubmit(submitLogIn)}>
+		<form onSubmit={handleSubmit(handleSubmitForm)}>
 			<Zoom in={true} >
 				<MuiCard sx={{ boxShadow: 'none' }} >
 					<Box >
