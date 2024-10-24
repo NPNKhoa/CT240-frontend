@@ -3,6 +3,7 @@ import { Alert, Box, Button, CardActions, TextField, Typography, Zoom } from '@m
 import { Card as MuiCard } from '@mui/material'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
+import { SignUp_API } from '../../../apis'
 
 function SignUpForm({ goToOtherForm }) {
 	const { register, handleSubmit, formState: { errors }, watch } = useForm()
@@ -11,10 +12,11 @@ function SignUpForm({ goToOtherForm }) {
 	password.current = watch('password', '')
 	age.current = watch('age', '')
 	const submitSignIn = (data) => {
-		const { fullname, age, address, dateOfBirth, username, password } = data // remove confirmPassWork
-		const dataSubmit = { fullname, age, address, dateOfBirth, account: { username, password } }
+		const { fullName, age, address, dateOfBirth, username, password, email } = data // remove confirmPassWork
+		const dataSubmit = { fullName, dateOfBirth: new Date(dateOfBirth), age: parseInt(age), address, username, password, email }
 
-		console.log('dataSubmit: ', dataSubmit)
+		// console.log('dataSubmit: ', JSON.stringify(dataSubmit))
+		SignUp_API(dataSubmit).then(data => console.log(data))
 	}
 	return (
 		<form onSubmit={handleSubmit(submitSignIn)}>
@@ -41,19 +43,49 @@ function SignUpForm({ goToOtherForm }) {
 							}
 						}}>
 							<TextField
-								autoFocus
+								fullWidth
+								label="Email"
+								type="text"
+								variant="outlined"
+								error={!!errors.email}
+								{...register('email', {
+									required: 'This field is required.'
+								})}
+							/>
+							{errors.email &&
+								<Alert severity="error" sx={{ mt: '0.2em', py: '0', '.MuiAlert-message': { overflow: 'hidden' } }}>
+									{errors.email.message}
+								</Alert>
+							}
+						</Box>
+						<Box sx={{
+							marginTop: '0.6em',
+							'& .MuiFormLabel-root': {
+								fontSize: '16px',
+								right: 'auto',
+								left: '0'
+							},
+							'&  .MuiOutlinedInput-root ': {
+								fontSize: '16px',
+								' & .MuiOutlinedInput-notchedOutline': {
+									border: '1px solid #000 !important'
+
+								}
+							}
+						}}>
+							<TextField
 								fullWidth
 								label="Fullname"
 								type="text"
 								variant="outlined"
-								error={!!errors.fullname}
-								{...register('fullname', {
+								error={!!errors.fullName}
+								{...register('fullName', {
 									required: 'Please enter your full name.'
 								})}
 							/>
-							{errors.fullname &&
+							{errors.fullName &&
 								<Alert severity="error" sx={{ mt: '0.2em', py: '0', '.MuiAlert-message': { overflow: 'hidden' } }}>
-									{errors.fullname.message}
+									{errors.fullName.message}
 								</Alert>
 							}
 						</Box>
@@ -85,7 +117,7 @@ function SignUpForm({ goToOtherForm }) {
 										message: 'Wait, whatttt? Please enter your correct age.'
 									},
 									min: {
-										value: 0,
+										value: 18,
 										message: 'Wait, whatttt? Please enter your correct age.'
 									}
 								})}
@@ -118,7 +150,11 @@ function SignUpForm({ goToOtherForm }) {
 								variant="outlined"
 								error={!!errors.address}
 								{...register('address', {
-									required: 'Please enter your address.'
+									required: 'Please enter your address.',
+									minLength: {
+										value: 8,
+										message: 'Address must have at least 10 characters.'
+									}
 								})}
 							/>
 							{errors.address &&
