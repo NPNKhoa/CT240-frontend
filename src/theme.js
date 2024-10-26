@@ -17,7 +17,7 @@ const theme = extendTheme({
 			contrastText: '#000'
 		},
 		secondary: {
-			main: '#4F6F52',
+			main: '#6ea033',
 			dark: '#000',
 			contrastText: '#000'
 		},
@@ -50,7 +50,7 @@ const theme = extendTheme({
 						margin: '8px 0'
 					},
 					'*::-webkit-scrollbar-thumb:hover': {
-						backgroundColor: '#4F6F52'
+						backgroundColor: '#6ea033'
 					}
 				}
 			}
