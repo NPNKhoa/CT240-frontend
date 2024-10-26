@@ -30,19 +30,27 @@ import Overview from './Overview'
 import MyProject from '../Project/MyProject'
 import ElseProject from '../Project/ElseProject'
 import { Alert, Button, InputLabel, TextField } from '@mui/material'
+import { GetProjectType } from '../../apis/index'
 
 function Home() {
 	const { register, handleSubmit, formState: { errors } } = useForm()
+	const token = localStorage.getItem('Authorization')
+	useEffect(() => {
 
+	}, [])
 	const DRAWER_WIDTH = '320px'
 	const [openDrawer, setOpenDrawer] = useState(true)
 	const [openForm, setOpenForm] = useState(false)
 	const [title, setTitle] = useState('Overview')
 	const [projectOnclick, setProjectOnclick] = useState(undefined)
 
-	const [typeList, setTypeList] = useState(['123', '456', '789', '000'])
+	const [typeList, setTypeList] = useState([])
+	const typeNameList = typeList?.map(i => i.projectTypeName)
+	useEffect(() => {
+		GetProjectType().then(data => setTypeList(data))
+	}, [])
+	const [projectType, setProjectType] = useState(typeList[0])
 
-	const [projectType, setProjectType] = useState('123')
 	// const [MyProjectList, setMyProjectList] = useState([])
 	const [MyProjectList, setMyProjectList] = useState([{ projectName: 'Project name 01' }, { projectName: 'Project name 02' }, { projectName: 'Project name 03' }])
 	const [elseProjectList, setElseProjectList] = useState([{ projectName: 'Else project name 01' }, { projectName: 'Else project name 02' }, { projectName: 'Else project name 03' }])
@@ -55,9 +63,10 @@ function Home() {
 		setTitle(item)
 	}
 	const handleCreateProject = (formData) => {
-		const { projectName, projectDescription, projectStatus } = formData
-		const data = { projectName, projectDescription, projectStatus, projectType, projectCreateDate: new Date(), }
-		console.log('data: ', data)
+		const { projectName, projectDescription, startDate, endDate } = formData
+		const data = { projectName, projectDescription, projectStatus: 'active', projectType: typeList.find(i => i.projectTypeName === projectType)._id, projectCreateDate: new Date(), startDate: new Date(startDate), endDate: new Date(endDate) }
+		console.log('data: ', JSON.stringify(data))
+
 	}
 	const handleOpenForm = () => {
 		setOpenForm(true)
@@ -134,7 +143,7 @@ function Home() {
 							</ListItemButton>
 						</ListItem>
 					</List>
-					<Divider textAlign='left'><Chip label="My Project" size="medium" sx={{ color: '#fff ' }} /></Divider>
+					<Divider textAlign='center'><Chip label="My Project" size="medium" sx={{ color: '#fff ', textTransform: 'uppercase', fontWeight: 'bold' }} /></Divider>
 					<Box>
 						<List>
 							{isEmpty(MyProjectList) &&
@@ -149,7 +158,7 @@ function Home() {
 									<ListItemButton onClick={() => handleChangeProject(project)} >
 										<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
 											<Typography variant='body1' sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{project.projectName}</Typography>
-											<Button variant='outlined' sx={{ fontSize: '10px', maxWidth: '20px' }}>projectType</Button>
+											<Chip label={'projectType'} variant="outlined" sx={{ fontSize: '10px', maxWidth: '80px', color: '#fff' }} />
 										</Box>
 
 									</ListItemButton>
@@ -169,7 +178,7 @@ function Home() {
 						<Dialog
 							open={openForm}
 							onClose={handleColseForm}
-							sx={{ '& .MuiPaper-root': { minWidth: '1200px', maxWidth: '1200px' } }}
+							sx={{}}
 						>
 							<DialogTitle sx={{ backgroundColor: 'secondary.main', color: '#fff' }}>
 								Create New Project
@@ -214,12 +223,12 @@ function Home() {
 												<InputLabel size='small' variant="outlined" id="project-type" >Project Type</InputLabel>
 												<Select
 													labelId='project-type'
-													value={projectType}
+													value={projectType ? projectType : ''}
 													inputProps={{ MenuProps: { disableScrollLock: true } }}
 													onChange={(e) => { setProjectType(e.target.value) }}
 													defaultValue=''
 												>
-													{!isEmpty(typeList) && typeList.map((item, index) => (
+													{!isEmpty(typeNameList) && typeNameList.map((item, index) => (
 														<MenuItem key={index} value={`${item}`}>{`${item}`}</MenuItem>
 													))}
 												</Select>
@@ -277,41 +286,80 @@ function Home() {
 												type="text"
 												autoComplete='off'
 												variant="outlined"
-												error={!!errors.projectStatus}
-												{...register('projectStatus')}
+												error={!!errors.projectDescription}
+												{...register('projectDescription')}
 											/>
 										</Box>
-										<Box sx={{
-											marginTop: '1.2em',
-											'& .MuiFormLabel-root': {
-												fontSize: '16px',
-												right: 'auto',
-												left: '0'
-											},
-											'&  .MuiOutlinedInput-root ': {
-												fontSize: '16px',
-												' & .MuiOutlinedInput-notchedOutline': {
-													border: '1px solid #000 !important'
+										<Box sx={{ display: 'flex', gap: '20px' }}>
+											<Box sx={{
+												marginTop: '1.2em',
+												minWidth: '200px',
+												maxWidth: '200px',
+												'& .MuiFormLabel-root': {
+													fontSize: '16px',
+													right: 'auto',
+													left: '0'
+												},
+												'&  .MuiOutlinedInput-root ': {
+													fontSize: '16px',
+													' & .MuiOutlinedInput-notchedOutline': {
+														border: '1px solid #000 !important'
+													}
 												}
-											}
-										}}>
-											<TextField
-												fullWidth
-												label="Status"
-												type="text"
-												autoComplete='off'
-												variant="outlined"
-												error={!!errors.projectStatus}
-												{...register('projectStatus', {
-													required: 'Please enter project status.'
+											}}>
+												<TextField
+													fullWidth
+													type="date"
+													variant="outlined"
+													label="Start date"
+													InputLabelProps={{ shrink: true }}
+													error={!!errors.startDate}
+													{...register('startDate', {
+														required: 'Please enter start date'
 
-												})}
-											/>
-											{errors.projectStatus &&
-												<Alert severity="error" sx={{ marginTop: '0.7em', '.MuiAlert-message': { overflow: 'hidden' } }}>
-													{errors.projectStatus.message}
-												</Alert>
-											}
+													})}
+												/>
+												{errors.startDate &&
+													<Alert severity="error" sx={{ mt: '0.2em', py: '0', '.MuiAlert-message': { overflow: 'hidden' } }}>
+														{errors.startDate.message}
+													</Alert>
+												}
+
+											</Box>
+											<Box sx={{
+												marginTop: '1.2em',
+												minWidth: '200px',
+												maxWidth: '200px',
+												'& .MuiFormLabel-root': {
+													fontSize: '16px',
+													right: 'auto',
+													left: '0'
+												},
+												'&  .MuiOutlinedInput-root ': {
+													fontSize: '16px',
+													' & .MuiOutlinedInput-notchedOutline': {
+														border: '1px solid #000 !important'
+													}
+												}
+											}}>
+												<TextField
+													fullWidth
+													type="date"
+													variant="outlined"
+													label="End date"
+													InputLabelProps={{ shrink: true }}
+													error={!!errors.endDate}
+													{...register('endDate', {
+														required: 'Please enter end date'
+													})}
+												/>
+												{errors.endDate &&
+													<Alert severity="error" sx={{ mt: '0.2em', py: '0', '.MuiAlert-message': { overflow: 'hidden' } }}>
+														{errors.endDate.message}
+													</Alert>
+												}
+
+											</Box>
 										</Box>
 									</Box>
 									<Button
@@ -338,7 +386,7 @@ function Home() {
 						</Dialog>
 					</Box>
 
-					<Divider textAlign='left'><Chip label="Project Has Joined" size="medium" sx={{ color: '#fff ' }} /></Divider>
+					<Divider textAlign='center' sx={{ mt: '20px' }}><Chip label="Project Has Joined" size="medium" sx={{ color: '#fff ', textTransform: 'uppercase', fontWeight: 'bold' }} /></Divider>
 					<Box>
 						{isEmpty(elseProjectList) && <ListItem disablePadding >
 							<Typography variant='body1' sx={{ overflow: 'hidden', textOverflow: 'ellipsis', padding: '0 12px', fontSize: '16px !important', mt: '20px' }}>
@@ -351,7 +399,7 @@ function Home() {
 								<ListItemButton onClick={() => handleChangeProject(project)} >
 									<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
 										<Typography variant='body1' sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{project.projectName}</Typography>
-										<Button variant='outlined' sx={{ fontSize: '10px', maxWidth: '20px' }}>projectType</Button>
+										<Chip label={'projectType'} variant="outlined" sx={{ fontSize: '10px', maxWidth: '80px', color: '#fff' }} />
 									</Box>
 								</ListItemButton>
 							</ListItem>
@@ -367,11 +415,11 @@ function Home() {
 					<Overview />
 				}
 				{title !== 'Overview' && MyProjectList.includes(projectOnclick) &&
-					<MyProject project={projectOnclick} />
+					<MyProject project={projectOnclick} type={typeList} />
 
 				}
 				{title !== 'Overview' && elseProjectList.includes(projectOnclick) &&
-					<ElseProject project={projectOnclick} />
+					<ElseProject project={projectOnclick} type={typeList} />
 				}
 			</Box>
 		</Box>

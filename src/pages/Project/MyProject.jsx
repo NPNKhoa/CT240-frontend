@@ -27,10 +27,10 @@ import { Alert, Button, Dialog, DialogContent, DialogTitle, InputLabel, TextFiel
 import MyPhase from '../Phase/MyPhase'
 import { useForm } from 'react-hook-form'
 
-function MyProject({ project }) {
+function MyProject({ project, type }) {
 	const { register, handleSubmit, formState: { errors } } = useForm()
-	const [typeList, setTypeList] = useState(['123', '456', '789', '000'])
-	const [projectType, setProjectType] = useState('123')
+	const [typeList, setTypeList] = useState([...type].map(i => i.projectTypeName))
+	const [projectType, setProjectType] = useState('123') //project.type
 	const [openForm, setOpenForm] = useState(false)
 	const handleCloseForm = () => {
 		setOpenForm(false)
@@ -168,8 +168,6 @@ function MyProject({ project }) {
 											}
 										</Box>
 										<Box sx={{ display: 'flex', gap: '20px' }}>
-
-
 											<Box sx={{
 												marginTop: '1.2em',
 												minWidth: '200px',
