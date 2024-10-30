@@ -38,8 +38,15 @@ export const DeleteProject = async (id) => {
 	const response = await axios.delete(`${API_ROOT}/projects/${id}`)
 	return response.data
 }
-export const CreateProject = async (data) => {
-	const response = await axios.post(`${API_ROOT}/projects`, data)
+export const CreateProject = async (token, data) => {
+	const response = await axios.post(`${API_ROOT}/projects`, data,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': JSON.parse(token)
+			},
+		}
+	)
 	return response.data
 }
 export const CreateUserProject = async (data) => {

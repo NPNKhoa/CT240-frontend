@@ -83,16 +83,13 @@ function Home() {
 	const handleCreateProject = (formData) => {
 		const { projectName, projectDescription, startDate, endDate } = formData
 		const data = { projectName, projectDescription, projectStatus: 'active', projectType: typeList.find(i => i.projectTypeName === projectType)?._id, projectCreateDate: new Date(), startDate: new Date(startDate), endDate: new Date(endDate) }
-		CreateProject(data)
+		CreateProject(token, data)
 			.then(data => {
-				CreateUserProject({ userId: userInfor._id, projectId: data._id, userRole: 'owner' })
-					.then(data => {
-						toast.success('Sucáđá ád ád', {
-							position: 'top-center'
-						})
-						setTest('create')
-						handleColseForm()
-					})
+				toast.success('Create project successfuly!', {
+					position: 'top-center'
+				})
+				setTest('create')
+				handleColseForm()
 			})
 			.catch(err => {
 				toast.error(err?.response?.data?.message, { position: 'top-center' })
