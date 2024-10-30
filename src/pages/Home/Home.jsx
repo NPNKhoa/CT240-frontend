@@ -56,11 +56,13 @@ function Home() {
 	const [MyProjectList, setMyProjectList] = useState([])
 	const [elseProjectList, setElseProjectList] = useState([])
 	const deleteProject = (id) => {
-		DeleteProject(id)
-			.then(data => { toast.success(data, { position: 'top-center' }) })
+		DeleteProject(token, id)
+			.then(data => {
+				toast.success('Delete project successfuly', { position: 'top-center' })
+				setTest('delete')
+			})
 			.catch(err => { toast.error(err, { position: 'top-center' }) })
 		setTitle('Overview')
-		setTest('delete')
 	}
 	useEffect(() => {
 		getMyProject(token).then(data => setMyProjectList(data.data.map(i => i.projectId)))

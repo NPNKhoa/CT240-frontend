@@ -19,6 +19,11 @@ function MyProject({ project, type, deleteProject }) {
 	const [openUpdate, setOpenUpdate] = useState(false)
 	const [userList, setUserList] = useState([])
 	const [phaseList, setPhaseList] = useState([])
+	const [colorStatus] = useState({
+		active: 'green',
+		complete: 'yellow',
+		canceled: 'red'
+	})
 	useEffect(() => {
 		GetAllPhase()
 			.then(data => {
@@ -59,7 +64,7 @@ function MyProject({ project, type, deleteProject }) {
 				<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
 					<Box sx={{ maxWidth: '1000px' }}>
 						<Typography variant='h6' sx={{ textAlign: 'justify' }}> Description: {project?.projectDescription} </Typography>
-						<Typography variant='h6' sx={{ textAlign: 'justify', textTransform: 'capitalize' }}> Status: {project?.projectStatus}</Typography>
+						<Typography variant='h6' sx={{ textAlign: 'justify', textTransform: 'capitalize', '& span': { color: colorStatus[project?.projectStatus] } }}> Status: <span> {project?.projectStatus}</span></Typography>
 						<Typography variant='h6'> Type: {currType?.projectTypeName} </Typography>
 					</Box>
 					<Box sx={{ minWidth: '160px' }}>
