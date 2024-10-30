@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AppBar from '@mui/material/AppBar'
 
 import Box from '@mui/material/Box'
@@ -23,24 +23,40 @@ import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { Button, InputLabel } from '@mui/material'
+
+import { GetAllPhase } from '../../apis/index'
 import ElsePhase from '../Phase/ElsePhase'
-function ElseProject({ project }) {
+function ElseProject({ project, type }) {
+	const [currType] = useState(type.find(i => i._id === project?.projectType))
+	const [phaseList, setPhaseList] = useState([])
+	useEffect(() => {
+		GetAllPhase()
+			.then(data => {
+				const test = data.filter((i) => i?.projectId === project._id)
+				setPhaseList(test)
+			})
+	}, [project])
 	return (
 		<Box >
 			<Box sx={{ mt: '20px', p: '20px', borderBottom: '1px solid #000' }}>
 				<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', }}>
 					<Box sx={{ maxWidth: '1000px' }}>
-						<Typography variant='h5'> {'$project manager\' Project'} </Typography>
-						<Typography variant='h6' sx={{ m: '12px 0', textAlign: 'justify' }}> Description: $project.des Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem repellat incidunt ad suscipit natus, dicta illum commodi perferendis odio accusamus autem ullam voluptatibus nesciunt obcaecati labore laboriosam quisquam omnis velit officia in rerum ipsa quo. Unde similique reiciendis ad, facere nisi voluptas, excepturi reprehenderit sunt iusto alias consequatur labore. Nemo? </Typography>
-						<Typography variant='h6'> Type: Project Type </Typography>
-						<Typography variant='h6' sx={{ textAlign: 'justify' }}>  Status: Project status </Typography>
-
+						<Typography variant='h5' sx={{ m: '12px 0', textAlign: 'justify' }}> Description: {project.projectDescription} </Typography>
+						<Typography variant='h6'> Type: {currType?.projectTypeName} </Typography>
+						<Typography variant='h6' sx={{ textAlign: 'justify', textTransform: 'capitalize' }}>  Status: {project.projectStatus} </Typography>
 					</Box>
-
 				</Box>
 
 			</Box>
-			<ElsePhase />
+			{
+				!isEmpty(phaseList) &&
+				<ElsePhase phaseList={phaseList} />
+			}
+			{isEmpty(phaseList) &&
+				<Box sx={{ mt: '40px', ml: '40px' }}>
+					<Typography variant='h5'  >No a phase yet.</Typography>
+				</Box>
+			}
 		</Box>
 	)
 }

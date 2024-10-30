@@ -1,54 +1,69 @@
-import { useState } from 'react'
-import AppBar from '@mui/material/AppBar'
+import { useEffect, useState } from 'react'
 
 import Box from '@mui/material/Box'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
-import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
-import MenuIcon from '@mui/icons-material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-import Menu from '@mui/material/Menu'
-import Chip from '@mui/material/Chip'
-import Divider from '@mui/material/Divider'
-import Drawer from '@mui/material/Drawer'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import { isEmpty } from 'lodash'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 import CloseIcon from '@mui/icons-material/Close'
-
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import { Alert, Button, Dialog, DialogContent, DialogTitle, InputLabel, TextField, Tooltip } from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit';
+import { Alert, Button, Dialog, DialogContent, DialogTitle, TextField, Tooltip } from '@mui/material'
 import MyPhase from '../Phase/MyPhase'
 import { useForm } from 'react-hook-form'
+import UpdateProjectForm from './UpdateProjectForm'
+import { GetAllPhase, GetUserOnProject } from '../../apis/index'
+import { isEmpty } from 'lodash'
 
-function MyProject({ project, type }) {
+function MyProject({ project, type, deleteProject }) {
+	const [currType] = useState(type.find(i => i._id === project?.projectType))
 	const { register, handleSubmit, formState: { errors } } = useForm()
-	const [typeList, setTypeList] = useState([...type].map(i => i.projectTypeName))
-	const [projectType, setProjectType] = useState('123') //project.type
 	const [openForm, setOpenForm] = useState(false)
+	const [openUpdate, setOpenUpdate] = useState(false)
+	const [userList, setUserList] = useState([])
+	const [phaseList, setPhaseList] = useState([])
+	useEffect(() => {
+		GetAllPhase()
+			.then(data => {
+				const test = data.filter((i) => i?.projectId === project._id)
+				setPhaseList(test)
+			})
+	}, [project])
+	useEffect(() => {
+		GetUserOnProject(project?._id)
+			.then(res => {
+				setUserList(res.data.map(i => i.userId))
+			})
+	}, [project])
+
 	const handleCloseForm = () => {
 		setOpenForm(false)
 	}
+	const handleDeleteProject = (id) => {
+		deleteProject(id)
+	}
 	const handleCreatePhase = (data) => {
-		console.log(data)
+		const dataSubmit = {
+			...data,
+			startDate: new Date(data.startDate),
+			endDate: new Date(data.endDate),
+			projectId: project._id
+		}
+		console.log('dataSubmit: ', JSON.stringify(dataSubmit))
 
 	}
+	const handleCloseUpdate = () => {
+		setOpenUpdate(false)
+	}
+
 	return (
 		<Box>
 			<Box sx={{ mt: '20px', p: '20px', borderBottom: '1px solid #000' }}>
-				<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', }}>
+				<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
 					<Box sx={{ maxWidth: '1000px' }}>
-						<Typography variant='h6' sx={{ textAlign: 'justify' }}>  $project.des Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem repellat incidunt ad suscipit natus, dicta illum commodi perferendis odio accusamus autem ullam voluptatibus nesciunt obcaecati labore laboriosam quisquam omnis velit officia in rerum ipsa quo. Unde similique reiciendis ad, facere nisi voluptas, excepturi reprehenderit sunt iusto alias consequatur labore. Nemo? </Typography>
-						<Typography variant='h6' sx={{ textAlign: 'justify' }}>  Status: Project status </Typography>
+						<Typography variant='h6' sx={{ textAlign: 'justify' }}> Description: {project?.projectDescription} </Typography>
+						<Typography variant='h6' sx={{ textAlign: 'justify', textTransform: 'capitalize' }}> Status: {project?.projectStatus}</Typography>
+						<Typography variant='h6'> Type: {currType?.projectTypeName} </Typography>
 					</Box>
 					<Box sx={{ minWidth: '160px' }}>
-						<Button fullWidth variant='contained'
+						<Button fullWidth variant='contained' onClick={() => handleDeleteProject(project?._id)}
 							sx={{
 								fontSize: '14px',
 								color: '#fff',
@@ -262,63 +277,44 @@ function MyProject({ project, type }) {
 						</Dialog>
 					</Box>
 
-					<Box
-						sx={{
-							maxWidth: {
-								xs: '100%',
-								md: '200px'
-							},
-							minWidth: {
-								xs: '100%',
-								md: '200px'
-							},
-							mb: '8px',
-							background: 'transparent',
-							'& .MuiInputBase-root': {
-								color: 'primary.dark',
-								fontSize: '18px',
-								'& div': {
-									p: ' 8px 12px'
-								},
-								'& fieldset': {
-									borderColor: '#000 !important',
-								},
 
-								'& .MuiOutlinedInput-notchedOutline': {
+					<Box sx={{ minWidth: '200px' }}>
+						<Button fullWidth variant='outlined' endIcon={<EditIcon />} onClick={() => setOpenUpdate(true)}
+							sx={{
+								fontSize: '14px',
+								color: '#000',
+								border: '1px solid #000',
+								'&:hover': {
 									border: '1px solid #000',
-									borderColor: '#000'
+									opacity: '0.8'
 								}
-							},
-							'& .MuiFormLabel-root': {
-								fontSize: '16px',
-								right: 'auto',
-								left: '0',
-								bottom: '16px',
-								lineHeight: '1.4375em',
-								backgroundColor: '#fff'
-							},
-						}}>
-						<FormControl fullWidth>
-							<InputLabel size='small' variant="outlined" id="project-type" >Project Type</InputLabel>
-							<Select
-								labelId='project-type'
-								value={projectType}
-								inputProps={{ MenuProps: { disableScrollLock: true } }}
-								onChange={(e) => { setProjectType(e.target.value) }}
-								defaultValue=''
-							>
-								{!isEmpty(typeList) && typeList.map((item, index) => (
-									<MenuItem key={index} value={`${item}`}>{`${item}`}</MenuItem>
-								))}
-							</Select>
-						</FormControl>
+							}}>Edit project information</Button>
 					</Box>
-
-
-
 				</Box>
+				<Dialog
+					open={openUpdate}
+					onClose={(handleCloseUpdate)}
+					sx={{}}
+				>
+					<DialogTitle sx={{ backgroundColor: 'secondary.main', color: '#fff' }}>
+						Edit Project Information
+						<Tooltip title="Close ">
+							<CloseIcon onClick={handleCloseUpdate} sx={{ position: 'absolute', top: '8px', right: '8px', cursor: 'pointer' }} />
+						</Tooltip>
+					</DialogTitle>
+					<DialogContent >
+						<UpdateProjectForm projectInfo={project} typeList={type} />
+					</DialogContent>
+				</Dialog>
 			</Box>
-			<MyPhase />
+			{!isEmpty(phaseList) &&
+				<MyPhase phaseList={phaseList} />
+			}
+			{isEmpty(phaseList) &&
+				<Box sx={{ mt: '40px', ml: '40px' }}>
+					<Typography variant='h5'  >No a phase yet.</Typography>
+				</Box>
+			}
 		</Box>
 	)
 }

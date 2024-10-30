@@ -5,8 +5,8 @@ import AppBar from '@mui/material/AppBar'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import CloseIcon from '@mui/icons-material/Close';
-import Tooltip from '@mui/material/Tooltip';
+import CloseIcon from '@mui/icons-material/Close'
+import Tooltip from '@mui/material/Tooltip'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
@@ -24,26 +24,28 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import { isEmpty } from 'lodash'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
+import { useNavigate } from 'react-router-dom'
+import AccountCircle from '@mui/icons-material/AccountCircle'
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import Overview from './Overview'
 import MyProject from '../Project/MyProject'
 import ElseProject from '../Project/ElseProject'
 import { Alert, Button, InputLabel, TextField } from '@mui/material'
-import { GetProjectType } from '../../apis/index'
-
+import { GetProjectType, getMyProject, GetProjectOfUser, DeleteProject, CreateProject, CreateUserProject } from '../../apis/index'
+import { toast } from 'react-toastify'
+import LogoutIcon from '@mui/icons-material/Logout'
 function Home() {
+	const navigate = useNavigate()
 	const { register, handleSubmit, formState: { errors } } = useForm()
 	const token = localStorage.getItem('Authorization')
-	useEffect(() => {
-
-	}, [])
+	const userInfor = JSON.parse(localStorage.getItem('userInfo'))
 	const DRAWER_WIDTH = '320px'
 	const [openDrawer, setOpenDrawer] = useState(true)
 	const [openForm, setOpenForm] = useState(false)
 	const [title, setTitle] = useState('Overview')
 	const [projectOnclick, setProjectOnclick] = useState(undefined)
-
+	const [test, setTest] = useState('')
 	const [typeList, setTypeList] = useState([])
 	const typeNameList = typeList?.map(i => i.projectTypeName)
 	useEffect(() => {
@@ -51,10 +53,26 @@ function Home() {
 	}, [])
 	const [projectType, setProjectType] = useState(typeList[0])
 
-	// const [MyProjectList, setMyProjectList] = useState([])
-	const [MyProjectList, setMyProjectList] = useState([{ projectName: 'Project name 01' }, { projectName: 'Project name 02' }, { projectName: 'Project name 03' }])
-	const [elseProjectList, setElseProjectList] = useState([{ projectName: 'Else project name 01' }, { projectName: 'Else project name 02' }, { projectName: 'Else project name 03' }])
-	// const [elseProjectList, setElseProjectList] = useState([])
+	const [MyProjectList, setMyProjectList] = useState([])
+	const [elseProjectList, setElseProjectList] = useState([])
+	const deleteProject = (id) => {
+		DeleteProject(id)
+			.then(data => { toast.success(data, { position: 'top-center' }) })
+			.catch(err => { toast.error(err, { position: 'top-center' }) })
+		setTitle('Overview')
+		setTest('delete')
+	}
+	useEffect(() => {
+		getMyProject(token).then(data => setMyProjectList(data.data.map(i => i.projectId)))
+	}, [token, test])
+	useEffect(() => {
+		GetProjectOfUser(token)
+			.then(data =>
+				setElseProjectList(data.data.map(i => i.projectId))
+
+			)
+			.catch(err => toast.error(err.message, { position: 'top-center' }))
+	}, [token])
 
 	const handleToggleDrawer = () => {
 		setOpenDrawer(!openDrawer)
@@ -64,9 +82,22 @@ function Home() {
 	}
 	const handleCreateProject = (formData) => {
 		const { projectName, projectDescription, startDate, endDate } = formData
-		const data = { projectName, projectDescription, projectStatus: 'active', projectType: typeList.find(i => i.projectTypeName === projectType)._id, projectCreateDate: new Date(), startDate: new Date(startDate), endDate: new Date(endDate) }
-		console.log('data: ', JSON.stringify(data))
-
+		const data = { projectName, projectDescription, projectStatus: 'active', projectType: typeList.find(i => i.projectTypeName === projectType)?._id, projectCreateDate: new Date(), startDate: new Date(startDate), endDate: new Date(endDate) }
+		CreateProject(data)
+			.then(data => {
+				CreateUserProject({ userId: userInfor._id, projectId: data._id, userRole: 'owner' })
+					.then(data => {
+						toast.success('Sucáđá ád ád', {
+							position: 'top-center'
+						})
+						setTest('create')
+						handleColseForm()
+					})
+			})
+			.catch(err => {
+				toast.error(err?.response?.data?.message, { position: 'top-center' })
+				console.log('err: ', err)
+			})
 	}
 	const handleOpenForm = () => {
 		setOpenForm(true)
@@ -77,6 +108,11 @@ function Home() {
 	const handleChangeProject = (project) => {
 		setProjectOnclick(project)
 		setTitle(project.projectName)
+	}
+	const handleLogout = () => {
+		localStorage.removeItem('Authorization')
+		localStorage.removeItem('userInfo')
+		navigate('/login')
 	}
 	return (
 		<Box sx={{ backgroundColor: '#fff' }}>
@@ -95,11 +131,34 @@ function Home() {
 									<MenuIcon />
 								</IconButton>
 							}
-
 							<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 								{title}
 							</Typography>
+							<Box>
+								<Box sx={{ display: 'flex', gap: '20px' }}>
+									<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+										{userInfor.email}
+									</Typography>
+									<Button
+										variant='outlined'
+										startIcon={<LogoutIcon />}
+										onClick={handleLogout}
+										sx={{
+											fontSize: '14px',
+											color: '#000',
+											border: '1px solid #000',
+											'&:hover': {
+												border: '1px solid #000',
+												opacity: '0.8'
+											}
+										}}
+									>
+										Logout
+									</Button>
+								</Box>
 
+
+							</Box>
 						</Toolbar>
 					</AppBar>
 				</Box>
@@ -153,12 +212,12 @@ function Home() {
 									</Typography>
 								</ListItem>}
 
-							{MyProjectList?.map((project, index) => (
+							{MyProjectList?.filter(i => i !== null)?.map((project, index) => (
 								<ListItem disablePadding key={index}>
 									<ListItemButton onClick={() => handleChangeProject(project)} >
 										<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-											<Typography variant='body1' sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{project.projectName}</Typography>
-											<Chip label={'projectType'} variant="outlined" sx={{ fontSize: '10px', maxWidth: '80px', color: '#fff' }} />
+											<Typography variant='body1' sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{project?.projectName}</Typography>
+											<Chip label={typeList.find(i => i?._id === project?.projectType)?.projectTypeName} variant="outlined" sx={{ fontSize: '10px', maxWidth: '100px', minWidth: '100px', color: '#fff' }} />
 										</Box>
 
 									</ListItemButton>
@@ -394,12 +453,12 @@ function Home() {
 							</Typography>
 						</ListItem>
 						}
-						{elseProjectList?.map((project, index) => (
+						{elseProjectList?.filter(i => i !== null)?.map((project, index) => (
 							<ListItem disablePadding key={index}>
 								<ListItemButton onClick={() => handleChangeProject(project)} >
 									<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-										<Typography variant='body1' sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{project.projectName}</Typography>
-										<Chip label={'projectType'} variant="outlined" sx={{ fontSize: '10px', maxWidth: '80px', color: '#fff' }} />
+										<Typography variant='body1' sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{project?.projectName}</Typography>
+										<Chip label={typeList.find(i => i?._id === project?.projectType)?.projectTypeName} variant="outlined" sx={{ fontSize: '10px', maxWidth: '100px', minWidth: '100px', color: '#fff' }} />
 									</Box>
 								</ListItemButton>
 							</ListItem>
@@ -415,8 +474,7 @@ function Home() {
 					<Overview />
 				}
 				{title !== 'Overview' && MyProjectList.includes(projectOnclick) &&
-					<MyProject project={projectOnclick} type={typeList} />
-
+					<MyProject project={projectOnclick} type={typeList} deleteProject={deleteProject} />
 				}
 				{title !== 'Overview' && elseProjectList.includes(projectOnclick) &&
 					<ElseProject project={projectOnclick} type={typeList} />

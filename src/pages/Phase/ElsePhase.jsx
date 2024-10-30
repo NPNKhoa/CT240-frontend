@@ -24,19 +24,20 @@ import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { Button, InputLabel } from '@mui/material'
 import ElseSample from '../Sample/ElseSample'
-function ElsePhase() {
+import { formatDate } from '../../untils/format'
+function ElsePhase({ phaseList }) {
+	const [currentId, setCurrentId] = useState(phaseList[0]?._id)
+	const index = phaseList.findIndex(phase => phase?._id === currentId)
+	const currentPhase = phaseList[index]
 	return (
 		<Box sx={{ padding: '20px' }}>
 			<Box>
-				<Typography variant='h5' sx={{ mb: '12px', fontWeight: 'bold', color: 'secondary.main' }}>Phase Name</Typography>
+				<Typography variant='h5' sx={{ mb: '12px', fontWeight: 'bold', color: 'secondary.main' }}>{currentPhase?.phaseName}</Typography>
 				<Typography variant='body1' sx={{ mb: '12px', fontSize: '16px !important' }}>
-					Phase Description Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-					Excepturi, totam nobis architecto tempore error veritatis inventore? At minima minus hic necessitatibus,
-					inventore similique suscipit doloribus molestiae a voluptate modi laboriosam provident nobis corporis neque
-					atque numquam earum praesentium vitae, impedit tenetur? Atque quis enim ipsam, similique nihil assumenda quo eum.
+					{currentPhase?.phaseDescription}
 				</Typography>
-				<Typography variant='body1' sx={{ fontSize: '16px !important' }} ><b>Start Date: </b> $startDate </Typography>
-				<Typography variant='body1' sx={{ fontSize: '16px !important' }}><b>End Date: </b> $startDate </Typography>
+				<Typography variant='body1' sx={{ fontSize: '16px !important' }} ><b>Start Date: </b> {formatDate(currentPhase?.startDate)} </Typography>
+				<Typography variant='body1' sx={{ fontSize: '16px !important' }}><b>End Date: </b> {formatDate(currentPhase?.endDate)}  </Typography>
 			</Box>
 			<ElseSample />
 		</Box>

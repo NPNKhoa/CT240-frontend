@@ -20,14 +20,14 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { isEmpty } from 'lodash'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
+import { formatDate, formatDateToSubmit } from '../../untils/format'
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { Button, InputLabel } from '@mui/material'
 
-function MyPhase() {
-	const [phaseList, setPhaseList] = useState([{ phaseId: 'Phase Id 01', phaseName: 'Phase name 01', phaseDescription: 'Phase description 01' }, { phaseId: 'Phase Id 02', phaseName: 'Phase name 02', phaseDescription: 'Phase description 02' }, { phaseId: 'Phase Id 03', phaseName: 'Phase name 03', phaseDescription: 'Phase description 03' }])
-	const [currentId, setCurrentId] = useState(phaseList[0].phaseId)
-	const index = phaseList.findIndex(phase => phase.phaseId === currentId)
+function MyPhase({ phaseList }) {
+	const [currentId, setCurrentId] = useState(phaseList[0]?._id)
+	const index = phaseList.findIndex(phase => phase?._id === currentId)
 	const currentPhase = phaseList[index]
 	return (
 		< Box sx={{ mt: '20px', padding: '20px' }}>
@@ -47,19 +47,18 @@ function MyPhase() {
 						}
 					}}
 						key={i}
-						onClick={() => setCurrentId(phase.phaseId)}>
+						onClick={() => setCurrentId(phase?._id)}>
 						{phase.phaseName}
 					</Box>
 				))}
 			</Box>
-
 			<Box>
 				<Box sx={{ mt: '20px', p: '8px' }}>
 					<Typography variant='body1' sx={{ mb: '12px', fontSize: '16px !important' }}>
-						{currentPhase.phaseDescription}
+						{currentPhase?.phaseDescription}
 					</Typography>
-					<Typography variant='body1' sx={{ fontSize: '16px !important' }} ><b>Start Date: </b> $startDate </Typography>
-					<Typography variant='body1' sx={{ fontSize: '16px !important' }}><b>End Date: </b> $startDate </Typography>
+					<Typography variant='body1' sx={{ fontSize: '16px !important' }} ><b>Start Date: </b> {formatDate(currentPhase?.startDate)} </Typography>
+					<Typography variant='body1' sx={{ fontSize: '16px !important' }}><b>End Date: </b> {formatDate(currentPhase?.endDate)} </Typography>
 				</Box>
 				<Box sx={{ minWidth: '200px', maxWidth: '200px' }}>
 					<Button fullWidth variant='outlined' startIcon={<AddToPhotosIcon />}

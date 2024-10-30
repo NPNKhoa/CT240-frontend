@@ -30,12 +30,46 @@ export const GetProjectType = async () => {
 	return response.data
 }
 
-export const getUserProject = async (token) => {
-	const response = await axios.get(`${API_ROOT}/user-projects/my-projects`, {
+// export const GetProjectOfUser = async (id) => {
+// 	const response = await axios.get(`${API_ROOT}/user-projects/projects/${id}`)
+// 	return response.data
+// }
+export const DeleteProject = async (id) => {
+	const response = await axios.delete(`${API_ROOT}/projects/${id}`)
+	return response.data
+}
+export const CreateProject = async (data) => {
+	const response = await axios.post(`${API_ROOT}/projects`, data)
+	return response.data
+}
+export const CreateUserProject = async (data) => {
+	const response = await axios.post(`${API_ROOT}/user-projects`, data)
+	return response.data
+}
+
+export const getMyProject = async (token) => {
+	const response = await axios.get(`${API_ROOT}/user-projects/own`, {
 		headers: {
 			'Content-Type': 'application/json',
 			'Authorization': JSON.parse(token)
 		},
 	})
+	return response.data
+}
+export const GetProjectOfUser = async (token) => {
+	const response = await axios.get(`${API_ROOT}/user-projects/join`, {
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': JSON.parse(token)
+		},
+	})
+	return response.data
+}
+export const GetAllPhase = async () => {
+	const response = await axios.get(`${API_ROOT}/phase`)
+	return response.data
+}
+export const GetUserOnProject = async (id) => {
+	const response = await axios.get(`${API_ROOT}/user-projects/users/${id}`)
 	return response.data
 }
