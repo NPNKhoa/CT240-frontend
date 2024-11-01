@@ -9,15 +9,20 @@ import { Alert, Button, Dialog, DialogContent, DialogTitle, TextField, Tooltip }
 import MyPhase from '../Phase/MyPhase'
 import { useForm } from 'react-hook-form'
 import UpdateProjectForm from './UpdateProjectForm'
-import { GetAllPhase, GetUserOnProject } from '../../apis/index'
+import { GetAllPhase, GetUserOnProject, CreatePhase } from '../../apis/index'
 import { isEmpty } from 'lodash'
+import { toast } from 'react-toastify'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 function MyProject({ project, type, deleteProject }) {
 	const [currType] = useState(type.find(i => i._id === project?.projectType))
+	const currUser = JSON.parse(localStorage.getItem('userInfo'))
 	const { register, handleSubmit, formState: { errors } } = useForm()
 	const [openForm, setOpenForm] = useState(false)
+	const [recallApi, setRecallApi] = useState(undefined)
 	const [openUpdate, setOpenUpdate] = useState(false)
 	const [userList, setUserList] = useState([])
+	const [openViewMemberList, setOpenViewMemberList] = useState(false)
 	const [phaseList, setPhaseList] = useState([])
 	const [colorStatus] = useState({
 		active: 'green',
@@ -30,7 +35,7 @@ function MyProject({ project, type, deleteProject }) {
 				const test = data.filter((i) => i?.projectId === project._id)
 				setPhaseList(test)
 			})
-	}, [project])
+	}, [project, recallApi])
 	useEffect(() => {
 		GetUserOnProject(project?._id)
 			.then(res => {
@@ -51,7 +56,18 @@ function MyProject({ project, type, deleteProject }) {
 			endDate: new Date(data.endDate),
 			projectId: project._id
 		}
-		console.log('dataSubmit: ', JSON.stringify(dataSubmit))
+		CreatePhase(dataSubmit)
+			.then(data => {
+				toast.success('Create project successfuly!', {
+					position: 'top-center'
+				})
+				setRecallApi('create phase')
+				setOpenForm(false)
+			})
+			.catch(err => {
+				toast.error(err?.response?.data?.message, { position: 'top-center' })
+			})
+
 
 	}
 	const handleCloseUpdate = () => {
@@ -87,7 +103,7 @@ function MyProject({ project, type, deleteProject }) {
 				<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: '20px' }}>
 					<Box sx={{ display: 'flex', gap: '32px', }}>
 						<Box sx={{ minWidth: '200px' }}>
-							<Button fullWidth variant='outlined'
+							<Button fullWidth variant='outlined' onClick={() => setOpenViewMemberList(true)}
 								sx={{
 									fontSize: '14px',
 									color: '#000',
@@ -97,6 +113,111 @@ function MyProject({ project, type, deleteProject }) {
 										opacity: '0.8'
 									}
 								}}>View memberList</Button>
+							<Dialog
+								open={openViewMemberList}
+								onClose={() => setOpenViewMemberList(false)}
+								sx={{ '& .MuiPaper-root': { minWidth: '1200px', maxWidth: '1200px' } }}
+							>
+								<DialogTitle sx={{ backgroundColor: 'secondary.main', color: '#fff' }}>
+									View Member List
+									<Tooltip title="Close ">
+										<CloseIcon onClick={() => setOpenViewMemberList(false)} sx={{ position: 'absolute', top: '8px', right: '8px', cursor: 'pointer' }} />
+									</Tooltip>
+								</DialogTitle>
+								<DialogContent >
+									<Box sx={{ m: '20px 0' }}>
+										<Button fullWidth variant='outlined' startIcon={<AddToPhotosIcon />}
+											sx={{
+												fontSize: '14px',
+												color: '#000',
+												border: '1px solid #000',
+												'&:hover': {
+													border: '1px solid #000',
+													opacity: '0.8'
+												}
+											}}>Add new Member</Button>
+										<Box
+											sx={{
+												mt: '20px',
+												display: 'flex',
+												borderBottom: '1px solid #000',
+												justifyContent: 'space-between',
+												'& .MuiTypography-body1 ': {
+													fontWeight: '700',
+													color: 'primary.dark',
+													minWidth: '200px',
+													maxWidth: '200px',
+													textAlign: 'center',
+													fontSize: '16px',
+													padding: '12px 0'
+												}
+											}}
+										>
+											<Typography variant='body1' sx={{ flex: '1' }}>Email</Typography>
+											<Typography variant='body1' sx={{ flex: '1' }}>Fullname</Typography>
+											<Typography variant='body1' sx={{ flex: '1' }}>User name</Typography>
+											<Typography variant='body1' sx={{ flex: '1' }}>Delete User</Typography>
+										</Box>
+										{!isEmpty(userList) && userList?.map(user => (
+											<Box key={user?._id}
+												sx={{
+													display: 'flex',
+													position: 'relative',
+													justifyContent: 'space-between',
+													backgroundColor: '#fff',
+													alignItems: 'center',
+													boxShadow: '0px 0px 1px #888888',
+													padding: '12px 0',
+													textAlign: 'center',
+													'& .MuiButtonBase-root, & .MuiTypography-h6  ': {
+														color: 'primary.dark',
+														minWidth: '200px',
+														maxWidth: '200px',
+													},
+													'&:hover': {
+														backgroundColor: 'rgba(0,0,0,0.03)',
+													}
+												}}
+											>
+												<Box sx={{
+													position: 'absolute',
+													top: '0',
+													left: '0',
+													backgroundColor: 'secondary.main',
+													color: '#fff',
+													fontSize: '12px',
+													userSelect: 'none',
+													display: user?._id === currUser._id ? 'block' : 'none',
+
+												}}>Tài khoản của bạn</Box>
+												<Typography variant='h6' sx={{ flex: '1' }}>
+													{user?.email}
+												</Typography>
+												<Typography variant='h6' sx={{ flex: '1' }}>
+													{user?.fullName}
+												</Typography>
+												<Typography variant='h6' sx={{ flex: '1' }}>
+													{user?.username}
+												</Typography>
+												<Button
+													variant='text'
+													endIcon={user?._id !== currUser._id ? <DeleteForeverIcon /> : <Box />}
+													// onClick={() => getQuestionBySampleId(sample._id)}
+													sx={{
+														color: '#000',
+														p: '',
+														fontSize: '16px',
+														fontWeight: '700',
+														flex: '1'
+													}}
+												>
+												</Button>
+											</Box>
+										))
+										}
+									</Box>
+								</DialogContent>
+							</Dialog>
 						</Box>
 
 						<Box sx={{ minWidth: '200px' }}>
@@ -302,7 +423,7 @@ function MyProject({ project, type, deleteProject }) {
 					sx={{}}
 				>
 					<DialogTitle sx={{ backgroundColor: 'secondary.main', color: '#fff' }}>
-						Edit Project Information
+						Edit Project Information- frontend note: chưa xong cái này
 						<Tooltip title="Close ">
 							<CloseIcon onClick={handleCloseUpdate} sx={{ position: 'absolute', top: '8px', right: '8px', cursor: 'pointer' }} />
 						</Tooltip>

@@ -1,34 +1,68 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AppBar from '@mui/material/AppBar'
 
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
+import CloseIcon from '@mui/icons-material/Close'
 import Select from '@mui/material/Select'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
-import MenuIcon from '@mui/icons-material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-import Menu from '@mui/material/Menu'
-import Chip from '@mui/material/Chip'
-import Divider from '@mui/material/Divider'
-import Drawer from '@mui/material/Drawer'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import { isEmpty } from 'lodash'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 import { formatDate, formatDateToSubmit } from '../../untils/format'
-
+import { GetAllSample, CreateNewSample } from '../../apis/index'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import { Button, InputLabel } from '@mui/material'
+import { Alert, Button, Dialog, DialogContent, DialogTitle, InputLabel, TextField, Tooltip } from '@mui/material'
+import MySample from '../Sample/MySample'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 
 function MyPhase({ phaseList }) {
+	const { register, handleSubmit, formState: { errors } } = useForm()
 	const [currentId, setCurrentId] = useState(phaseList[0]?._id)
+	const [openForm, setOpenForm] = useState(false)
+	const [recallApi, setRecallApi] = useState(undefined)
+	useEffect(() => {
+		setCurrentId(phaseList[0]?._id)
+	}, [phaseList])
 	const index = phaseList.findIndex(phase => phase?._id === currentId)
 	const currentPhase = phaseList[index]
+	const [sampleList, setSampleList] = useState([])
+	useEffect(() => {
+		GetAllSample()
+			.then(data => {
+				const test = data.map(i => {
+					return {
+						...i,
+						phaseId: i.phaseId._id,
+						projectId: i.phaseId.projectId,
+					}
+				})
+				setSampleList(test)
+			})
+	}, [recallApi])
+	const handleCreateSample = (data) => {
+		const dataSubmit = {
+			...data,
+			collectionDate: new Date(data.collectionDate),
+			phaseId: currentPhase?._id
+		}
+		CreateNewSample(dataSubmit)
+			.then(data => {
+				toast.success('Create sample successfuly!', {
+					position: 'top-center'
+				})
+				setRecallApi('create sample')
+				setOpenForm(false)
+			})
+			.catch(err => {
+				toast.error(err?.response?.data?.message, { position: 'top-center' })
+			})
+
+
+	}
+	const handleCloseForm = () => {
+		setOpenForm(false)
+	}
 	return (
 		< Box sx={{ mt: '20px', padding: '20px' }}>
 			<Box sx={{ overflow: 'auto', maxWidth: '100%', display: 'flex', gap: '8px' }}>
@@ -61,7 +95,7 @@ function MyPhase({ phaseList }) {
 					<Typography variant='body1' sx={{ fontSize: '16px !important' }}><b>End Date: </b> {formatDate(currentPhase?.endDate)} </Typography>
 				</Box>
 				<Box sx={{ minWidth: '200px', maxWidth: '200px' }}>
-					<Button fullWidth variant='outlined' startIcon={<AddToPhotosIcon />}
+					<Button fullWidth variant='outlined' startIcon={<AddToPhotosIcon />} onClick={() => setOpenForm(true)}
 						sx={{
 							fontSize: '14px',
 							color: '#000',
@@ -71,8 +105,201 @@ function MyPhase({ phaseList }) {
 								opacity: '0.8'
 							}
 						}}>Create Sample</Button>
+					<Dialog
+						open={openForm}
+						onClose={handleCloseForm}
+						sx={{ '& .MuiPaper-root': { minWidth: '800px', maxWidth: '800px' } }}
+					>
+						<DialogTitle sx={{ backgroundColor: 'secondary.main', color: '#fff' }}>
+							Create New Sample
+							<Tooltip title="Close ">
+								<CloseIcon onClick={handleCloseForm} sx={{ position: 'absolute', top: '8px', right: '8px', cursor: 'pointer' }} />
+							</Tooltip>
+						</DialogTitle>
+						<DialogContent >
+							<form onSubmit={handleSubmit(handleCreateSample)}>
+								<Box sx={{ padding: '1em 1em 1em 1em' }}>
+									<Box sx={{
+										marginTop: '1.2em',
+										'& .MuiFormLabel-root': {
+											fontSize: '16px',
+											right: 'auto',
+											left: '0'
+										},
+										'&  .MuiOutlinedInput-root ': {
+											fontSize: '16px',
+											' & .MuiOutlinedInput-notchedOutline': {
+												border: '1px solid #000 !important'
+											}
+										}
+									}}>
+										<TextField
+											fullWidth
+											label="Sample title"
+											type="text"
+											variant="outlined"
+											error={!!errors.sampleTitle}
+											{...register('sampleTitle', {
+												required: 'Please enter phase name.'
+
+											})}
+										/>
+										{errors.sampleTitle &&
+											<Alert severity="error" sx={{ marginTop: '0.7em', '.MuiAlert-message': { overflow: 'hidden' } }}>
+												{errors.sampleTitle.message}
+											</Alert>
+										}
+									</Box>
+									<Box sx={{
+										marginTop: '1.2em',
+										'& .MuiFormLabel-root': {
+											fontSize: '16px',
+											right: 'auto',
+											left: '0'
+										},
+										'&  .MuiOutlinedInput-root ': {
+											fontSize: '16px',
+											' & .MuiOutlinedInput-notchedOutline': {
+												border: '1px solid #000 !important'
+											}
+										}
+									}}>
+										<TextField
+											fullWidth
+											label="Sample description"
+											type="text"
+											autoComplete='off'
+											variant="outlined"
+											error={!!errors.sampleDescription}
+											{...register('sampleDescription', {
+												required: 'Please enter phase description.'
+											})}
+										/>
+										{errors.sampleDescription &&
+											<Alert severity="error" sx={{ marginTop: '0.7em', '.MuiAlert-message': { overflow: 'hidden' } }}>
+												{errors.sampleDescription.message}
+											</Alert>
+										}
+									</Box>
+									<Box sx={{
+										marginTop: '1.2em',
+										'& .MuiFormLabel-root': {
+											fontSize: '16px',
+											right: 'auto',
+											left: '0'
+										},
+										'&  .MuiOutlinedInput-root ': {
+											fontSize: '16px',
+											' & .MuiOutlinedInput-notchedOutline': {
+												border: '1px solid #000 !important'
+											}
+										}
+									}}>
+										<TextField
+											fullWidth
+											label="Location"
+											type="text"
+											autoComplete='off'
+											variant="outlined"
+											error={!!errors.location}
+											{...register('location', {
+												required: 'Please enter phase description.'
+											})}
+										/>
+										{errors.location &&
+											<Alert severity="error" sx={{ marginTop: '0.7em', '.MuiAlert-message': { overflow: 'hidden' } }}>
+												{errors.location.message}
+											</Alert>
+										}
+									</Box>
+									<Box sx={{
+										marginTop: '1.2em',
+										'& .MuiFormLabel-root': {
+											fontSize: '16px',
+											right: 'auto',
+											left: '0'
+										},
+										'&  .MuiOutlinedInput-root ': {
+											fontSize: '16px',
+											' & .MuiOutlinedInput-notchedOutline': {
+												border: '1px solid #000 !important'
+											}
+										}
+									}}>
+										<TextField
+											fullWidth
+											label="Sample type"
+											type="text"
+											autoComplete='off'
+											variant="outlined"
+											error={!!errors.sampleType}
+											{...register('sampleType', {
+												required: 'Please enter phase description.'
+											})}
+										/>
+										{errors.sampleType &&
+											<Alert severity="error" sx={{ marginTop: '0.7em', '.MuiAlert-message': { overflow: 'hidden' } }}>
+												{errors.sampleType.message}
+											</Alert>
+										}
+									</Box>
+									<Box sx={{
+										marginTop: '1.2em',
+										'& .MuiFormLabel-root': {
+											fontSize: '16px',
+											right: 'auto',
+											left: '0'
+										},
+										'&  .MuiOutlinedInput-root ': {
+											fontSize: '16px',
+											' & .MuiOutlinedInput-notchedOutline': {
+												border: '1px solid #000 !important'
+											}
+										}
+									}}>
+										<TextField
+											fullWidth
+											type="date"
+											variant="outlined"
+											label="Collection date"
+											InputLabelProps={{ shrink: true }}
+											error={!!errors.collectionDate}
+											{...register('collectionDate', {
+												required: 'Please enter start date'
+
+											})}
+										/>
+										{errors.collectionDate &&
+											<Alert severity="error" sx={{ mt: '0.2em', py: '0', '.MuiAlert-message': { overflow: 'hidden' } }}>
+												{errors.collectionDate.message}
+											</Alert>
+										}
+
+									</Box>
+								</Box>
+								<Button
+									type="submit"
+									variant="contained"
+									color="primary"
+									size="large"
+									fullWidth
+									sx={{
+										backgroundColor: 'secondary.main',
+										color: 'primary.main',
+										transition: 'all linear .3s',
+										'&:hover': {
+											backgroundColor: 'secondary.main',
+											opacity: '0.9'
+										}
+									}}
+								>
+									Create
+								</Button>
+							</form>
+						</DialogContent>
+					</Dialog>
 				</Box>
-				Sample List
+				<MySample sampleList={sampleList.filter(i => i?.phaseId === currentPhase?._id)} />
 			</Box>
 		</ Box>
 	)

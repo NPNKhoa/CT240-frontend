@@ -86,3 +86,22 @@ export const GetUserOnProject = async (id) => {
 	const response = await axios.get(`${API_ROOT}/user-projects/users/${id}`)
 	return response.data
 }
+
+export const CreatePhase = async (data) => {
+	const response = await axios.post(`${API_ROOT}/phase`, data)
+	return response.data
+}
+
+export const GetAllSample = async () => {
+	const response = await axios.get(`${API_ROOT}/samples`)
+	return response.data
+}
+export const CreateNewSample = async (data) => {
+	const response = await axios.post(`${API_ROOT}/samples`, data)
+	return response.data
+}
+
+export const GetAllQuestions = async () => {
+	const response = await axios.get(`${API_ROOT}/questions`)
+	return response.data
+}
