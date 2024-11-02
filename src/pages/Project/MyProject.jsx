@@ -17,7 +17,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 function MyProject({ project, type, deleteProject }) {
 	const [currType] = useState(type.find(i => i._id === project?.projectType))
 	const currUser = JSON.parse(localStorage.getItem('userInfo'))
-	const { register, handleSubmit, formState: { errors } } = useForm()
+	const { register, handleSubmit, resetField, formState: { errors } } = useForm()
 	const [openForm, setOpenForm] = useState(false)
 	const [recallApi, setRecallApi] = useState(undefined)
 	const [openUpdate, setOpenUpdate] = useState(false)
@@ -44,6 +44,10 @@ function MyProject({ project, type, deleteProject }) {
 	}, [project])
 
 	const handleCloseForm = () => {
+		resetField('endDate')
+		resetField('phaseDescription')
+		resetField('phaseName')
+		resetField('startDate')
 		setOpenForm(false)
 	}
 	const handleDeleteProject = (id) => {
@@ -58,11 +62,12 @@ function MyProject({ project, type, deleteProject }) {
 		}
 		CreatePhase(dataSubmit)
 			.then(data => {
-				toast.success('Create project successfuly!', {
+				toast.success('Create phase successfuly!', {
 					position: 'top-center'
 				})
-				setRecallApi('create phase')
-				setOpenForm(false)
+				console.log('data create: ', data)
+				setRecallApi(`create phase ${data?._id}`)
+				handleCloseForm()
 			})
 			.catch(err => {
 				toast.error(err?.response?.data?.message, { position: 'top-center' })
@@ -367,15 +372,8 @@ function MyProject({ project, type, deleteProject }) {
 													label="End date"
 													InputLabelProps={{ shrink: true }}
 													error={!!errors.endDate}
-													{...register('endDate', {
-														required: 'Please enter end date'
-													})}
+													{...register('endDate')}
 												/>
-												{errors.endDate &&
-													<Alert severity="error" sx={{ mt: '0.2em', py: '0', '.MuiAlert-message': { overflow: 'hidden' } }}>
-														{errors.endDate.message}
-													</Alert>
-												}
 
 											</Box>
 										</Box>

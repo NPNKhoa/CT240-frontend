@@ -37,7 +37,7 @@ import { toast } from 'react-toastify'
 import LogoutIcon from '@mui/icons-material/Logout'
 function Home() {
 	const navigate = useNavigate()
-	const { register, handleSubmit, formState: { errors } } = useForm()
+	const { register, handleSubmit, resetField, formState: { errors } } = useForm()
 	const token = localStorage.getItem('Authorization')
 	const userInfor = JSON.parse(localStorage.getItem('userInfo'))
 	const DRAWER_WIDTH = '320px'
@@ -52,14 +52,14 @@ function Home() {
 		GetProjectType().then(data => setTypeList(data))
 	}, [])
 	const [projectType, setProjectType] = useState(typeList[0])
-
+	let i = 0
 	const [MyProjectList, setMyProjectList] = useState([])
 	const [elseProjectList, setElseProjectList] = useState([])
 	const deleteProject = (id) => {
 		DeleteProject(token, id)
 			.then(data => {
 				toast.success('Delete project successfuly', { position: 'top-center' })
-				setTest('delete')
+				setTest(a => a + 'a')
 			})
 			.catch(err => { toast.error(err, { position: 'top-center' }) })
 		setTitle('Overview')
@@ -71,7 +71,6 @@ function Home() {
 		GetProjectOfUser(token)
 			.then(data =>
 				setElseProjectList(data.data.map(i => i.projectId))
-
 			)
 			.catch(err => toast.error(err.message, { position: 'top-center' }))
 	}, [token])
@@ -90,7 +89,8 @@ function Home() {
 				toast.success('Create project successfuly!', {
 					position: 'top-center'
 				})
-				setTest('create')
+				setTitle('Overview')
+				setTest(`create ${data.data._id}`)
 				handleColseForm()
 			})
 			.catch(err => {
@@ -102,6 +102,11 @@ function Home() {
 		setOpenForm(true)
 	}
 	const handleColseForm = () => {
+		setProjectType('')
+		resetField('projectName')
+		resetField('projectDescription')
+		resetField('startDate')
+		resetField('endDate')
 		setOpenForm(false)
 	}
 	const handleChangeProject = (project) => {
@@ -407,15 +412,9 @@ function Home() {
 													label="End date"
 													InputLabelProps={{ shrink: true }}
 													error={!!errors.endDate}
-													{...register('endDate', {
-														required: 'Please enter end date'
-													})}
+													{...register('endDate')}
 												/>
-												{errors.endDate &&
-													<Alert severity="error" sx={{ mt: '0.2em', py: '0', '.MuiAlert-message': { overflow: 'hidden' } }}>
-														{errors.endDate.message}
-													</Alert>
-												}
+
 
 											</Box>
 										</Box>
