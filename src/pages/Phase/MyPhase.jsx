@@ -48,7 +48,6 @@ function MyPhase({ phaseList }) {
 		}
 		CreateNewSample(dataSubmit)
 			.then(data => {
-				console.log('data: ', data)
 				toast.success('Create sample successfuly!', {
 					position: 'top-center'
 				})
@@ -58,8 +57,6 @@ function MyPhase({ phaseList }) {
 			.catch(err => {
 				toast.error(err?.response?.data?.message, { position: 'top-center' })
 			})
-
-
 	}
 	const handleCloseForm = () => {
 		resetField('collectionDate')

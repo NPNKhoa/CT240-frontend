@@ -105,3 +105,11 @@ export const GetAllQuestions = async () => {
 	const response = await axios.get(`${API_ROOT}/questions`)
 	return response.data
 }
+export const getQuestionById = async (id) => {
+	const response = await axios.get(`${API_ROOT}/questions/${id}`)
+	return response.data
+}
+export const CreateQuestion = async (data) => {
+	const response = await axios.post(`${API_ROOT}/questions/`, data)
+	return response.data
+}
