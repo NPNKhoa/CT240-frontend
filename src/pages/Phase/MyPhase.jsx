@@ -17,7 +17,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 function MyPhase({ phaseList }) {
-	const { register, handleSubmit, formState: { errors } } = useForm()
+	const { register, handleSubmit, resetField, formState: { errors } } = useForm()
 	const [currentId, setCurrentId] = useState(phaseList[0]?._id)
 	const [openForm, setOpenForm] = useState(false)
 	const [recallApi, setRecallApi] = useState(undefined)
@@ -48,11 +48,12 @@ function MyPhase({ phaseList }) {
 		}
 		CreateNewSample(dataSubmit)
 			.then(data => {
+				console.log('data: ', data)
 				toast.success('Create sample successfuly!', {
 					position: 'top-center'
 				})
-				setRecallApi('create sample')
-				setOpenForm(false)
+				setRecallApi(`${data._id} create sample`)
+				handleCloseForm()
 			})
 			.catch(err => {
 				toast.error(err?.response?.data?.message, { position: 'top-center' })
@@ -61,6 +62,11 @@ function MyPhase({ phaseList }) {
 
 	}
 	const handleCloseForm = () => {
+		resetField('collectionDate')
+		resetField('location')
+		resetField('sampleDescription')
+		resetField('sampleTitle')
+		resetField('sampleType')
 		setOpenForm(false)
 	}
 	return (
