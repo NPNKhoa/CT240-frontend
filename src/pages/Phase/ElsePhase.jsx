@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AppBar from '@mui/material/AppBar'
 
 import Box from '@mui/material/Box'
@@ -24,21 +24,48 @@ import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { Button, InputLabel } from '@mui/material'
 import ElseSample from '../Sample/ElseSample'
-function ElsePhase() {
+import { formatDate } from '../../untils/format'
+function ElsePhase({ phaseList }) {
+	const [currentId, setCurrentId] = useState(phaseList[0]?._id)
+	const index = phaseList.findIndex(phase => phase?._id === currentId)
+	const currentPhase = phaseList[index]
+	useEffect(() => {
+		setCurrentId(phaseList[0]?._id)
+	}, [phaseList])
+	const [sampleList, setSampleList] = useState([])
 	return (
-		<Box sx={{ padding: '20px' }}>
-			<Box>
-				<Typography variant='h5' sx={{ mb: '12px', fontWeight: 'bold', color: 'secondary.main' }}>Phase Name</Typography>
-				<Typography variant='body1' sx={{ mb: '12px', fontSize: '16px !important' }}>
-					Phase Description Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-					Excepturi, totam nobis architecto tempore error veritatis inventore? At minima minus hic necessitatibus,
-					inventore similique suscipit doloribus molestiae a voluptate modi laboriosam provident nobis corporis neque
-					atque numquam earum praesentium vitae, impedit tenetur? Atque quis enim ipsam, similique nihil assumenda quo eum.
-				</Typography>
-				<Typography variant='body1' sx={{ fontSize: '16px !important' }} ><b>Start Date: </b> $startDate </Typography>
-				<Typography variant='body1' sx={{ fontSize: '16px !important' }}><b>End Date: </b> $startDate </Typography>
+		<Box sx={{ padding: '20px', mt: '20px' }}>
+			<Box sx={{ overflow: 'auto', maxWidth: '100%', display: 'flex', gap: '8px' }}>
+				{phaseList.map((phase, i) => (
+					<Box sx={{
+						color: '#6ea033',
+						minWidth: '200px',
+						maxWidth: '200px',
+						padding: '4px 20px',
+						textAlign: 'center',
+						backgroundColor: index === i ? '#ccc' : '#fff',
+						cursor: 'pointer',
+						border: '1px solid #6ea033',
+						'&:hover': {
+							backgroundColor: '#ccc'
+						}
+					}}
+						key={i}
+						onClick={() => setCurrentId(phase?._id)}>
+						{phase.phaseName}
+					</Box>
+				))}
 			</Box>
-			<ElseSample />
+			<Box>
+				<Box sx={{ mt: '20px', p: '8px' }}>
+					<Typography variant='body1' sx={{ mb: '12px', fontSize: '16px !important' }}>
+						{currentPhase?.phaseDescription}
+					</Typography>
+					<Typography variant='body1' sx={{ fontSize: '16px !important' }} ><b>Start Date: </b> {formatDate(currentPhase?.startDate)} </Typography>
+					<Typography variant='body1' sx={{ fontSize: '16px !important' }}><b>End Date: </b> {formatDate(currentPhase?.endDate)} </Typography>
+				</Box>
+				<ElseSample />
+			</Box>
 		</Box>
 	)
 }
