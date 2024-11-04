@@ -9,16 +9,23 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import MoreHorizTwoToneIcon from '@mui/icons-material/MoreHorizTwoTone'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import SendIcon from '@mui/icons-material/Send'
+import CloseIcon from '@mui/icons-material/Close'
 import KeyboardArrowUpTwoToneIcon from '@mui/icons-material/KeyboardArrowUpTwoTone'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 import { GetAllQuestions, getQuestionById, CreateQuestion } from '../../apis/index'
-import { TextField } from '@mui/material'
+import { Dialog, DialogContent, DialogTitle, TextField, Tooltip } from '@mui/material'
 import { toast } from 'react-toastify'
-function MySample({ sampleList }) {
+function MySample({ sampleList, deleteSample }) {
 	const [testQuestion, setTestQuestion] = useState(undefined)
-	console.log('testQuestion: ', testQuestion)
 	const [createQuestion, setCreateQuestion] = useState(false)
 	const [createQuestionText, setCreateQuestionText] = useState('')
+	const [openViewDetail, setOpenViewDetail] = useState(false)
+	const handleCloseViewDetail = () => {
+		setOpenViewDetail(false)
+	}
+	const handleViewDetail = () => {
+		setOpenViewDetail(true)
+	}
 	const handleCreateQuestion = (sampleId) => {
 		const dataSubmit = {
 			sampleId,
@@ -51,7 +58,9 @@ function MySample({ sampleList }) {
 		setCreateQuestion(false)
 		setCreateQuestionText('')
 	}
-
+	const handleDeleteSample = (id) => {
+		deleteSample(id)
+	}
 	const getQuestionBySampleId = async (sample) => {
 		try {
 			// Gọi API getQuestionById cho từng questionId và thu thập kết quả
@@ -165,6 +174,22 @@ function MySample({ sampleList }) {
 							<Box>
 								{testQuestion?.sampleId === sample?._id &&
 									<Box sx={{ backgroundColor: 'rgba(0,0,0,0.03)', padding: '32px 64px' }}>
+										<Box sx={{ minWidth: '160px' }}>
+											<Button variant='contained' onClick={() => handleDeleteSample(sample?._id)}
+												sx={{
+													fontSize: '14px',
+													mb: '20px',
+													color: '#fff',
+													backgroundColor: 'error.main',
+													border: '1px solid error.main',
+													'&:hover': {
+														border: '1px solid error.main',
+														opacity: '0.8',
+														backgroundColor: 'error.main'
+													}
+												}}>Delete Sample
+											</Button>
+										</Box>
 										{isEmpty(testQuestion?.question) &&
 											<Box >
 												<Typography variant='h6' sx={{ flex: '1', mb: '12px' }}>
@@ -319,8 +344,6 @@ function MySample({ sampleList }) {
 													</Box>
 												}
 												<Box sx={{ border: '1px solid #000', mt: '20px', borderRadius: '4px' }}>
-
-
 													<Box sx={{
 														display: 'flex',
 														borderBottom: '1px solid #000',
@@ -359,7 +382,7 @@ function MySample({ sampleList }) {
 																	<Button
 																		variant='text'
 																		startIcon={<MoreHorizTwoToneIcon />}
-																		// onClick={() => getQuestionBySampleId(sample)}
+																		onClick={() => handleViewDetail(question)}
 																		sx={{
 																			color: '#000',
 																			p: '',
@@ -371,12 +394,27 @@ function MySample({ sampleList }) {
 																		}}
 																	>
 																	</Button>
+																	<Dialog
+																		open={openViewDetail}
+																		onClose={handleCloseViewDetail}
+																	>
+																		<DialogTitle sx={{ backgroundColor: 'secondary.main', color: '#fff' }}>
+																			{question?.question}
+																			<Tooltip title="Close ">
+																				<CloseIcon onClick={handleCloseViewDetail} sx={{ position: 'absolute', top: '8px', right: '8px', cursor: 'pointer' }} />
+																			</Tooltip>
+																		</DialogTitle>
+																		<DialogContent >
+																			ResponeList owr ddaya
+																		</DialogContent>
+																	</Dialog>
 																</Box>
 
 															</Box>
 														))
 													}
 												</Box>
+
 											</Box>}
 									</Box>
 								}

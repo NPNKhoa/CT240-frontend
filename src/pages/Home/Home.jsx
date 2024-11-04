@@ -32,7 +32,7 @@ import Overview from './Overview'
 import MyProject from '../Project/MyProject'
 import ElseProject from '../Project/ElseProject'
 import { Alert, Button, InputLabel, TextField } from '@mui/material'
-import { GetProjectType, getMyProject, GetProjectOfUser, DeleteProject, CreateProject, CreateUserProject } from '../../apis/index'
+import { GetProjectType, getMyProject, GetProjectOfUser, DeleteProject, CreateProject, UpdateProject_API } from '../../apis/index'
 import { toast } from 'react-toastify'
 import LogoutIcon from '@mui/icons-material/Logout'
 function Home() {
@@ -51,6 +51,21 @@ function Home() {
 	useEffect(() => {
 		GetProjectType().then(data => setTypeList(data))
 	}, [])
+	const updateProject = (token, id, data) => {
+		UpdateProject_API(token, id, data)
+			.then(data => {
+				console.log('data: ', data)
+				setMyProjectList(pre => {
+					const test = [...pre]
+					const index = test.findIndex(a => a?._id === data._id)
+					test[index] = data
+					return test
+				})
+				toast.success('Project information has been updated', { position: 'top-center' })
+				setTitle('Overview')
+			})
+			.catch(err => console.log('err: ', err))
+	}
 	const [projectType, setProjectType] = useState(typeList[0])
 	let i = 0
 	const [MyProjectList, setMyProjectList] = useState([])
@@ -472,7 +487,7 @@ function Home() {
 					<Overview />
 				}
 				{title !== 'Overview' && MyProjectList.includes(projectOnclick) &&
-					<MyProject project={projectOnclick} type={typeList} deleteProject={deleteProject} />
+					<MyProject project={projectOnclick} type={typeList} deleteProject={deleteProject} updateProject={updateProject} />
 				}
 				{title !== 'Overview' && elseProjectList.includes(projectOnclick) &&
 					<ElseProject project={projectOnclick} type={typeList} />

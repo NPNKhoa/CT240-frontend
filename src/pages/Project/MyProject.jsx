@@ -9,12 +9,15 @@ import { Alert, Button, Dialog, DialogContent, DialogTitle, TextField, Tooltip }
 import MyPhase from '../Phase/MyPhase'
 import { useForm } from 'react-hook-form'
 import UpdateProjectForm from './UpdateProjectForm'
-import { GetAllPhase, GetUserOnProject, CreatePhase } from '../../apis/index'
+import { GetAllPhase, GetUserOnProject, CreatePhase, DeletePhase } from '../../apis/index'
 import { isEmpty } from 'lodash'
 import { toast } from 'react-toastify'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import HighlightOffIcon from '@mui/icons-material/HighlightOff'
+import SendIcon from '@mui/icons-material/Send'
+import { formatDate } from '../../untils/format'
 
-function MyProject({ project, type, deleteProject }) {
+function MyProject({ project, type, deleteProject, updateProject }) {
 	const [currType] = useState(type.find(i => i._id === project?.projectType))
 	const currUser = JSON.parse(localStorage.getItem('userInfo'))
 	const { register, handleSubmit, resetField, formState: { errors } } = useForm()
@@ -23,12 +26,21 @@ function MyProject({ project, type, deleteProject }) {
 	const [openUpdate, setOpenUpdate] = useState(false)
 	const [userList, setUserList] = useState([])
 	const [openViewMemberList, setOpenViewMemberList] = useState(false)
+	const [createUser, setCreateUser] = useState(false)
+	const [createUserText, setCreateUserText] = useState('')
 	const [phaseList, setPhaseList] = useState([])
 	const [colorStatus] = useState({
 		active: 'green',
-		complete: 'yellow',
+		completed: 'orange',
 		canceled: 'red'
 	})
+	const handleUpdateProject = (token, id, data) => {
+		updateProject(token, id, data)
+	}
+	const handleCloseCreateUser = () => {
+		setCreateUser(false)
+		setCreateUserText('')
+	}
 	useEffect(() => {
 		GetAllPhase()
 			.then(data => {
@@ -50,8 +62,26 @@ function MyProject({ project, type, deleteProject }) {
 		resetField('startDate')
 		setOpenForm(false)
 	}
+	const deletePhase = (id) => {
+		DeletePhase(id)
+			.then(data => {
+				toast.success('Delete phase successfuly', { position: 'top-center' })
+				setRecallApi(a => a + 'a')
+			})
+			.catch(err => { toast.error(err, { position: 'top-center' }) })
+		// setTitle('Overview')
+	}
 	const handleDeleteProject = (id) => {
 		deleteProject(id)
+	}
+
+	const handleCreateUser = (projectId) => {
+		const dataSubmit = {
+			projectId,
+			user: setCreateUserText,
+			questionType: 'text'
+		}
+		console.log('dataSubmit: ', dataSubmit)
 	}
 	const handleCreatePhase = (data) => {
 		const dataSubmit = {
@@ -86,6 +116,8 @@ function MyProject({ project, type, deleteProject }) {
 					<Box sx={{ maxWidth: '1000px' }}>
 						<Typography variant='h6' sx={{ textAlign: 'justify' }}> Description: {project?.projectDescription} </Typography>
 						<Typography variant='h6' sx={{ textAlign: 'justify', textTransform: 'capitalize', '& span': { color: colorStatus[project?.projectStatus] } }}> Status: <span> {project?.projectStatus}</span></Typography>
+						<Typography variant='h6' >Start Date: {formatDate(project?.startDate)} </Typography>
+						<Typography variant='h6'>End Date: {formatDate(project?.endDate)} </Typography>
 						<Typography variant='h6'> Type: {currType?.projectTypeName} </Typography>
 					</Box>
 					<Box sx={{ minWidth: '160px' }}>
@@ -131,16 +163,78 @@ function MyProject({ project, type, deleteProject }) {
 								</DialogTitle>
 								<DialogContent >
 									<Box sx={{ m: '20px 0' }}>
-										<Button fullWidth variant='outlined' startIcon={<AddToPhotosIcon />}
-											sx={{
-												fontSize: '14px',
-												color: '#000',
-												border: '1px solid #000',
-												'&:hover': {
+										{!createUser &&
+											<Button fullWidth variant='outlined' startIcon={<AddToPhotosIcon />}
+												onClick={() => setCreateUser(true)}
+												sx={{
+													fontSize: '14px',
+													color: '#000',
 													border: '1px solid #000',
-													opacity: '0.8'
-												}
-											}}>Add new Member</Button>
+													'&:hover': {
+														border: '1px solid #000',
+														opacity: '0.8'
+													}
+												}}>Add new Member</Button>
+										}
+										{createUser &&
+											<Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+												<Box sx={{
+													flex: '1',
+													'& .MuiFormLabel-root': {
+														fontSize: '16px',
+														right: 'auto',
+														left: '0'
+													},
+													'&  .MuiOutlinedInput-root ': {
+														fontSize: '16px',
+														' & .MuiOutlinedInput-notchedOutline': {
+															border: '1px solid #000 !important'
+														}
+													}
+												}}>
+													<TextField
+														autoFocus
+														size="small"
+														fullWidth
+														label="Email"
+														type="text"
+														variant="outlined"
+														value={createUserText}
+														onChange={(e) => setCreateUserText(e.target.value)}
+													/>
+												</Box>
+												<Button variant='outlined' startIcon={< SendIcon />}
+													onClick={() => handleCreateUser(project?._id)}
+													sx={{
+														fontSize: '14px',
+														minWidth: '160px',
+														backgroundColor: '#6ea033',
+														color: '#fff',
+														p: '7px 0',
+														maxWidth: '160px',
+														'&:hover': {
+															backgroundColor: '#6ea033',
+															color: '#fff',
+															opacity: '0.8'
+														}
+													}}>Submit</Button>
+												<Button variant='contained' startIcon={<HighlightOffIcon />}
+													onClick={handleCloseCreateUser}
+													sx={{
+														fontSize: '14px',
+														backgroundColor: 'error.main',
+														color: '#fff',
+														p: '7px 0',
+														minWidth: '100px',
+														maxWidth: '100px',
+														'&:hover': {
+															backgroundColor: 'error.main',
+															color: '#fff',
+															opacity: '0.8'
+														}
+													}}>Close</Button>
+											</Box>
+										}
 										<Box
 											sx={{
 												mt: '20px',
@@ -421,22 +515,23 @@ function MyProject({ project, type, deleteProject }) {
 					sx={{}}
 				>
 					<DialogTitle sx={{ backgroundColor: 'secondary.main', color: '#fff' }}>
-						Edit Project Information- frontend note: chưa xong cái này
+						Edit Project Information
 						<Tooltip title="Close ">
 							<CloseIcon onClick={handleCloseUpdate} sx={{ position: 'absolute', top: '8px', right: '8px', cursor: 'pointer' }} />
 						</Tooltip>
 					</DialogTitle>
 					<DialogContent >
-						<UpdateProjectForm projectInfo={project} typeList={type} />
+						<UpdateProjectForm projectInfoProp={project} typeList={type} updateProject={handleUpdateProject} />
 					</DialogContent>
 				</Dialog>
+
 			</Box>
 			{!isEmpty(phaseList) &&
-				<MyPhase phaseList={phaseList} />
+				<MyPhase phaseList={phaseList} deletePhase={deletePhase} />
 			}
 			{isEmpty(phaseList) &&
 				<Box sx={{ mt: '40px', ml: '40px' }}>
-					<Typography variant='h5'  >No a phase yet.</Typography>
+					<Typography variant='h5' >No a phase yet.</Typography>
 				</Box>
 			}
 		</Box>

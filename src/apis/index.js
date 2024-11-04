@@ -44,6 +44,17 @@ export const DeleteProject = async (token, id) => {
 		})
 	return response.data
 }
+
+export const UpdateProject_API = async (token, id, data) => {
+	const response = await axios.put(`${API_ROOT}/projects/${id}`, data,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': JSON.parse(token)
+			},
+		})
+	return response.data
+}
 export const CreateProject = async (token, data) => {
 	const response = await axios.post(`${API_ROOT}/projects`, data,
 		{
@@ -91,13 +102,20 @@ export const CreatePhase = async (data) => {
 	const response = await axios.post(`${API_ROOT}/phase`, data)
 	return response.data
 }
-
+export const DeletePhase = async (id) => {
+	const response = await axios.delete(`${API_ROOT}/phase/${id}`)
+	return response.data
+}
 export const GetAllSample = async () => {
 	const response = await axios.get(`${API_ROOT}/samples`)
 	return response.data
 }
 export const CreateNewSample = async (data) => {
 	const response = await axios.post(`${API_ROOT}/samples`, data)
+	return response.data
+}
+export const DeleteSample = async (id) => {
+	const response = await axios.delete(`${API_ROOT}/samples/${id}`)
 	return response.data
 }
 

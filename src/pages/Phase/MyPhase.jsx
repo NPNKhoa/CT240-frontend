@@ -9,14 +9,14 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 import { formatDate, formatDateToSubmit } from '../../untils/format'
-import { GetAllSample, CreateNewSample } from '../../apis/index'
+import { GetAllSample, CreateNewSample, DeleteSample } from '../../apis/index'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { Alert, Button, Dialog, DialogContent, DialogTitle, InputLabel, TextField, Tooltip } from '@mui/material'
 import MySample from '../Sample/MySample'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
-function MyPhase({ phaseList }) {
+function MyPhase({ phaseList, deletePhase }) {
 	const { register, handleSubmit, resetField, formState: { errors } } = useForm()
 	const [currentId, setCurrentId] = useState(phaseList[0]?._id)
 	const [openForm, setOpenForm] = useState(false)
@@ -33,8 +33,8 @@ function MyPhase({ phaseList }) {
 				const test = data.map(i => {
 					return {
 						...i,
-						phaseId: i.phaseId._id,
-						projectId: i.phaseId.projectId,
+						phaseId: i.phaseId?._id,
+						projectId: i.phaseId?.projectId,
 					}
 				})
 				setSampleList(test)
@@ -57,6 +57,19 @@ function MyPhase({ phaseList }) {
 			.catch(err => {
 				toast.error(err?.response?.data?.message, { position: 'top-center' })
 			})
+	}
+	const deleteSample = (id) => {
+		console.log('id: ', id)
+		DeleteSample(id)
+			.then(data => {
+				toast.success('Delete sample successfuly', { position: 'top-center' })
+				setRecallApi(a => a + 'a')
+			})
+			.catch(err => { toast.error(err, { position: 'top-center' }) })
+	}
+	const handleDeletePhase = (id) => {
+		console.log('id: ', id)
+		deletePhase(id)
 	}
 	const handleCloseForm = () => {
 		resetField('collectionDate')
@@ -96,6 +109,21 @@ function MyPhase({ phaseList }) {
 					</Typography>
 					<Typography variant='body1' sx={{ fontSize: '16px !important' }} ><b>Start Date: </b> {formatDate(currentPhase?.startDate)} </Typography>
 					<Typography variant='body1' sx={{ fontSize: '16px !important' }}><b>End Date: </b> {formatDate(currentPhase?.endDate)} </Typography>
+				</Box>
+				<Box sx={{ minWidth: '160px', mb: '32px' }}>
+					<Button variant='contained' onClick={() => handleDeletePhase(currentPhase?._id)}
+						sx={{
+							fontSize: '14px',
+							color: '#fff',
+							backgroundColor: 'error.main',
+							border: '1px solid error.main',
+							'&:hover': {
+								border: '1px solid error.main',
+								opacity: '0.8',
+								backgroundColor: 'error.main'
+							}
+						}}>Delete Phase
+					</Button>
 				</Box>
 				<Box sx={{ minWidth: '200px', maxWidth: '200px' }}>
 					<Button fullWidth variant='outlined' startIcon={<AddToPhotosIcon />} onClick={() => setOpenForm(true)}
@@ -302,7 +330,7 @@ function MyPhase({ phaseList }) {
 						</DialogContent>
 					</Dialog>
 				</Box>
-				<MySample sampleList={sampleList.filter(i => i?.phaseId === currentPhase?._id)} />
+				<MySample sampleList={sampleList.filter(i => i?.phaseId === currentPhase?._id)} deleteSample={deleteSample} />
 			</Box>
 		</ Box>
 	)

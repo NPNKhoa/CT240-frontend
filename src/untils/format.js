@@ -14,3 +14,11 @@ export const formatDateToSubmit = (dateString) => {
 		return dateString.split('/').reverse().join('-')
 	}
 }
+export const formatDateForTextField = (dateString) => {
+	// console.log('dateString: ', dateString)
+	if (!dateString) {
+		return dateString
+	} else {
+		return dateString.split('T')[0].split('-').join('-')
+	}
+}
