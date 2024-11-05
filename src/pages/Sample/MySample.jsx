@@ -13,36 +13,37 @@ import CloseIcon from '@mui/icons-material/Close'
 import KeyboardArrowUpTwoToneIcon from '@mui/icons-material/KeyboardArrowUpTwoTone'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 import { GetAllQuestions, getQuestionById, CreateQuestion } from '../../apis/index'
-import { Dialog, DialogContent, DialogTitle, TextField, Tooltip } from '@mui/material'
+import { Dialog, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, TextField, Tooltip } from '@mui/material'
 import { toast } from 'react-toastify'
+import ListRepones from '../Respone/ListRepones'
 function MySample({ sampleList, deleteSample }) {
 	const [testQuestion, setTestQuestion] = useState(undefined)
 	const [createQuestion, setCreateQuestion] = useState(false)
 	const [createQuestionText, setCreateQuestionText] = useState('')
 	const [openViewDetail, setOpenViewDetail] = useState(false)
-
-
+	const [questionType, setQuestionType] = useState('text')
 	const token = localStorage.getItem('Authorization')
 	const handleCloseViewDetail = () => {
 		setOpenViewDetail(false)
 	}
-	const handleViewDetail = () => {
+	const handleViewDetail = (question) => {
 		setOpenViewDetail(true)
 	}
-	const handleCreateQuestion = (sampleId) => {
+	const handleCreateQuestion = (sample) => {
 		const dataSubmit = {
-			sampleId,
+			sampleId: sample?._id,
 			question: createQuestionText,
-			questionType: 'text'
+			questionType: questionType
 		}
-		CreateQuestion(dataSubmit, token)
+		CreateQuestion(dataSubmit, token, sample?.projectId)
 			.then(data => {
 				toast.success('Create question successfuly! ', { position: 'top-center' })
 				setCreateQuestion(false)
 				setCreateQuestionText('')
+				setQuestionType('text')
 				setTestQuestion(prevTestQuestion => {
 					// Check if this is the same sampleId
-					if (prevTestQuestion?.sampleId === sampleId) {
+					if (prevTestQuestion?.sampleId === sample?._id) {
 						return {
 							...prevTestQuestion,
 							question: [...prevTestQuestion.question, data] // Append new question
@@ -239,8 +240,63 @@ function MySample({ sampleList, deleteSample }) {
 																onChange={(e) => setCreateQuestionText(e.target.value)}
 															/>
 														</Box>
+														<Box
+															sx={{
+																maxWidth: {
+																	xs: '100%',
+																	md: '120px',
+																},
+																minWidth: {
+																	xs: '100%',
+																	md: '120px',
+																},
+																background: 'transparent',
+																'& .MuiInputBase-root': {
+																	color: 'primary.dark',
+																	fontSize: '18px',
+																	'& div': {
+																		p: ' 8px 12px',
+																	},
+																	'& fieldset': {
+																		borderColor: '#000 !important',
+																	},
+
+																	'& .MuiOutlinedInput-notchedOutline': {
+																		border: '1px solid #000',
+																		borderColor: '#000',
+																	},
+																},
+																'& .MuiFormLabel-root': {
+																	fontSize: '16px',
+																	right: 'auto',
+																	left: '0',
+																	bottom: '16px',
+																	lineHeight: '1.4375em',
+																	backgroundColor: '#fff',
+																},
+															}}
+														>
+															<FormControl fullWidth>
+																<InputLabel size='small' variant='outlined' id='project-type'>
+																	Project Status
+																</InputLabel>
+																<Select
+																	labelId='project-type'
+																	value={questionType || ''}
+																	inputProps={{ MenuProps: { disableScrollLock: true } }}
+																	onChange={(e) => {
+																		setQuestionType(e.target.value);
+																	}}
+																	defaultValue={questionType || ''}
+																>
+																	<MenuItem value='text'>Text</MenuItem>
+																	<MenuItem value='file'>File</MenuItem>
+																	<MenuItem value='image'>Image</MenuItem>
+																</Select>
+															</FormControl>
+														</Box>
 														<Button variant='outlined' startIcon={< SendIcon />}
-															onClick={() => handleCreateQuestion(sample?._id)}
+															onClick={() => handleCreateQuestion(sample)}
 															sx={{
 																fontSize: '14px',
 																minWidth: '160px',
@@ -254,6 +310,7 @@ function MySample({ sampleList, deleteSample }) {
 																	opacity: '0.8'
 																}
 															}}>Submit</Button>
+
 														<Button variant='contained' startIcon={<HighlightOffIcon />}
 															onClick={handleCloseCreateQuestion}
 															sx={{
@@ -269,6 +326,7 @@ function MySample({ sampleList, deleteSample }) {
 																	opacity: '0.8'
 																}
 															}}>Close</Button>
+
 													</Box>
 												}
 											</Box>}
@@ -314,8 +372,63 @@ function MySample({ sampleList, deleteSample }) {
 																onChange={(e) => setCreateQuestionText(e.target.value)}
 															/>
 														</Box>
+														<Box
+															sx={{
+																maxWidth: {
+																	xs: '100%',
+																	md: '120px',
+																},
+																minWidth: {
+																	xs: '100%',
+																	md: '120px',
+																},
+																background: 'transparent',
+																'& .MuiInputBase-root': {
+																	color: 'primary.dark',
+																	fontSize: '18px',
+																	'& div': {
+																		p: ' 8px 12px',
+																	},
+																	'& fieldset': {
+																		borderColor: '#000 !important',
+																	},
+
+																	'& .MuiOutlinedInput-notchedOutline': {
+																		border: '1px solid #000',
+																		borderColor: '#000',
+																	},
+																},
+																'& .MuiFormLabel-root': {
+																	fontSize: '16px',
+																	right: 'auto',
+																	left: '0',
+																	bottom: '16px',
+																	lineHeight: '1.4375em',
+																	backgroundColor: '#fff',
+																},
+															}}
+														>
+															<FormControl fullWidth>
+																<InputLabel size='small' variant='outlined' id='project-type'>
+																	Project Status
+																</InputLabel>
+																<Select
+																	labelId='project-type'
+																	value={questionType || ''}
+																	inputProps={{ MenuProps: { disableScrollLock: true } }}
+																	onChange={(e) => {
+																		setQuestionType(e.target.value);
+																	}}
+																	defaultValue={questionType || ''}
+																>
+																	<MenuItem value='text'>Text</MenuItem>
+																	<MenuItem value='file'>File</MenuItem>
+																	<MenuItem value='image'>Image</MenuItem>
+																</Select>
+															</FormControl>
+														</Box>
 														<Button variant='outlined' startIcon={< SendIcon />}
-															onClick={() => handleCreateQuestion(sample?._id)}
+															onClick={() => handleCreateQuestion(sample)}
 															sx={{
 																fontSize: '14px',
 																minWidth: '160px',
@@ -400,6 +513,7 @@ function MySample({ sampleList, deleteSample }) {
 																	<Dialog
 																		open={openViewDetail}
 																		onClose={handleCloseViewDetail}
+																		sx={{ '& .MuiPaper-root': { minWidth: '1200px', maxWidth: '1200px' } }}
 																	>
 																		<DialogTitle sx={{ backgroundColor: 'secondary.main', color: '#fff' }}>
 																			{question?.question}
@@ -408,7 +522,7 @@ function MySample({ sampleList, deleteSample }) {
 																			</Tooltip>
 																		</DialogTitle>
 																		<DialogContent >
-																			ResponeList owr ddaya
+																			<ListRepones question={question} />
 																		</DialogContent>
 																	</Dialog>
 																</Box>

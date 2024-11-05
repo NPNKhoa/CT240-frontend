@@ -40,8 +40,8 @@ function ElsePhase({ phaseList }) {
 				const test = data.map(i => {
 					return {
 						...i,
-						phaseId: i.phaseId._id,
-						projectId: i.phaseId.projectId,
+						phaseId: i.phaseId?._id,
+						projectId: i.phaseId?.projectId,
 					}
 				})
 				setSampleList(test)
