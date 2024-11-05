@@ -18,6 +18,8 @@ import { useForm } from 'react-hook-form'
 function ElseSample({ sampleList }) {
 	const [testQuestion, setTestQuestion] = useState(undefined)
 	const { register, handleSubmit, formState: { errors } } = useForm()
+
+	const token = localStorage.getItem('Authorization')
 	const handleSubmitForm = (data) => {
 		console.log('data form: ', data)
 
@@ -26,7 +28,7 @@ function ElseSample({ sampleList }) {
 		try {
 			// Gọi API getQuestionById cho từng questionId và thu thập kết quả
 			const questionArray = await Promise.all(
-				sample.questionId.map(questionId => getQuestionById(questionId))
+				sample.questionId.map(questionId => getQuestionById(questionId, token))
 			);
 			setTestQuestion({
 				sampleId: sample._id,
