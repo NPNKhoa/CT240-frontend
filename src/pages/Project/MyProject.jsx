@@ -48,7 +48,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
   const [createUserText, setCreateUserText] = useState('');
   const [phaseList, setPhaseList] = useState([]);
 
-  const token = localStorage.getItem('Authorization')
+  const token = localStorage.getItem('Authorization');
   const [colorStatus] = useState({
     active: 'green',
     completed: 'orange',
@@ -110,7 +110,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
       endDate: new Date(data.endDate),
       projectId: project._id,
     };
-    CreatePhase(dataSubmit, token)
+    CreatePhase(project?._id, dataSubmit, token)
       .then((data) => {
         toast.success('Create phase successfuly!', {
           position: 'top-center',
