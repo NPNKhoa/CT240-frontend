@@ -25,6 +25,10 @@ export const GetUserById_API = async (id) => {
 	const response = await axios.get(`${API_ROOT}/users/${id}`)
 	return response.data
 }
+export const GetAllUser = async () => {
+	const response = await axios.get(`${API_ROOT}/users/`)
+	return response.data
+}
 export const GetProjectType = async () => {
 	const response = await axios.get(`${API_ROOT}/project-types/`)
 	return response.data
@@ -70,6 +74,10 @@ export const CreateUserProject = async (data) => {
 	const response = await axios.post(`${API_ROOT}/user-projects`, data)
 	return response.data
 }
+export const RemoveUserFromProject = async (userId, projectId) => {
+	const response = await axios.delete(`${API_ROOT}/user-projects/${userId}/${projectId}`)
+	return response.data
+}
 
 export const getMyProject = async (token) => {
 	const response = await axios.get(`${API_ROOT}/user-projects/own`, {
@@ -104,8 +112,8 @@ export const GetUserOnProject = async (id) => {
 	return response.data
 }
 
-export const CreatePhase = async (data, token) => {
-	const response = await axios.post(`${API_ROOT}/phase`, data,
+export const CreatePhase = async (data, token, projectId) => {
+	const response = await axios.post(`${API_ROOT}/phase/${projectId}`, data,
 		{
 			headers: {
 				'Content-Type': 'application/json',
@@ -114,8 +122,14 @@ export const CreatePhase = async (data, token) => {
 		})
 	return response.data
 }
-export const DeletePhase = async (id) => {
-	const response = await axios.delete(`${API_ROOT}/phase/${id}`)
+export const DeletePhase = async (id, token, projectId) => {
+	const response = await axios.delete(`${API_ROOT}/phase/${id}/${projectId}`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': JSON.parse(token)
+			},
+		})
 	return response.data
 }
 export const GetAllSample = async () => {
@@ -145,13 +159,17 @@ export const getQuestionById = async (id, token) => {
 		})
 	return response.data
 }
-export const CreateQuestion = async (data, token) => {
-	const response = await axios.post(`${API_ROOT}/questions/`, data,
+export const CreateQuestion = async (data, token, projectId) => {
+	const response = await axios.post(`${API_ROOT}/questions/${projectId}`, data,
 		{
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': JSON.parse(token)
 			},
 		})
+	return response.data
+}
+export const GetAllRespones = async () => {
+	const response = await axios.get(`${API_ROOT}/responses`)
 	return response.data
 }

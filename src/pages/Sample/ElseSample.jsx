@@ -25,6 +25,7 @@ function ElseSample({ sampleList }) {
 
 	}
 	const getQuestionBySampleId = async (sample) => {
+		console.log('sample: ', sample)
 		try {
 			// Gọi API getQuestionById cho từng questionId và thu thập kết quả
 			const questionArray = await Promise.all(
@@ -180,8 +181,8 @@ function ElseSample({ sampleList }) {
 																					autoFocus
 																					size="small"
 																					fullWidth
-																					label="Answer"
-																					type="text"
+																					label={question?.questionType === 'file' || question?.questionType === 'image' ? '' : 'Answer'}
+																					type={question?.questionType === 'file' || question?.questionType === 'image' ? 'file' : 'text'}
 																					variant="outlined"
 																					{...register(`${question?._id}`)}
 																				// value={createQuestionText}

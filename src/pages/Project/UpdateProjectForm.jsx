@@ -21,13 +21,20 @@ function UpdateProjectForm({ projectInfoProp, typeList, updateProject }) {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const handleUpdateProject = (data) => {
+  const handleUpdateProject = (formData) => {
+    const { projectName, projectDescription, startDate, endDate } = formData;
     const dataSubmit = {
-      ...data,
+      projectName,
+      projectDescription,
+      startDate,
       projectType,
       projectStatus,
-    };
-    updateProject(token, projectInfo?._id, dataSubmit);
+    }
+    if (endDate) {
+      dataSubmit.endDate = new Date(endDate)
+    }
+
+    updateProject(token, projectInfo?._id, dataSubmit)
   };
   return (
     <form onSubmit={handleSubmit(handleUpdateProject)}>
@@ -287,22 +294,9 @@ function UpdateProjectForm({ projectInfoProp, typeList, updateProject }) {
               defaultValue={formatDateForTextField(projectInfo?.endDate)}
               InputLabelProps={{ shrink: true }}
               error={!!errors.endDate}
-              {...register('endDate', {
-                required: 'Please enter end date',
-              })}
+              {...register('endDate')}
             />
-            {errors.endDate && (
-              <Alert
-                severity='error'
-                sx={{
-                  mt: '0.2em',
-                  py: '0',
-                  '.MuiAlert-message': { overflow: 'hidden' },
-                }}
-              >
-                {errors.endDate.message}
-              </Alert>
-            )}
+
           </Box>
         </Box>
       </Box>
