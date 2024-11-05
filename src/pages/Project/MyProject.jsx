@@ -52,7 +52,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
   const [createUserText, setCreateUserText] = useState('');
   const [phaseList, setPhaseList] = useState([]);
 
-  const token = localStorage.getItem('Authorization')
+  const token = localStorage.getItem('Authorization');
   const [colorStatus] = useState({
     active: 'green',
     completed: 'orange',
