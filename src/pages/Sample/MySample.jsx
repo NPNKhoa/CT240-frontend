@@ -12,7 +12,7 @@ import SendIcon from '@mui/icons-material/Send'
 import CloseIcon from '@mui/icons-material/Close'
 import KeyboardArrowUpTwoToneIcon from '@mui/icons-material/KeyboardArrowUpTwoTone'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
-import { GetAllQuestions, getQuestionById, CreateQuestion } from '../../apis/index'
+import { GetAllQuestions, getQuestionById, CreateQuestion, GetAllRespones } from '../../apis/index'
 import { Dialog, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, TextField, Tooltip } from '@mui/material'
 import { toast } from 'react-toastify'
 import ListRepones from '../Respone/ListRepones'
@@ -26,7 +26,18 @@ function MySample({ sampleList, deleteSample }) {
 	const handleCloseViewDetail = () => {
 		setOpenViewDetail(false)
 	}
+	const [responeList, setResponeList] = useState([])
+	const [allRes, setAllRes] = useState([])
+	useEffect(() => {
+		GetAllRespones()
+			.then(data => {
+				setAllRes(data)
+			})
+			.catch(err => toast.error(err?.response?.data?.message, { position: 'top-center' }))
+
+	}, [])
 	const handleViewDetail = (question) => {
+		setResponeList(allRes.filter(a => a?.questionId?._id === question?._id))
 		setOpenViewDetail(true)
 	}
 	const handleCreateQuestion = (sample) => {
@@ -522,7 +533,7 @@ function MySample({ sampleList, deleteSample }) {
 																			</Tooltip>
 																		</DialogTitle>
 																		<DialogContent >
-																			<ListRepones question={question} />
+																			<ListRepones responeList={responeList} />
 																		</DialogContent>
 																	</Dialog>
 																</Box>

@@ -17,15 +17,40 @@ import { TextField } from '@mui/material'
 import { useForm } from 'react-hook-form'
 function ElseSample({ sampleList }) {
 	const [testQuestion, setTestQuestion] = useState(undefined)
+	console.log('testQuestion: ', testQuestion)
 	const { register, handleSubmit, formState: { errors } } = useForm()
 
 	const token = localStorage.getItem('Authorization')
 	const handleSubmitForm = (data) => {
-		console.log('data form: ', data)
+		const formDataList = []
+		for (const [key, value] of Object.entries(data)) {
+			console.log(`${key}: ${value}`)
+			if (testQuestion?.question?.map(a => a?._id).includes(key)) {
+				const formData = new FormData()
+				formData.append('questionId', key)
+				if (typeof value === 'string') {
+					formData.append('responseAnswer', value)
+				} else {
+					formData.append('files', value)
+				}
+				formDataList.push(formData)
+			}
+			// if (testQuestion?.question?.map(a => a?._id).includes(key)) {
+			// 	const formData = {}
+			// 	formData.questionId = key
+			// 	if (typeof value === 'string') {
+			// 		formData.responseAnswer = value
+			// 	} else {
+			// 		formData.files = value
+
+			// 	}
+			// 	formDataList.push(formData)
+			// }
+		}
+		console.log('formDataList: ', formDataList)
 
 	}
 	const getQuestionBySampleId = async (sample) => {
-		console.log('sample: ', sample)
 		try {
 			// Gọi API getQuestionById cho từng questionId và thu thập kết quả
 			const questionArray = await Promise.all(
@@ -163,7 +188,6 @@ function ElseSample({ sampleList }) {
 																		</Typography>
 																		<Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
 																			<Box sx={{
-
 																				flex: '1',
 																				'& .MuiFormLabel-root': {
 																					fontSize: '16px',
@@ -181,6 +205,7 @@ function ElseSample({ sampleList }) {
 																					autoFocus
 																					size="small"
 																					fullWidth
+																					inputProps={question?.questionType === 'file' || question?.questionType === 'image' ? { multiple: true } : {}}
 																					label={question?.questionType === 'file' || question?.questionType === 'image' ? '' : 'Answer'}
 																					type={question?.questionType === 'file' || question?.questionType === 'image' ? 'file' : 'text'}
 																					variant="outlined"

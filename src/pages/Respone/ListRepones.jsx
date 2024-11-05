@@ -12,16 +12,8 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import SendIcon from '@mui/icons-material/Send'
 import { GetAllRespones } from '../../apis/index'
 import { toast } from 'react-toastify'
-function ListRepones({ question }) {
-	const [responeList, setResponeList] = useState([])
-	console.log('responeList: ', responeList)
-	useEffect(() => {
-		GetAllRespones()
-			.then(data => {
-				setResponeList(data.filter(a => a?.questionId?._id === question?._id))
-			})
-			.catch(err => toast.error(err?.response?.data?.message, { position: 'top-center' }))
-	}, [question])
+function ListRepones({ responeList }) {
+
 	return (
 		<Box sx={{ mt: '32px' }}>
 			{isEmpty(responeList) &&
@@ -29,20 +21,28 @@ function ListRepones({ question }) {
 			}
 			{!isEmpty(responeList) && responeList?.map(res => (
 				<Box key={res._id} >
-					{res?.userId?.email}
-					{res?.responseAnswer}
-					{res?.fileIds?.map(file => (
-						<Box key={file._id}>
-							{file?.fileType?.includes('image') &&
-								<img src={file?.storageURL} alt="" style={{ maxWidth: '1000px', minWidth: '1000px' }} />
-							}
-							{file?.fileType?.includes('pdf') &&
-								<a href={file?.storageURL} target="_blank" rel="noreferrer" >
-									<PdfLogo />
-								</a>
-							}
-						</Box>
-					))}
+					<Box sx={{ padding: '8px', border: '1px solid #000', mb: '12px' }}>
+						<Typography variant='h6' sx={{ flex: '1', fontWeight: 'bold' }}>
+							User: {res?.userId?.email}
+						</Typography>
+						{res?.responseAnswer &&
+							<Typography variant='h6' sx={{ flex: '1', mb: '12px' }}>
+								<b>Answer: </b> {res?.responseAnswer}
+							</Typography>
+						}
+						{res?.fileIds?.map(file => (
+							<Box key={file._id} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
+								{file?.fileType?.includes('image') &&
+									<img src={file?.storageURL} alt="" style={{ maxWidth: '500px', minWidth: '500px' }} />
+								}
+								{file?.fileType?.includes('pdf') &&
+									<a href={file?.storageURL} target="_blank" rel="noreferrer" >
+										<PdfLogo />
+									</a>
+								}
+							</Box>
+						))}
+					</Box>
 				</Box>
 			))
 			}

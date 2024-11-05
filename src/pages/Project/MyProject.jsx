@@ -147,7 +147,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
       phaseName,
       phaseDescription,
       startDate: new Date(startDate),
-      projectId: project._id,
+      projectId: project._id
     }
     if (endDate) {
       dataSubmit.endDate = new Date(endDate)
@@ -155,18 +155,18 @@ function MyProject({ project, type, deleteProject, updateProject }) {
     CreatePhase(dataSubmit, token, project?._id)
       .then((data) => {
         toast.success('Create phase successfuly!', {
-          position: 'top-center',
+          position: 'top-center'
         })
         setRecallApi(`create phase ${data?._id}`)
-        handleCloseForm();
+        handleCloseForm()
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message, { position: 'top-center' });
-      });
-  };
+      })
+  }
   const handleCloseUpdate = () => {
-    setOpenUpdate(false);
-  };
+    setOpenUpdate(false)
+  }
 
   return (
     <Box>
