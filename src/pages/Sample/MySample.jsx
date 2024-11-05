@@ -20,6 +20,9 @@ function MySample({ sampleList, deleteSample }) {
 	const [createQuestion, setCreateQuestion] = useState(false)
 	const [createQuestionText, setCreateQuestionText] = useState('')
 	const [openViewDetail, setOpenViewDetail] = useState(false)
+
+
+	const token = localStorage.getItem('Authorization')
 	const handleCloseViewDetail = () => {
 		setOpenViewDetail(false)
 	}
@@ -32,7 +35,7 @@ function MySample({ sampleList, deleteSample }) {
 			question: createQuestionText,
 			questionType: 'text'
 		}
-		CreateQuestion(dataSubmit)
+		CreateQuestion(dataSubmit, token)
 			.then(data => {
 				toast.success('Create question successfuly! ', { position: 'top-center' })
 				setCreateQuestion(false)
@@ -65,7 +68,7 @@ function MySample({ sampleList, deleteSample }) {
 		try {
 			// Gọi API getQuestionById cho từng questionId và thu thập kết quả
 			const questionArray = await Promise.all(
-				sample.questionId.map(questionId => getQuestionById(questionId))
+				sample.questionId.map(questionId => getQuestionById(questionId, token))
 			);
 			setTestQuestion({
 				sampleId: sample._id,

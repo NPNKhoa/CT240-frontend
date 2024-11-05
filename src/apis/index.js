@@ -89,8 +89,14 @@ export const GetProjectOfUser = async (token) => {
 	})
 	return response.data
 }
-export const GetAllPhase = async () => {
-	const response = await axios.get(`${API_ROOT}/phase`)
+export const GetAllPhase = async (token) => {
+	const response = await axios.get(`${API_ROOT}/phase`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': JSON.parse(token)
+			},
+		})
 	return response.data
 }
 export const GetUserOnProject = async (id) => {
@@ -98,8 +104,14 @@ export const GetUserOnProject = async (id) => {
 	return response.data
 }
 
-export const CreatePhase = async (data) => {
-	const response = await axios.post(`${API_ROOT}/phase`, data)
+export const CreatePhase = async (data, token) => {
+	const response = await axios.post(`${API_ROOT}/phase`, data,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': JSON.parse(token)
+			},
+		})
 	return response.data
 }
 export const DeletePhase = async (id) => {
@@ -123,11 +135,23 @@ export const GetAllQuestions = async () => {
 	const response = await axios.get(`${API_ROOT}/questions`)
 	return response.data
 }
-export const getQuestionById = async (id) => {
-	const response = await axios.get(`${API_ROOT}/questions/${id}`)
+export const getQuestionById = async (id, token) => {
+	const response = await axios.get(`${API_ROOT}/questions/${id}`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': JSON.parse(token)
+			},
+		})
 	return response.data
 }
-export const CreateQuestion = async (data) => {
-	const response = await axios.post(`${API_ROOT}/questions/`, data)
+export const CreateQuestion = async (data, token) => {
+	const response = await axios.post(`${API_ROOT}/questions/`, data,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': JSON.parse(token)
+			},
+		})
 	return response.data
 }

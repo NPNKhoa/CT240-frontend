@@ -29,13 +29,14 @@ import ElsePhase from '../Phase/ElsePhase';
 function ElseProject({ project, type }) {
   const [currType] = useState(type.find((i) => i._id === project?.projectType));
   const [phaseList, setPhaseList] = useState([]);
+  const token = localStorage.getItem('Authorization')
   const [colorStatus] = useState({
     active: 'green',
     completed: 'yellow',
     canceled: 'red',
   });
   useEffect(() => {
-    GetAllPhase().then((data) => {
+    GetAllPhase(token).then((data) => {
       const test = data.filter((i) => i?.projectId === project._id);
       setPhaseList(test);
     });

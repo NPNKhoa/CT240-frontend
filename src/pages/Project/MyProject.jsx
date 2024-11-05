@@ -47,6 +47,8 @@ function MyProject({ project, type, deleteProject, updateProject }) {
   const [createUser, setCreateUser] = useState(false);
   const [createUserText, setCreateUserText] = useState('');
   const [phaseList, setPhaseList] = useState([]);
+
+  const token = localStorage.getItem('Authorization')
   const [colorStatus] = useState({
     active: 'green',
     completed: 'orange',
@@ -60,7 +62,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
     setCreateUserText('');
   };
   useEffect(() => {
-    GetAllPhase().then((data) => {
+    GetAllPhase(token).then((data) => {
       const test = data.filter((i) => i?.projectId === project._id);
       setPhaseList(test);
     });
@@ -108,7 +110,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
       endDate: new Date(data.endDate),
       projectId: project._id,
     };
-    CreatePhase(dataSubmit)
+    CreatePhase(dataSubmit, token)
       .then((data) => {
         toast.success('Create phase successfuly!', {
           position: 'top-center',
