@@ -7,21 +7,80 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import { isEmpty } from 'lodash'
 import { Alert, Button, InputLabel, TextField } from '@mui/material'
+import { formatDateForTextField } from '../../untils/format'
 
-function UpdateProjectForm({ projectInfo, typeList }) {
-	console.log('typeList: ', typeList)
-	console.log('projectInfo: ', projectInfo)
+function UpdateProjectForm({ projectInfoProp, typeList, updateProject }) {
+
+	const token = localStorage.getItem('Authorization')
+	const [projectInfo, setProjectInfo] = useState({ ...projectInfoProp })
 	const [projectType, setProjectType] = useState(projectInfo?.projectType)
+	const [projectStatus, setProjectStatus] = useState(projectInfo?.projectStatus)
 	const { register, handleSubmit, formState: { errors } } = useForm()
 	const handleUpdateProject = (data) => {
-		console.log('data-handleUpdateProject:', data)
+		const dataSubmit = {
+			...data,
+			projectType,
+			projectStatus
+		}
+		updateProject(token, projectInfo?._id, dataSubmit)
 
 	}
 	return (
 		<form onSubmit={handleSubmit(handleUpdateProject)}>
 			<Box sx={{ padding: '1em 1em 1em 1em' }}>
-				<Box
-					sx={{
+				<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+					<Box
+						sx={{
+							maxWidth: {
+								xs: '100%',
+								md: '200px'
+							},
+							minWidth: {
+								xs: '100%',
+								md: '200px'
+							},
+							mb: '8px',
+							background: 'transparent',
+							'& .MuiInputBase-root': {
+								color: 'primary.dark',
+								fontSize: '18px',
+								'& div': {
+									p: ' 8px 12px'
+								},
+								'& fieldset': {
+									borderColor: '#000 !important',
+								},
+
+								'& .MuiOutlinedInput-notchedOutline': {
+									border: '1px solid #000',
+									borderColor: '#000'
+								}
+							},
+							'& .MuiFormLabel-root': {
+								fontSize: '16px',
+								right: 'auto',
+								left: '0',
+								bottom: '16px',
+								lineHeight: '1.4375em',
+								backgroundColor: '#fff'
+							},
+						}}>
+						<FormControl fullWidth>
+							<InputLabel size='small' variant="outlined" id="project-type" >Project Type</InputLabel>
+							<Select
+								labelId='project-type'
+								value={projectType || ''}
+								inputProps={{ MenuProps: { disableScrollLock: true } }}
+								onChange={(e) => { setProjectType(e.target.value) }}
+								defaultValue={projectType || ''}
+							>
+								{!isEmpty(typeList) && typeList?.map((item, index) => (
+									<MenuItem key={index} value={`${item?._id}`}>{`${item.projectTypeName}`}</MenuItem>
+								))}
+							</Select>
+						</FormControl>
+					</Box>
+					<Box sx={{
 						maxWidth: {
 							xs: '100%',
 							md: '200px'
@@ -56,20 +115,22 @@ function UpdateProjectForm({ projectInfo, typeList }) {
 							backgroundColor: '#fff'
 						},
 					}}>
-					<FormControl fullWidth>
-						<InputLabel size='small' variant="outlined" id="project-type" >Project Type</InputLabel>
-						<Select
-							labelId='project-type'
-							value={projectType || ''}
-							inputProps={{ MenuProps: { disableScrollLock: true } }}
-							onChange={(e) => { setProjectType(e.target.value) }}
-							defaultValue={projectType || ''}
-						>
-							{!isEmpty(typeList) && typeList?.map((item, index) => (
-								<MenuItem key={index} value={`${item?._id}`}>{`${item.projectTypeName}`}</MenuItem>
-							))}
-						</Select>
-					</FormControl>
+
+						<FormControl fullWidth>
+							<InputLabel size='small' variant="outlined" id="project-type" >Project Type</InputLabel>
+							<Select
+								labelId='project-type'
+								value={projectStatus || ''}
+								inputProps={{ MenuProps: { disableScrollLock: true } }}
+								onChange={(e) => { setProjectStatus(e.target.value) }}
+								defaultValue={projectStatus || ''}
+							>
+								<MenuItem value='active'>Active</MenuItem>
+								<MenuItem value='completed'>Completed</MenuItem>
+								<MenuItem value='canceled'>Canceled</MenuItem>
+							</Select>
+						</FormControl>
+					</Box>
 				</Box>
 
 				<Box sx={{
@@ -86,10 +147,12 @@ function UpdateProjectForm({ projectInfo, typeList }) {
 						}
 					}
 				}}>
+
 					<TextField
 						fullWidth
 						label="Project Name"
 						type="text"
+						defaultValue={projectInfo?.projectName}
 						variant="outlined"
 						error={!!errors.projectName}
 						{...register('projectName', {
@@ -122,6 +185,7 @@ function UpdateProjectForm({ projectInfo, typeList }) {
 						label="Description"
 						type="text"
 						autoComplete='off'
+						defaultValue={projectInfo?.projectName}
 						variant="outlined"
 						error={!!errors.projectDescription}
 						{...register('projectDescription')}
@@ -149,6 +213,7 @@ function UpdateProjectForm({ projectInfo, typeList }) {
 							type="date"
 							variant="outlined"
 							label="Start date"
+							defaultValue={formatDateForTextField(projectInfo?.startDate)}
 							InputLabelProps={{ shrink: true }}
 							error={!!errors.startDate}
 							{...register('startDate', {
@@ -184,6 +249,7 @@ function UpdateProjectForm({ projectInfo, typeList }) {
 							type="date"
 							variant="outlined"
 							label="End date"
+							defaultValue={formatDateForTextField(projectInfo?.endDate)}
 							InputLabelProps={{ shrink: true }}
 							error={!!errors.endDate}
 							{...register('endDate', {

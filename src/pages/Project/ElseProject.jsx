@@ -29,6 +29,11 @@ import ElsePhase from '../Phase/ElsePhase'
 function ElseProject({ project, type }) {
 	const [currType] = useState(type.find(i => i._id === project?.projectType))
 	const [phaseList, setPhaseList] = useState([])
+	const [colorStatus] = useState({
+		active: 'green',
+		completed: 'yellow',
+		canceled: 'red'
+	})
 	useEffect(() => {
 		GetAllPhase()
 			.then(data => {
@@ -43,7 +48,7 @@ function ElseProject({ project, type }) {
 					<Box sx={{ maxWidth: '1000px' }}>
 						<Typography variant='h5' sx={{ m: '12px 0', textAlign: 'justify' }}> Description: {project.projectDescription} </Typography>
 						<Typography variant='h6'> Type: {currType?.projectTypeName} </Typography>
-						<Typography variant='h6' sx={{ textAlign: 'justify', textTransform: 'capitalize' }}>  Status: {project.projectStatus} </Typography>
+						<Typography variant='h6' sx={{ textAlign: 'justify', textTransform: 'capitalize', '& span': { color: colorStatus[project?.projectStatus] } }}> Status: <span> {project?.projectStatus}</span></Typography>
 					</Box>
 				</Box>
 

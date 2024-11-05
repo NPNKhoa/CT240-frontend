@@ -25,6 +25,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { Button, InputLabel } from '@mui/material'
 import ElseSample from '../Sample/ElseSample'
 import { formatDate } from '../../untils/format'
+import { GetAllSample } from '../../apis'
 function ElsePhase({ phaseList }) {
 	const [currentId, setCurrentId] = useState(phaseList[0]?._id)
 	const index = phaseList.findIndex(phase => phase?._id === currentId)
@@ -33,6 +34,19 @@ function ElsePhase({ phaseList }) {
 		setCurrentId(phaseList[0]?._id)
 	}, [phaseList])
 	const [sampleList, setSampleList] = useState([])
+	useEffect(() => {
+		GetAllSample()
+			.then(data => {
+				const test = data.map(i => {
+					return {
+						...i,
+						phaseId: i.phaseId._id,
+						projectId: i.phaseId.projectId,
+					}
+				})
+				setSampleList(test)
+			})
+	}, [])
 	return (
 		<Box sx={{ padding: '20px', mt: '20px' }}>
 			<Box sx={{ overflow: 'auto', maxWidth: '100%', display: 'flex', gap: '8px' }}>
@@ -64,7 +78,7 @@ function ElsePhase({ phaseList }) {
 					<Typography variant='body1' sx={{ fontSize: '16px !important' }} ><b>Start Date: </b> {formatDate(currentPhase?.startDate)} </Typography>
 					<Typography variant='body1' sx={{ fontSize: '16px !important' }}><b>End Date: </b> {formatDate(currentPhase?.endDate)} </Typography>
 				</Box>
-				<ElseSample />
+				<ElseSample sampleList={sampleList.filter(i => i?.phaseId === currentPhase?._id)} />
 			</Box>
 		</Box>
 	)
