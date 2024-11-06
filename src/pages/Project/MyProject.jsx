@@ -277,13 +277,14 @@ function MyProject({ project, type, deleteProject, updateProject }) {
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            justifyContent: { xs: 'flex-start', lg: 'space-between' },
+            alignItems: { xs: 'flex-start', lg: 'center' },
+            flexDirection: { xs: 'column-reverse', lg: 'row' },
             mt: '20px',
           }}
         >
           <Box sx={{ display: 'flex', gap: '32px' }}>
-            <Box sx={{ minWidth: '200px' }}>
+            <Box sx={{ minWidth: '200px', }}>
               <Button
                 fullWidth
                 variant='outlined'
@@ -646,12 +647,12 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                         </Alert>
                       )}
                     </Box>
-                    <Box sx={{ display: 'flex', gap: '20px' }}>
+                    <Box sx={{ display: 'flex', gap: { xs: '0', sm: '20px' }, flexDirection: { xs: 'column', sm: 'row' } }}>
                       <Box
                         sx={{
                           marginTop: '1.2em',
-                          minWidth: '200px',
-                          maxWidth: '200px',
+                          minWidth: { xs: '100%', sm: '200px' },
+                          maxWidth: { xs: '100%', sm: '200px' },
                           '& .MuiFormLabel-root': {
                             fontSize: '16px',
                             right: 'auto',
@@ -692,8 +693,8 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                       <Box
                         sx={{
                           marginTop: '1.2em',
-                          minWidth: '200px',
-                          maxWidth: '200px',
+                          minWidth: { xs: '100%', sm: '200px' },
+                          maxWidth: { xs: '100%', sm: '200px' },
                           '& .MuiFormLabel-root': {
                             fontSize: '16px',
                             right: 'auto',
@@ -742,7 +743,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
             </Dialog>
           </Box>
 
-          <Box sx={{ minWidth: '200px' }}>
+          <Box sx={{ minWidth: '200px', maxWidth: { xs: '200px', lg: 'none' }, mb: { xs: '20px', lg: 'none' } }}>
             <Button
               fullWidth
               variant='outlined'
@@ -758,7 +759,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                 },
               }}
             >
-              Edit project information
+              Edit project
             </Button>
           </Box>
         </Box>

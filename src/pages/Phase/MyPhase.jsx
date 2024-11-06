@@ -219,7 +219,7 @@ function MyPhase({ phaseList, deletePhase }) {
             open={openForm}
             onClose={handleCloseForm}
             sx={{
-              '& .MuiPaper-root': { minWidth: '800px', maxWidth: '800px' },
+              '& .MuiPaper-root': { minWidth: '50%', maxWidth: '50%' },
             }}
           >
             <DialogTitle

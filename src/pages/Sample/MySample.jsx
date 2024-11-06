@@ -171,8 +171,8 @@ function MySample({ sampleList, deleteSample }) {
               '& .MuiTypography-body1 ': {
                 fontWeight: '700',
                 color: 'primary.dark',
-                minWidth: '200px',
-                maxWidth: '200px',
+                minWidth: '20%',
+                maxWidth: '20%',
                 textAlign: 'center',
                 fontSize: '16px',
                 padding: '12px 0',
@@ -217,8 +217,10 @@ function MySample({ sampleList, deleteSample }) {
                   textAlign: 'center',
                   '& .MuiButtonBase-root, & .MuiTypography-h6  ': {
                     color: 'primary.dark',
-                    minWidth: '200px',
-                    maxWidth: '200px',
+                    minWidth: '20%',
+                    maxWidth: '20%',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
                   },
                   '&:hover': {
                     backgroundColor: 'rgba(0,0,0,0.03)',
