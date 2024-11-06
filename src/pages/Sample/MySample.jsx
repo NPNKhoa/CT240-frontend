@@ -1,25 +1,24 @@
-import { useEffect, useState } from 'react';
-
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { isEmpty } from 'lodash';
-import { formatDate } from '../../untils/format';
-import Button from '@mui/material/Button';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreHorizTwoToneIcon from '@mui/icons-material/MoreHorizTwoTone';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import SendIcon from '@mui/icons-material/Send';
-import CloseIcon from '@mui/icons-material/Close';
-import KeyboardArrowUpTwoToneIcon from '@mui/icons-material/KeyboardArrowUpTwoTone';
-import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
+import { useEffect, useState } from 'react'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import { isEmpty } from 'lodash'
+import { formatDate } from '../../untils/format'
+import Button from '@mui/material/Button'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import MoreHorizTwoToneIcon from '@mui/icons-material/MoreHorizTwoTone'
+import HighlightOffIcon from '@mui/icons-material/HighlightOff'
+import SendIcon from '@mui/icons-material/Send'
+import CloseIcon from '@mui/icons-material/Close'
+import KeyboardArrowUpTwoToneIcon from '@mui/icons-material/KeyboardArrowUpTwoTone'
+import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 import {
-  GetAllQuestions,
   getQuestionById,
   CreateQuestion,
-  GetAllRespones,
-} from '../../apis/index';
+  GetAllRespones
+} from '../../apis/index'
 import {
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
   FormControl,
@@ -27,91 +26,134 @@ import {
   MenuItem,
   Select,
   TextField,
-  Tooltip,
-} from '@mui/material';
-import { toast } from 'react-toastify';
-import ListRepones from '../Respone/ListRepones';
+  Tooltip
+} from '@mui/material'
+import { toast } from 'react-toastify'
+import ListRepones from '../Respone/ListRepones'
 function MySample({ sampleList, deleteSample }) {
-  const [testQuestion, setTestQuestion] = useState(undefined);
-  const [createQuestion, setCreateQuestion] = useState(false);
-  const [createQuestionText, setCreateQuestionText] = useState('');
-  const [openViewDetail, setOpenViewDetail] = useState(false);
-  const [questionType, setQuestionType] = useState('text');
-  const token = localStorage.getItem('Authorization');
+  const [testQuestion, setTestQuestion] = useState(undefined)
+  const [createQuestion, setCreateQuestion] = useState(false)
+  const [createQuestionText, setCreateQuestionText] = useState('')
+  const [openViewDetail, setOpenViewDetail] = useState(false)
+  const [questionType, setQuestionType] = useState('text')
+  const [openConfirmDelete, setOpenConfirmDelete] = useState(undefined)
+  const token = localStorage.getItem('Authorization')
   const handleCloseViewDetail = () => {
-    setOpenViewDetail(false);
-  };
-  const [responeList, setResponeList] = useState([]);
-  const [allRes, setAllRes] = useState([]);
+    setOpenViewDetail(false)
+  }
+  const [responeList, setResponeList] = useState([])
+  const [allRes, setAllRes] = useState([])
   useEffect(() => {
     GetAllRespones()
       .then((data) => {
-        setAllRes(data);
+        setAllRes(data)
       })
       .catch((err) =>
         toast.error(err?.response?.data?.message, { position: 'top-center' })
-      );
-  }, []);
+      )
+  }, [])
   const handleViewDetail = (question) => {
-    setResponeList(allRes.filter((a) => a?.questionId?._id === question?._id));
-    setOpenViewDetail(true);
-  };
+    setResponeList(allRes.filter((a) => a?.questionId?._id === question?._id))
+    setOpenViewDetail(true)
+  }
   const handleCreateQuestion = (sample) => {
     const dataSubmit = {
       sampleId: sample?._id,
       question: createQuestionText,
-      questionType: questionType,
-    };
+      questionType: questionType
+    }
     CreateQuestion(dataSubmit, token, sample?.projectId)
       .then((data) => {
         toast.success('Create question successfuly! ', {
-          position: 'top-center',
-        });
-        setCreateQuestion(false);
-        setCreateQuestionText('');
-        setQuestionType('text');
+          position: 'top-center'
+        })
+        setCreateQuestion(false)
+        setCreateQuestionText('')
+        setQuestionType('text')
         setTestQuestion((prevTestQuestion) => {
           // Check if this is the same sampleId
           if (prevTestQuestion?.sampleId === sample?._id) {
             return {
               ...prevTestQuestion,
-              question: [...prevTestQuestion.question, data], // Append new question
-            };
+              question: [...prevTestQuestion.question, data]
+            }
           }
-          return prevTestQuestion;
-        });
+          return prevTestQuestion
+        })
       })
       .catch((err) => {
-        toast.error(err?.response?.data?.message, { position: 'top-center' });
-      });
-  };
+        toast.error(err?.response?.data?.message, { position: 'top-center' })
+      })
+  }
   const handleCloseCreateQuestion = () => {
-    setCreateQuestion(false);
-    setCreateQuestionText('');
-  };
-  const handleDeleteSample = (id) => {
-    deleteSample(id);
-  };
+    setCreateQuestion(false)
+    setCreateQuestionText('')
+  }
+  const handleDeleteSample = (sample) => {
+    setOpenConfirmDelete(sample)
+  }
+  const handleDeleteSample2 = (sample) => {
+    setOpenConfirmDelete(undefined)
+    deleteSample(sample)
+  }
   const getQuestionBySampleId = async (sample) => {
     try {
-      // Gọi API getQuestionById cho từng questionId và thu thập kết quả
       const questionArray = await Promise.all(
         sample.questionId.map((questionId) =>
           getQuestionById(questionId, token)
         )
-      );
+      )
       setTestQuestion({
         sampleId: sample._id,
-        question: questionArray,
-      });
+        question: questionArray
+      })
     } catch (error) {
-      console.error('Error fetching questions:', error);
-      return null;
+      return null
     }
-    // setQuestionList(allQuestion.filter(i => i?.sampleId === sampleId))
-  };
+  }
   return (
     <Box sx={{}}>
+      <Dialog
+        open={!!openConfirmDelete}
+        onClose={() => setOpenConfirmDelete(undefined)}
+        sx={{
+          '& .MuiPaper-root': { minWidth: '800px', maxWidth: '800px' }
+        }}
+      >
+        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+          {`Do you want delete sample: ${openConfirmDelete?.sampleTitle}`}
+        </DialogTitle>
+        <DialogActions>
+          <Button variant='text' onClick={() => setOpenConfirmDelete(undefined)} sx={{
+            fontSize: '14px',
+            border: '1px solid #666',
+            color: '#666',
+            p: '7px 0',
+            minWidth: '100px',
+            maxWidth: '100px',
+            '&:hover': {
+              border: '1px solid #666',
+              color: '#666',
+              opacity: '0.8'
+            }
+          }}>
+            Cancel
+          </Button>
+          <Button variant='outlined' onClick={() => handleDeleteSample2(openConfirmDelete)} sx={{
+            fontSize: '14px',
+            backgroundColor: 'error.main',
+            color: '#fff',
+            p: '7px 0',
+            minWidth: '100px',
+            maxWidth: '100px',
+            '&:hover': {
+              backgroundColor: 'error.main',
+              color: '#fff',
+              opacity: '0.8',
+            },
+          }}>Delete</Button>
+        </DialogActions>
+      </Dialog>
       {isEmpty(sampleList) && <Box>There are no samples to display</Box>}
       {!isEmpty(sampleList) && (
         <Box
@@ -129,8 +171,8 @@ function MySample({ sampleList, deleteSample }) {
               '& .MuiTypography-body1 ': {
                 fontWeight: '700',
                 color: 'primary.dark',
-                minWidth: '200px',
-                maxWidth: '200px',
+                minWidth: '20%',
+                maxWidth: '20%',
                 textAlign: 'center',
                 fontSize: '16px',
                 padding: '12px 0',
@@ -175,8 +217,10 @@ function MySample({ sampleList, deleteSample }) {
                   textAlign: 'center',
                   '& .MuiButtonBase-root, & .MuiTypography-h6  ': {
                     color: 'primary.dark',
-                    minWidth: '200px',
-                    maxWidth: '200px',
+                    minWidth: '20%',
+                    maxWidth: '20%',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
                   },
                   '&:hover': {
                     backgroundColor: 'rgba(0,0,0,0.03)',
@@ -236,7 +280,7 @@ function MySample({ sampleList, deleteSample }) {
                     <Box sx={{ minWidth: '160px' }}>
                       <Button
                         variant='contained'
-                        onClick={() => handleDeleteSample(sample?._id)}
+                        onClick={() => handleDeleteSample(sample)}
                         sx={{
                           fontSize: '14px',
                           mb: '20px',
@@ -632,9 +676,9 @@ function MySample({ sampleList, deleteSample }) {
                                   padding: '12px 0 12px 32px',
                                   textAlign: 'left',
                                   '& .MuiButtonBase-root, & .MuiTypography-h6  ':
-                                    {
-                                      color: 'primary.dark',
-                                    },
+                                  {
+                                    color: 'primary.dark',
+                                  },
                                   '&:hover': {
                                     backgroundColor: 'rgba(0,0,0,0.03)',
                                   },

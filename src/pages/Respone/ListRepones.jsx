@@ -1,17 +1,7 @@
-import { useEffect, useState } from 'react';
-
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { isEmpty } from 'lodash';
 import PdfLogo from '../../assets/PDF_file_icon.svg?react';
-import { formatDate } from '../../untils/format';
-import Button from '@mui/material/Button';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreHorizTwoToneIcon from '@mui/icons-material/MoreHorizTwoTone';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import SendIcon from '@mui/icons-material/Send';
-import { GetAllRespones } from '../../apis/index';
-import { toast } from 'react-toastify';
 import { Stack } from '@mui/material';
 function ListRepones({ responeList }) {
   return (

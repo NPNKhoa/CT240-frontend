@@ -52,7 +52,8 @@ function Home() {
 	} = useForm();
 	const token = localStorage.getItem('Authorization');
 	const userInfor = JSON.parse(localStorage.getItem('userInfo'));
-	const DRAWER_WIDTH = '320px';
+	const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+	const [DRAWER_WIDTH, setDRAWER_WIDTH] = useState(windowWidth < 800 ? '100%' : '320px')
 	const [openDrawer, setOpenDrawer] = useState(true);
 	const [openForm, setOpenForm] = useState(false);
 	const [title, setTitle] = useState('Overview');
@@ -60,6 +61,25 @@ function Home() {
 	const [test, setTest] = useState('');
 	const [typeList, setTypeList] = useState([]);
 	const typeNameList = typeList?.map((i) => i.projectTypeName);
+	useEffect(() => {
+		if (windowWidth < 800) {
+			setDRAWER_WIDTH('100%')
+			setOpenDrawer(false)
+		} else {
+			setDRAWER_WIDTH('320px')
+			setOpenDrawer(true)
+		}
+	}, [windowWidth])
+	useEffect(() => {
+		const hadleResize = (event) => {
+
+			setWindowWidth(event.srcElement.innerWidth)
+		}
+		window.addEventListener('resize', hadleResize)
+		return () => {
+			window.removeEventListener('resize', hadleResize)
+		}
+	}, [])
 	useEffect(() => {
 		GetProjectType().then((data) => setTypeList(data));
 	}, []);
@@ -84,8 +104,8 @@ function Home() {
 	let i = 0;
 	const [MyProjectList, setMyProjectList] = useState([]);
 	const [elseProjectList, setElseProjectList] = useState([]);
-	const deleteProject = (id) => {
-		DeleteProject(token, id)
+	const deleteProject = (project) => {
+		DeleteProject(token, project._id)
 			.then((data) => {
 				toast.success('Delete project successfuly', { position: 'top-center' });
 				setTest((a) => a + 'a');
@@ -112,7 +132,10 @@ function Home() {
 		setOpenDrawer(!openDrawer)
 	};
 	const handleChangeNav = (item) => {
-		setTitle(item);
+		if (windowWidth < 800) {
+			setOpenDrawer(false)
+		}
+		setTitle(item)
 	};
 	const handleCreateProject = (formData) => {
 		const { projectName, projectDescription, startDate, endDate } = formData;
@@ -157,7 +180,10 @@ function Home() {
 		setOpenForm(false);
 	};
 	const handleChangeProject = (project) => {
-		setProjectOnclick(project);
+		if (windowWidth < 800) {
+			setOpenDrawer(false)
+		}
+		setProjectOnclick(project)
 		setTitle(project.projectName);
 	};
 	const handleLogout = () => {
@@ -375,8 +401,8 @@ function Home() {
 									<Box sx={{ padding: '1em 1em 1em 1em' }}>
 										<Box
 											sx={{
-												maxWidth: '200px',
-												minWidth: '200px',
+												maxWidth: { xs: '100%', sm: '200px' },
+												minWidth: { xs: '100%', sm: '200px' },
 												mb: '8px',
 												background: 'transparent',
 												'& .MuiInputBase-root': {
@@ -498,12 +524,12 @@ function Home() {
 												{...register('projectDescription')}
 											/>
 										</Box>
-										<Box sx={{ display: 'flex', gap: '20px' }}>
+										<Box sx={{ display: 'flex', gap: { xs: '0', sm: '20px' }, flexDirection: { xs: 'column', sm: 'row' } }}>
 											<Box
 												sx={{
 													marginTop: '1.2em',
-													minWidth: '200px',
-													maxWidth: '200px',
+													minWidth: { xs: '100%', sm: '200px' },
+													maxWidth: { xs: '100%', sm: '200px' },
 													'& .MuiFormLabel-root': {
 														fontSize: '16px',
 														right: 'auto',
@@ -544,8 +570,8 @@ function Home() {
 											<Box
 												sx={{
 													marginTop: '1.2em',
-													minWidth: '200px',
-													maxWidth: '200px',
+													minWidth: { xs: '100%', sm: '200px' },
+													maxWidth: { xs: '100%', sm: '200px' },
 													'& .MuiFormLabel-root': {
 														fontSize: '16px',
 														right: 'auto',

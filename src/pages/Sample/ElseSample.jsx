@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -6,22 +6,16 @@ import { isEmpty } from 'lodash';
 import { formatDate } from '../../untils/format';
 import Button from '@mui/material/Button';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreHorizTwoToneIcon from '@mui/icons-material/MoreHorizTwoTone';
-
-import SendIcon from '@mui/icons-material/Send';
-import KeyboardArrowUpTwoToneIcon from '@mui/icons-material/KeyboardArrowUpTwoTone';
-import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
+import KeyboardArrowUpTwoToneIcon from '@mui/icons-material/KeyboardArrowUpTwoTone'
 import {
   CreateRespones,
-  GetAllQuestions,
   getQuestionById,
 } from '../../apis/index';
 import { TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 function ElseSample({ sampleList }) {
-  const [testQuestion, setTestQuestion] = useState(undefined);
-  console.log('testQuestion: ', testQuestion);
+  const [testQuestion, setTestQuestion] = useState(undefined)
   const {
     register,
     handleSubmit,
@@ -98,8 +92,8 @@ function ElseSample({ sampleList }) {
               '& .MuiTypography-body1 ': {
                 fontWeight: '700',
                 color: 'primary.dark',
-                minWidth: '200px',
-                maxWidth: '200px',
+                minWidth: '20%',
+                maxWidth: '20%',
                 textAlign: 'center',
                 fontSize: '16px',
                 padding: '12px 0',
@@ -144,8 +138,10 @@ function ElseSample({ sampleList }) {
                   textAlign: 'center',
                   '& .MuiButtonBase-root, & .MuiTypography-h6  ': {
                     color: 'primary.dark',
-                    minWidth: '200px',
-                    maxWidth: '200px',
+                    minWidth: '20%',
+                    maxWidth: '20%',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
                   },
                   '&:hover': {
                     backgroundColor: 'rgba(0,0,0,0.03)',
@@ -224,9 +220,9 @@ function ElseSample({ sampleList }) {
                                   sx={{
                                     textAlign: 'left',
                                     '& .MuiButtonBase-root, & .MuiTypography-h6  ':
-                                      {
-                                        color: 'primary.dark',
-                                      },
+                                    {
+                                      color: 'primary.dark',
+                                    },
                                   }}
                                 >
                                   <Typography
@@ -253,10 +249,10 @@ function ElseSample({ sampleList }) {
                                         '&  .MuiOutlinedInput-root ': {
                                           fontSize: '16px',
                                           ' & .MuiOutlinedInput-notchedOutline':
-                                            {
-                                              border:
-                                                '1px solid #000 !important',
-                                            },
+                                          {
+                                            border:
+                                              '1px solid #000 !important',
+                                          },
                                         },
                                       }}
                                     >
@@ -266,26 +262,26 @@ function ElseSample({ sampleList }) {
                                         fullWidth
                                         inputProps={
                                           question?.questionType === 'file' ||
-                                          question?.questionType === 'image'
+                                            question?.questionType === 'image'
                                             ? { multiple: true }
                                             : {}
                                         }
                                         label={
                                           question?.questionType === 'file' ||
-                                          question?.questionType === 'image'
+                                            question?.questionType === 'image'
                                             ? ''
                                             : 'Answer'
                                         }
                                         type={
                                           question?.questionType === 'file' ||
-                                          question?.questionType === 'image'
+                                            question?.questionType === 'image'
                                             ? 'file'
                                             : 'text'
                                         }
                                         variant='outlined'
                                         {...register(`${question?._id}`)}
-                                        // value={createQuestionText}
-                                        // onChange={(e) => setCreateQuestionText(e.target.value)}
+                                      // value={createQuestionText}
+                                      // onChange={(e) => setCreateQuestionText(e.target.value)}
                                       />
                                     </Box>
                                   </Box>
