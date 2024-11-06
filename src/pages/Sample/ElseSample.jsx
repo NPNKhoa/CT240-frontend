@@ -95,7 +95,7 @@ function ElseSample({ sampleList }) {
                 minWidth: '20%',
                 maxWidth: '20%',
                 textAlign: 'center',
-                fontSize: '16px',
+                fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                 padding: '12px 0',
               },
             }}
@@ -141,7 +141,8 @@ function ElseSample({ sampleList }) {
                     minWidth: '20%',
                     maxWidth: '20%',
                     overflow: 'hidden',
-                    textOverflow: 'ellipsis'
+                    textOverflow: 'ellipsis',
+                    fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                   },
                   '&:hover': {
                     backgroundColor: 'rgba(0,0,0,0.03)',
@@ -168,7 +169,7 @@ function ElseSample({ sampleList }) {
                     sx={{
                       color: '#000',
                       p: '',
-                      fontSize: '16px',
+                      fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                       fontWeight: '700',
                       flex: '1',
                     }}
@@ -182,7 +183,7 @@ function ElseSample({ sampleList }) {
                     sx={{
                       color: '#000',
                       p: '',
-                      fontSize: '16px',
+                      fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                       fontWeight: '700',
                       flex: '1',
                     }}
@@ -221,6 +222,7 @@ function ElseSample({ sampleList }) {
                                     textAlign: 'left',
                                     '& .MuiButtonBase-root, & .MuiTypography-h6  ':
                                     {
+                                      fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                                       color: 'primary.dark',
                                     },
                                   }}
@@ -242,12 +244,12 @@ function ElseSample({ sampleList }) {
                                       sx={{
                                         flex: '1',
                                         '& .MuiFormLabel-root': {
-                                          fontSize: '16px',
+                                          fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                                           right: 'auto',
                                           left: '0',
                                         },
                                         '&  .MuiOutlinedInput-root ': {
-                                          fontSize: '16px',
+                                          fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                                           ' & .MuiOutlinedInput-notchedOutline':
                                           {
                                             border:
@@ -297,6 +299,7 @@ function ElseSample({ sampleList }) {
                               sx={{
                                 backgroundColor: 'secondary.main',
                                 mt: '32px',
+                                fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                                 color: 'primary.main',
                                 transition: 'all linear .3s',
                                 '&:hover': {

@@ -128,7 +128,7 @@ function MySample({ sampleList, deleteSample }) {
             variant='text'
             onClick={() => setOpenConfirmDelete(undefined)}
             sx={{
-              fontSize: '14px',
+              fontSize: { xs: '0.75rem', lg: '1rem' },
               border: '1px solid #666',
               color: '#666',
               p: '7px 0',
@@ -147,7 +147,7 @@ function MySample({ sampleList, deleteSample }) {
             variant='outlined'
             onClick={() => handleDeleteSample2(openConfirmDelete)}
             sx={{
-              fontSize: '14px',
+              fontSize: { xs: '0.75rem', lg: '1rem' },
               backgroundColor: 'error.main',
               color: '#fff',
               p: '7px 0',
@@ -331,7 +331,7 @@ function MySample({ sampleList, deleteSample }) {
                     sx={{
                       color: '#000',
                       p: '',
-                      fontSize: '16px',
+                      fontSize: { xs: '0.75rem', lg: '1rem' },
                       fontWeight: '700',
                       flex: '1',
                     }}
@@ -345,7 +345,7 @@ function MySample({ sampleList, deleteSample }) {
                     sx={{
                       color: '#000',
                       p: '',
-                      fontSize: '16px',
+                      fontSize: { xs: '0.75rem', lg: '1rem' },
                       fontWeight: '700',
                       flex: '1',
                     }}
@@ -365,7 +365,7 @@ function MySample({ sampleList, deleteSample }) {
                         variant='contained'
                         onClick={() => handleDeleteSample(sample)}
                         sx={{
-                          fontSize: '14px',
+                          fontSize: { xs: '0.75rem', lg: '1rem' },
                           mb: '20px',
                           color: '#fff',
                           backgroundColor: 'error.main',
@@ -382,7 +382,7 @@ function MySample({ sampleList, deleteSample }) {
                     </Box>
                     {isEmpty(testQuestion?.question) && (
                       <Box>
-                        <Typography variant='h6' sx={{ flex: '1', mb: '12px' }}>
+                        <Typography variant='h6' sx={{ flex: '1', mb: '12px', fontSize: { xs: '0.75rem', lg: '1rem' }, }}>
                           There are no questions to display
                         </Typography>
 
@@ -393,7 +393,7 @@ function MySample({ sampleList, deleteSample }) {
                             startIcon={<AddToPhotosIcon />}
                             onClick={() => setCreateQuestion(true)}
                             sx={{
-                              fontSize: '14px',
+                              fontSize: { xs: '0.75rem', lg: '1rem' },
                               color: '#000',
                               border: '1px solid #000',
                               p: '7px 0',
@@ -412,19 +412,19 @@ function MySample({ sampleList, deleteSample }) {
                             sx={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '20px',
+                              gap: { xs: '4px', lg: '20px' },
                             }}
                           >
                             <Box
                               sx={{
                                 flex: '1',
                                 '& .MuiFormLabel-root': {
-                                  fontSize: '16px',
+                                  fontSize: { xs: '0.75rem', lg: '1rem' },
                                   right: 'auto',
                                   left: '0',
                                 },
                                 '&  .MuiOutlinedInput-root ': {
-                                  fontSize: '16px',
+                                  fontSize: { xs: '0.75rem', lg: '1rem' },
                                   ' & .MuiOutlinedInput-notchedOutline': {
                                     border: '1px solid #000 !important',
                                   },
@@ -446,18 +446,12 @@ function MySample({ sampleList, deleteSample }) {
                             </Box>
                             <Box
                               sx={{
-                                maxWidth: {
-                                  xs: '100%',
-                                  md: '120px',
-                                },
-                                minWidth: {
-                                  xs: '100%',
-                                  md: '120px',
-                                },
+                                maxWidth: { xs: '80px', lg: '200px' },
+                                minWidth: { xs: '80px', lg: '200px' },
                                 background: 'transparent',
                                 '& .MuiInputBase-root': {
                                   color: 'primary.dark',
-                                  fontSize: '18px',
+                                  fontSize: { xs: '0.75rem', lg: '1rem' },
                                   '& div': {
                                     p: ' 8px 12px',
                                   },
@@ -471,7 +465,7 @@ function MySample({ sampleList, deleteSample }) {
                                   },
                                 },
                                 '& .MuiFormLabel-root': {
-                                  fontSize: '16px',
+                                  fontSize: { xs: '0.75rem', lg: '1rem' },
                                   right: 'auto',
                                   left: '0',
                                   bottom: '16px',
@@ -484,9 +478,8 @@ function MySample({ sampleList, deleteSample }) {
                                 <InputLabel
                                   size='small'
                                   variant='outlined'
-                                  id='project-type'
                                 >
-                                  Project Status
+                                  Question type
                                 </InputLabel>
                                 <Select
                                   labelId='project-type'
@@ -510,12 +503,12 @@ function MySample({ sampleList, deleteSample }) {
                               startIcon={<SendIcon />}
                               onClick={() => handleCreateQuestion(sample)}
                               sx={{
-                                fontSize: '14px',
-                                minWidth: '160px',
+                                fontSize: { xs: '0.75rem', lg: '1rem' },
+                                minWidth: { xs: '80px', lg: '160px' },
+                                maxWidth: { xs: '80px', lg: '160px' },
                                 backgroundColor: '#6ea033',
                                 color: '#fff',
                                 p: '7px 0',
-                                maxWidth: '160px',
                                 '&:hover': {
                                   backgroundColor: '#6ea033',
                                   color: '#fff',
@@ -525,18 +518,17 @@ function MySample({ sampleList, deleteSample }) {
                             >
                               Submit
                             </Button>
-
                             <Button
                               variant='contained'
                               startIcon={<HighlightOffIcon />}
                               onClick={handleCloseCreateQuestion}
                               sx={{
-                                fontSize: '14px',
+                                fontSize: { xs: '0.75rem', lg: '1rem' },
                                 backgroundColor: 'error.main',
                                 color: '#fff',
                                 p: '7px 0',
-                                minWidth: '100px',
-                                maxWidth: '100px',
+                                minWidth: { xs: '64px', lg: '100px' },
+                                maxWidth: { xs: '64px', lg: '100px' },
                                 '&:hover': {
                                   backgroundColor: 'error.main',
                                   color: '#fff',
@@ -559,7 +551,7 @@ function MySample({ sampleList, deleteSample }) {
                             startIcon={<AddToPhotosIcon />}
                             onClick={() => setCreateQuestion(true)}
                             sx={{
-                              fontSize: '14px',
+                              fontSize: { xs: '0.75rem', lg: '1rem' },
                               color: '#000',
                               border: '1px solid #000',
                               p: '7px 0',
@@ -578,19 +570,19 @@ function MySample({ sampleList, deleteSample }) {
                             sx={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '20px',
+                              gap: { xs: '4px', lg: '20px' },
                             }}
                           >
                             <Box
                               sx={{
                                 flex: '1',
                                 '& .MuiFormLabel-root': {
-                                  fontSize: '16px',
+                                  fontSize: { xs: '0.75rem', lg: '1rem' },
                                   right: 'auto',
                                   left: '0',
                                 },
                                 '&  .MuiOutlinedInput-root ': {
-                                  fontSize: '16px',
+                                  fontSize: { xs: '0.75rem', lg: '1rem' },
                                   ' & .MuiOutlinedInput-notchedOutline': {
                                     border: '1px solid #000 !important',
                                   },
@@ -612,18 +604,12 @@ function MySample({ sampleList, deleteSample }) {
                             </Box>
                             <Box
                               sx={{
-                                maxWidth: {
-                                  xs: '100%',
-                                  md: '120px',
-                                },
-                                minWidth: {
-                                  xs: '100%',
-                                  md: '120px',
-                                },
+                                maxWidth: { xs: '80px', lg: '200px' },
+                                minWidth: { xs: '80px', lg: '200px' },
                                 background: 'transparent',
                                 '& .MuiInputBase-root': {
                                   color: 'primary.dark',
-                                  fontSize: '18px',
+                                  fontSize: { xs: '0.75rem', lg: '1rem' },
                                   '& div': {
                                     p: ' 8px 12px',
                                   },
@@ -637,7 +623,7 @@ function MySample({ sampleList, deleteSample }) {
                                   },
                                 },
                                 '& .MuiFormLabel-root': {
-                                  fontSize: '16px',
+                                  fontSize: { xs: '0.75rem', lg: '1rem' },
                                   right: 'auto',
                                   left: '0',
                                   bottom: '16px',
@@ -650,9 +636,8 @@ function MySample({ sampleList, deleteSample }) {
                                 <InputLabel
                                   size='small'
                                   variant='outlined'
-                                  id='project-type'
                                 >
-                                  Project Status
+                                  Question type
                                 </InputLabel>
                                 <Select
                                   labelId='project-type'
@@ -676,12 +661,12 @@ function MySample({ sampleList, deleteSample }) {
                               startIcon={<SendIcon />}
                               onClick={() => handleCreateQuestion(sample)}
                               sx={{
-                                fontSize: '14px',
-                                minWidth: '160px',
+                                fontSize: { xs: '0.75rem', lg: '1rem' },
+                                minWidth: { xs: '80px', lg: '160px' },
+                                maxWidth: { xs: '80px', lg: '160px' },
                                 backgroundColor: '#6ea033',
                                 color: '#fff',
                                 p: '7px 0',
-                                maxWidth: '160px',
                                 '&:hover': {
                                   backgroundColor: '#6ea033',
                                   color: '#fff',
@@ -696,12 +681,12 @@ function MySample({ sampleList, deleteSample }) {
                               startIcon={<HighlightOffIcon />}
                               onClick={handleCloseCreateQuestion}
                               sx={{
-                                fontSize: '14px',
+                                fontSize: { xs: '0.75rem', lg: '1rem' },
                                 backgroundColor: 'error.main',
                                 color: '#fff',
                                 p: '7px 0',
-                                minWidth: '100px',
-                                maxWidth: '100px',
+                                minWidth: { xs: '64px', lg: '100px' },
+                                maxWidth: { xs: '64px', lg: '100px' },
                                 '&:hover': {
                                   backgroundColor: 'error.main',
                                   color: '#fff',
@@ -729,12 +714,12 @@ function MySample({ sampleList, deleteSample }) {
                                 fontWeight: '700',
                                 color: 'primary.dark',
                                 textAlign: 'center',
-                                fontSize: '16px',
+                                fontSize: { xs: '0.75rem', lg: '1rem' },
                                 padding: '12px 0',
                               },
                             }}
                           >
-                            <Typography variant='body1' sx={{ flex: '1' }}>
+                            <Typography variant='body1' sx={{ flex: '1', }}>
                               Question
                             </Typography>
                             <Typography
@@ -758,13 +743,13 @@ function MySample({ sampleList, deleteSample }) {
                                   boxShadow: '0px 0px 1px #888888',
                                   padding: '12px 0 12px 32px',
                                   textAlign: 'left',
-                                  '& .MuiButtonBase-root, & .MuiTypography-h6  ':
-                                    {
-                                      color: 'primary.dark',
-                                    },
-                                  '&:hover': {
-                                    backgroundColor: 'rgba(0,0,0,0.03)',
+                                  '& .MuiButtonBase-root, & .MuiTypography-h6': {
+                                    fontSize: { xs: '0.75rem', lg: '1rem' },
+                                    color: 'primary.dark'
                                   },
+                                  '&:hover': {
+                                    backgroundColor: 'rgba(0,0,0,0.03)'
+                                  }
                                 }}
                               >
                                 <Typography variant='h6' sx={{ flex: '1' }}>
@@ -777,7 +762,7 @@ function MySample({ sampleList, deleteSample }) {
                                   sx={{
                                     color: '#000',
                                     p: '',
-                                    fontSize: '16px',
+                                    fontSize: { xs: '0.75rem', lg: '1rem' },
                                     fontWeight: '700',
                                     minWidth: '200px',
                                     maxWidth: '200px',

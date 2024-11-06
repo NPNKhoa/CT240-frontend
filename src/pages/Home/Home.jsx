@@ -215,30 +215,34 @@ function Home() {
 									<MenuIcon />
 								</IconButton>
 							)}
-							<Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+							<Typography variant='h6' component='div' sx={{ flexGrow: 1, fontSize: { xs: '1rem ', lg: '1.5rem ' }, }}>
 								{title}
 							</Typography>
 							<Box>
 								<Box sx={{ display: 'flex', gap: '20px' }}>
-									<Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+									<Typography variant='h6' component='div' sx={{ flexGrow: 1, fontSize: { xs: '1rem ', lg: '1.5rem ' }, }}>
 										{userInfor.email}
 									</Typography>
-									<Button
-										variant='outlined'
-										startIcon={<LogoutIcon />}
-										onClick={handleLogout}
-										sx={{
-											fontSize: '14px',
-											color: '#000',
-											border: '1px solid #000',
-											'&:hover': {
+									{windowWidth < 700 && <LogoutIcon onClick={handleLogout} />}
+									{windowWidth >= 700 &&
+										<Button
+											variant='outlined'
+											startIcon={<LogoutIcon />}
+											onClick={handleLogout}
+											sx={{
+												fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
+												color: '#000',
 												border: '1px solid #000',
-												opacity: '0.8',
-											},
-										}}
-									>
-										Logout
-									</Button>
+												'&:hover': {
+													border: '1px solid #000',
+													opacity: '0.8',
+												},
+											}}
+										>
+											Logout
+										</Button>
+
+									}
 								</Box>
 							</Box>
 						</Toolbar>
@@ -321,7 +325,7 @@ function Home() {
 											overflow: 'hidden',
 											textOverflow: 'ellipsis',
 											padding: '0 12px',
-											fontSize: '16px !important',
+											fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 										}}
 									>
 										You do not have any projects yet.
@@ -373,7 +377,7 @@ function Home() {
 								variant='outlined'
 								fullWidth
 								startIcon={<AddToPhotosIcon />}
-								sx={{ fontSize: '14px', mt: '20px' }}
+								sx={{ fontSize: { xs: '0.75rem !important', lg: '1rem !important' }, mt: '20px' }}
 								onClick={handleOpenForm}
 							>
 								Create New Project
@@ -407,7 +411,7 @@ function Home() {
 												background: 'transparent',
 												'& .MuiInputBase-root': {
 													color: 'primary.dark',
-													fontSize: '18px',
+													fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 													'& div': {
 														p: ' 8px 12px',
 													},
@@ -421,7 +425,7 @@ function Home() {
 													},
 												},
 												'& .MuiFormLabel-root': {
-													fontSize: '16px',
+													fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 													right: 'auto',
 													left: '0',
 													bottom: '16px',
@@ -464,12 +468,12 @@ function Home() {
 											sx={{
 												marginTop: '1.2em',
 												'& .MuiFormLabel-root': {
-													fontSize: '16px',
+													fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 													right: 'auto',
 													left: '0',
 												},
 												'&  .MuiOutlinedInput-root ': {
-													fontSize: '16px',
+													fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 													' & .MuiOutlinedInput-notchedOutline': {
 														border: '1px solid #000 !important',
 													},
@@ -502,12 +506,12 @@ function Home() {
 											sx={{
 												marginTop: '1.2em',
 												'& .MuiFormLabel-root': {
-													fontSize: '16px',
+													fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 													right: 'auto',
 													left: '0',
 												},
 												'&  .MuiOutlinedInput-root ': {
-													fontSize: '16px',
+													fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 													' & .MuiOutlinedInput-notchedOutline': {
 														border: '1px solid #000 !important',
 													},
@@ -531,12 +535,12 @@ function Home() {
 													minWidth: { xs: '100%', sm: '200px' },
 													maxWidth: { xs: '100%', sm: '200px' },
 													'& .MuiFormLabel-root': {
-														fontSize: '16px',
+														fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 														right: 'auto',
 														left: '0',
 													},
 													'&  .MuiOutlinedInput-root ': {
-														fontSize: '16px',
+														fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 														' & .MuiOutlinedInput-notchedOutline': {
 															border: '1px solid #000 !important',
 														},
@@ -573,12 +577,12 @@ function Home() {
 													minWidth: { xs: '100%', sm: '200px' },
 													maxWidth: { xs: '100%', sm: '200px' },
 													'& .MuiFormLabel-root': {
-														fontSize: '16px',
+														fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 														right: 'auto',
 														left: '0',
 													},
 													'&  .MuiOutlinedInput-root ': {
-														fontSize: '16px',
+														fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 														' & .MuiOutlinedInput-notchedOutline': {
 															border: '1px solid #000 !important',
 														},
@@ -640,7 +644,7 @@ function Home() {
 										overflow: 'hidden',
 										textOverflow: 'ellipsis',
 										padding: '0 12px',
-										fontSize: '16px !important',
+										fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 										mt: '20px',
 									}}
 								>

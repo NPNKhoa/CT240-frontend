@@ -55,7 +55,7 @@ function ElsePhase({ phaseList }) {
           <Box
             sx={{
               color: index === i ? '#fff' : '#6ea033',
-              fontSize: '1.2rem',
+              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
               fontWeight: 500,
               minWidth: '200px',
               maxWidth: '200px',
@@ -80,14 +80,14 @@ function ElsePhase({ phaseList }) {
         <Box sx={{ mt: '20px', p: '8px' }}>
           <Typography
             variant='body1'
-            sx={{ mb: '12px', fontSize: '16px !important' }}
+            sx={{ mb: '12px', fontSize: { xs: '0.75rem !important', lg: '1rem !important' }, }}
           >
             {currentPhase?.phaseDescription}
           </Typography>
-          <Typography variant='body1' sx={{ fontSize: '16px !important' }}>
+          <Typography variant='body1' sx={{ fontSize: { xs: '0.75rem !important', lg: '1rem !important' }, }}>
             <b>Start Date: </b> {formatDate(currentPhase?.startDate)}{' '}
           </Typography>
-          <Typography variant='body1' sx={{ fontSize: '16px !important' }}>
+          <Typography variant='body1' sx={{ fontSize: { xs: '0.75rem !important', lg: '1rem !important' }, }}>
             <b>End Date: </b> {formatDate(currentPhase?.endDate)}{' '}
           </Typography>
         </Box>
