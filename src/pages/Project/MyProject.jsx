@@ -54,8 +54,8 @@ function MyProject({ project, type, deleteProject, updateProject }) {
 
   const token = localStorage.getItem('Authorization');
   const [colorStatus] = useState({
-    active: 'green',
-    completed: 'orange',
+    active: 'blue',
+    completed: 'green',
     canceled: 'red',
   });
   const handleUpdateProject = (token, id, data) => {
