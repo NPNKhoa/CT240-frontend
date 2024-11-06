@@ -29,7 +29,7 @@ import ElsePhase from '../Phase/ElsePhase';
 function ElseProject({ project, type }) {
   const [currType] = useState(type.find((i) => i._id === project?.projectType));
   const [phaseList, setPhaseList] = useState([]);
-  const token = localStorage.getItem('Authorization')
+  const token = localStorage.getItem('Authorization');
   const [colorStatus] = useState({
     active: 'green',
     completed: 'yellow',
@@ -77,7 +77,7 @@ function ElseProject({ project, type }) {
       {!isEmpty(phaseList) && <ElsePhase phaseList={phaseList} />}
       {isEmpty(phaseList) && (
         <Box sx={{ mt: '40px', ml: '40px' }}>
-          <Typography variant='h5'>No phases to display</Typography>
+          <Typography variant='h5'>There are no phases to display</Typography>
         </Box>
       )}
     </Box>

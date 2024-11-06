@@ -24,7 +24,7 @@ import {
   DeletePhase,
   GetAllUser,
   CreateUserProject,
-  RemoveUserFromProject
+  RemoveUserFromProject,
 } from '../../apis/index';
 import { isEmpty } from 'lodash';
 import { toast } from 'react-toastify';
@@ -62,8 +62,8 @@ function MyProject({ project, type, deleteProject, updateProject }) {
     updateProject(token, id, data);
   };
   const handleCloseCreateUser = () => {
-    setCreateUser(false)
-    setCreateUserText('')
+    setCreateUser(false);
+    setCreateUserText('');
   };
   useEffect(() => {
     GetAllPhase(token).then((data) => {
@@ -75,21 +75,20 @@ function MyProject({ project, type, deleteProject, updateProject }) {
     GetUserOnProject(project?._id).then((res) => {
       setUserList(res.data.map((i) => i.userId));
     });
-  }, [project, recallApi])
+  }, [project, recallApi]);
 
   useEffect(() => {
-    GetAllUser()
-      .then((res) => {
-        setTest(res)
-      })
-  }, [])
+    GetAllUser().then((res) => {
+      setTest(res);
+    });
+  }, []);
 
   const handleCloseForm = () => {
-    resetField('endDate')
-    resetField('phaseDescription')
-    resetField('phaseName')
-    resetField('startDate')
-    setOpenForm(false)
+    resetField('endDate');
+    resetField('phaseDescription');
+    resetField('phaseName');
+    resetField('startDate');
+    setOpenForm(false);
   };
   const deletePhase = (id) => {
     DeletePhase(id, token, project?._id)
@@ -109,18 +108,18 @@ function MyProject({ project, type, deleteProject, updateProject }) {
   const handleCreateUser = (projectId) => {
     const dataSubmit = {
       projectId,
-      userRole: 'member'
-    }
-    const c = test.find(a => a?.email === createUserText.trim())
+      userRole: 'member',
+    };
+    const c = test.find((a) => a?.email === createUserText.trim());
     if (c) {
-      dataSubmit.userId = c._id
+      dataSubmit.userId = c._id;
       CreateUserProject(dataSubmit)
         .then((data) => {
           toast.success('Add user to peoject successfuly!', {
-            position: 'top-center'
-          })
-          setRecallApi(a => a + 'b')
-          handleCloseCreateUser()
+            position: 'top-center',
+          });
+          setRecallApi((a) => a + 'b');
+          handleCloseCreateUser();
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message, { position: 'top-center' });
@@ -128,45 +127,45 @@ function MyProject({ project, type, deleteProject, updateProject }) {
     } else {
       toast.error('This email does not exist', { position: 'top-center' });
     }
-  }
+  };
   const handleDeleteUser = (userId, projectId) => {
     RemoveUserFromProject(userId, projectId)
       .then((data) => {
         toast.success('Remove user successfuly!', {
-          position: 'top-center'
-        })
-        setRecallApi(a => a + 'b')
+          position: 'top-center',
+        });
+        setRecallApi((a) => a + 'b');
       })
       .catch((err) => {
-        toast.error(err?.response?.data?.message, { position: 'top-center' })
-      })
-  }
+        toast.error(err?.response?.data?.message, { position: 'top-center' });
+      });
+  };
   const handleCreatePhase = (formData) => {
-    const { phaseName, phaseDescription, startDate, endDate } = formData
+    const { phaseName, phaseDescription, startDate, endDate } = formData;
     const dataSubmit = {
       phaseName,
       phaseDescription,
       startDate: new Date(startDate),
-      projectId: project._id
-    }
+      projectId: project._id,
+    };
     if (endDate) {
-      dataSubmit.endDate = new Date(endDate)
+      dataSubmit.endDate = new Date(endDate);
     }
     CreatePhase(dataSubmit, token, project?._id)
       .then((data) => {
         toast.success('Create phase successfuly!', {
-          position: 'top-center'
-        })
-        setRecallApi(`create phase ${data?._id}`)
-        handleCloseForm()
+          position: 'top-center',
+        });
+        setRecallApi(`create phase ${data?._id}`);
+        handleCloseForm();
       })
       .catch((err) => {
         toast.error(err?.response?.data?.message, { position: 'top-center' });
-      })
-  }
+      });
+  };
   const handleCloseUpdate = () => {
-    setOpenUpdate(false)
-  }
+    setOpenUpdate(false);
+  };
 
   return (
     <Box>
@@ -257,8 +256,8 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                 onClose={() => setOpenViewMemberList(false)}
                 sx={{
                   '& .MuiPaper-root': {
-                    minWidth: '1200px',
-                    maxWidth: '1200px',
+                    minwidth: '100%',
+                    maxwidth: '100%',
                   },
                 }}
               >
@@ -464,7 +463,9 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                                 <Box />
                               )
                             }
-                            onClick={() => handleDeleteUser(user?._id, project?._id)}
+                            onClick={() =>
+                              handleDeleteUser(user?._id, project?._id)
+                            }
                             sx={{
                               color: '#000',
                               p: '',
@@ -743,7 +744,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
       )}
       {isEmpty(phaseList) && (
         <Box sx={{ mt: '40px', ml: '40px' }}>
-          <Typography variant='h5'>{'No phases to display'} </Typography>
+          <Typography variant='h5'>There are no phases to display</Typography>
         </Box>
       )}
     </Box>
