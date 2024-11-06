@@ -1,21 +1,14 @@
 import { useEffect, useState } from 'react'
-import AppBar from '@mui/material/AppBar'
-
 import Box from '@mui/material/Box'
-import FormControl from '@mui/material/FormControl'
 import CloseIcon from '@mui/icons-material/Close'
-import Select from '@mui/material/Select'
-import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
-import { formatDate, formatDateToSubmit } from '../../untils/format'
+import { formatDate } from '../../untils/format'
 import { GetAllSample, CreateNewSample, DeleteSample } from '../../apis/index'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import { Alert, Button, Dialog, DialogContent, DialogTitle, InputLabel, TextField, Tooltip } from '@mui/material'
+import { Alert, Button, Dialog, DialogContent, DialogTitle, TextField, Tooltip } from '@mui/material'
 import MySample from '../Sample/MySample'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-
 function MyPhase({ phaseList, deletePhase }) {
 	const { register, handleSubmit, resetField, formState: { errors } } = useForm()
 	const [currentId, setCurrentId] = useState(phaseList[0]?._id)
@@ -79,14 +72,27 @@ function MyPhase({ phaseList, deletePhase }) {
 		resetField('sampleType')
 		setOpenForm(false)
 	}
+	const [scrollIndex, setScrollIndex] = useState(0)
+	const handleScrollLeft = () => {
+		if (scrollIndex > 0) {
+			setScrollIndex(scrollIndex - 1)
+		}
+	}
+
+	const handleScrollRight = () => {
+		if (scrollIndex < phaseList.length - 1) {
+			setScrollIndex(scrollIndex + 1)
+		}
+	}
 	return (
-		< Box sx={{ mt: '20px', padding: '20px' }}>
-			<Box sx={{ overflow: 'auto', maxWidth: '100%', display: 'flex', gap: '8px' }}>
-				{phaseList.map((phase, i) => (
+		< Box sx={{ mt: '20px', padding: '20px', width: '100%' }}>
+			<Box sx={{ overflow: 'hidden', maxWidth: '100%', display: 'flex', gap: '8px', position: 'relative' }}>
+				<Button onClick={handleScrollLeft} sx={{ fontSize: '30px', position: 'absolute', left: 0 }} disabled={scrollIndex === 0}>{"<"}</Button>
+				{phaseList.slice(scrollIndex, scrollIndex + 6).map((phase, i) => (
 					<Box sx={{
 						color: '#6ea033',
-						minWidth: '200px',
-						maxWidth: '200px',
+						minWidth: '170px',
+						maxWidth: '170px',
 						padding: '4px 20px',
 						textAlign: 'center',
 						backgroundColor: index === i ? '#ccc' : '#fff',
@@ -101,6 +107,7 @@ function MyPhase({ phaseList, deletePhase }) {
 						{phase.phaseName}
 					</Box>
 				))}
+				<Button onClick={handleScrollRight} sx={{ fontSize: '30px', position: 'absolute', right: 0 }} disabled={scrollIndex === phaseList.length - 6}>{">"}</Button>
 			</Box>
 			<Box>
 				<Box sx={{ mt: '20px', p: '8px' }}>
