@@ -14,7 +14,7 @@ import {
   DialogTitle,
   TextField,
   Tooltip,
-} from '@mui/material'
+} from '@mui/material';
 import MySample from '../Sample/MySample';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -29,7 +29,7 @@ function MyPhase({ phaseList, deletePhase }) {
   const [currentId, setCurrentId] = useState(phaseList[0]?._id);
   const [openForm, setOpenForm] = useState(false);
   const [recallApi, setRecallApi] = useState(undefined);
-  const [openConfirmDelete, setOpenConfirmDelete] = useState(undefined)
+  const [openConfirmDelete, setOpenConfirmDelete] = useState(undefined);
   useEffect(() => {
     setCurrentId(phaseList[0]?._id);
   }, [phaseList]);
@@ -69,19 +69,19 @@ function MyPhase({ phaseList, deletePhase }) {
   const deleteSample = (sample) => {
     DeleteSample(sample._id)
       .then((data) => {
-        toast.success('Delete sample successfuly', { position: 'top-center' })
-        setRecallApi((a) => a + 'a')
+        toast.success('Delete sample successfuly', { position: 'top-center' });
+        setRecallApi((a) => a + 'a');
       })
       .catch((err) => {
-        toast.error(err, { position: 'top-center' })
+        toast.error(err, { position: 'top-center' });
       });
   };
   const handleDeletePhase = (phase) => {
-    setOpenConfirmDelete(phase)
+    setOpenConfirmDelete(phase);
   };
   const handleDeletePhase2 = (phase) => {
-    setOpenConfirmDelete(undefined)
-    deletePhase(phase)
+    setOpenConfirmDelete(undefined);
+    deletePhase(phase);
   };
   const handleCloseForm = () => {
     resetField('collectionDate');
@@ -91,9 +91,9 @@ function MyPhase({ phaseList, deletePhase }) {
     resetField('sampleType');
     setOpenForm(false);
   };
+
   return (
     <Box sx={{ mt: '20px', padding: '20px' }}>
-
       <Dialog
         open={!!openConfirmDelete}
         onClose={() => setOpenConfirmDelete(undefined)}
@@ -101,38 +101,48 @@ function MyPhase({ phaseList, deletePhase }) {
           '& .MuiPaper-root': { minWidth: '800px', maxWidth: '800px' },
         }}
       >
-        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+        <DialogTitle style={{ cursor: 'move' }} id='draggable-dialog-title'>
           {`Do you want delete phase: ${openConfirmDelete?.phaseName}`}
         </DialogTitle>
         <DialogActions>
-          <Button variant='text' onClick={() => setOpenConfirmDelete(undefined)} sx={{
-            fontSize: '14px',
-            border: '1px solid #666',
-            color: '#666',
-            p: '7px 0',
-            minWidth: '100px',
-            maxWidth: '100px',
-            '&:hover': {
+          <Button
+            variant='text'
+            onClick={() => setOpenConfirmDelete(undefined)}
+            sx={{
+              fontSize: '14px',
               border: '1px solid #666',
               color: '#666',
-              opacity: '0.8',
-            },
-          }}>
+              p: '7px 0',
+              minWidth: '100px',
+              maxWidth: '100px',
+              '&:hover': {
+                border: '1px solid #666',
+                color: '#666',
+                opacity: '0.8',
+              },
+            }}
+          >
             Cancel
           </Button>
-          <Button variant='outlined' onClick={() => handleDeletePhase2(openConfirmDelete)} sx={{
-            fontSize: '14px',
-            backgroundColor: 'error.main',
-            color: '#fff',
-            p: '7px 0',
-            minWidth: '100px',
-            maxWidth: '100px',
-            '&:hover': {
+          <Button
+            variant='outlined'
+            onClick={() => handleDeletePhase2(openConfirmDelete)}
+            sx={{
+              fontSize: '14px',
               backgroundColor: 'error.main',
               color: '#fff',
-              opacity: '0.8',
-            },
-          }}>Delete</Button>
+              p: '7px 0',
+              minWidth: '100px',
+              maxWidth: '100px',
+              '&:hover': {
+                backgroundColor: 'error.main',
+                color: '#fff',
+                opacity: '0.8',
+              },
+            }}
+          >
+            Delete
+          </Button>
         </DialogActions>
       </Dialog>
       <Box
@@ -164,38 +174,82 @@ function MyPhase({ phaseList, deletePhase }) {
         ))}
       </Box>
       <Box>
-        <Box sx={{ mt: '20px', p: '8px' }}>
-          <Typography
-            variant='body1'
-            sx={{ mb: '12px', fontSize: '16px !important' }}
-          >
-            {currentPhase?.phaseDescription}
-          </Typography>
-          <Typography variant='body1' sx={{ fontSize: '16px !important' }}>
-            <b>Start Date: </b> {formatDate(currentPhase?.startDate)}{' '}
-          </Typography>
-          <Typography variant='body1' sx={{ fontSize: '16px !important' }}>
-            <b>End Date: </b> {formatDate(currentPhase?.endDate)}{' '}
-          </Typography>
-        </Box>
-        <Box sx={{ minWidth: '160px', mb: '32px' }}>
-          <Button
-            variant='contained'
-            onClick={() => handleDeletePhase(currentPhase)}
+        <Box>
+          <Box
             sx={{
-              fontSize: '14px',
-              color: '#fff',
-              backgroundColor: 'error.main',
-              border: '1px solid error.main',
-              '&:hover': {
-                border: '1px solid error.main',
-                opacity: '0.8',
-                backgroundColor: 'error.main',
-              },
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '100%',
+              mt: '2rem',
             }}
           >
-            Delete Phase
-          </Button>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: { xs: '75%', md: '80%' },
+              }}
+            >
+              <Typography
+                variant='body1'
+                sx={{ fontSize: { xs: '0.75rem', md: '1rem' } }}
+              >
+                <b>Start Date: </b>{' '}
+                <span
+                  style={{
+                    fontSize: { xs: '0.75rem', md: '1.25rem' },
+                    color: '#333',
+                  }}
+                >
+                  {formatDate(currentPhase?.startDate)}
+                </span>
+              </Typography>
+              <Typography
+                variant='body1'
+                sx={{ fontSize: { xs: '0.75rem', md: '1rem' } }}
+              >
+                <b>End Date: </b>{' '}
+                <span
+                  style={{
+                    fontSize: { xs: '0.75rem', md: '1.25rem' },
+                    color: '#333',
+                  }}
+                >
+                  {formatDate(currentPhase?.endDate)}
+                </span>
+              </Typography>
+            </Box>
+
+            <Button
+              variant='contained'
+              onClick={() => handleDeletePhase(currentPhase)}
+              sx={{
+                fontSize: { xs: '0.75rem', md: '1rem' },
+                color: '#fff',
+                backgroundColor: 'error.main',
+                border: '1px solid error.main',
+                '&:hover': {
+                  border: '1px solid error.main',
+                  opacity: '0.8',
+                  backgroundColor: 'error.main',
+                },
+              }}
+            >
+              Delete Phase
+            </Button>
+          </Box>
+
+          <Typography
+            variant='body1'
+            sx={{ mb: '12px', fontSize: { xs: '0.75rem', md: '1.25rem' } }}
+          >
+            <b>Description: </b>
+            <span style={{ fontSize: '1.25rem', color: '#333' }}>
+              {currentPhase?.phaseDescription}
+            </span>
+          </Typography>
         </Box>
         <Box sx={{ minWidth: '200px', maxWidth: '200px' }}>
           <Button
