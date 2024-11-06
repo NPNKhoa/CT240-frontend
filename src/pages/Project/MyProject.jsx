@@ -9,7 +9,9 @@ import {
   Alert,
   Button,
   Dialog,
+  DialogActions,
   DialogContent,
+  DialogContentText,
   DialogTitle,
   TextField,
   Tooltip,
@@ -51,6 +53,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
   const [createUser, setCreateUser] = useState(false);
   const [createUserText, setCreateUserText] = useState('');
   const [phaseList, setPhaseList] = useState([]);
+  const [openConfirmDelete, setOpenConfirmDelete] = useState(undefined)
 
   const token = localStorage.getItem('Authorization');
   const [colorStatus] = useState({
@@ -90,8 +93,8 @@ function MyProject({ project, type, deleteProject, updateProject }) {
     resetField('startDate');
     setOpenForm(false);
   };
-  const deletePhase = (id) => {
-    DeletePhase(id, token, project?._id)
+  const deletePhase = (phase) => {
+    DeletePhase(phase._id, token, project?._id)
       .then((data) => {
         toast.success('Delete phase successfuly', { position: 'top-center' });
         setRecallApi((a) => a + 'a');
@@ -101,8 +104,13 @@ function MyProject({ project, type, deleteProject, updateProject }) {
       });
     // setTitle('Overview')
   };
-  const handleDeleteProject = (id) => {
-    deleteProject(id);
+  const handleDeleteProject = (project) => {
+    setOpenConfirmDelete(project)
+    // deleteProject(project)
+  };
+  const handleDeleteProject2 = (project) => {
+    // setOpenConfirmDelete(project)
+    deleteProject(project)
   };
 
   const handleCreateUser = (projectId) => {
@@ -169,6 +177,47 @@ function MyProject({ project, type, deleteProject, updateProject }) {
 
   return (
     <Box>
+      <Dialog
+        open={!!openConfirmDelete}
+        onClose={() => setOpenConfirmDelete(undefined)}
+        sx={{
+          '& .MuiPaper-root': { minWidth: '800px', maxWidth: '800px' },
+        }}
+      >
+        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+          {`Do you want delete project: ${openConfirmDelete?.projectName}`}
+        </DialogTitle>
+        <DialogActions>
+          <Button variant='text' onClick={() => setOpenConfirmDelete(undefined)} sx={{
+            fontSize: '14px',
+            border: '1px solid #666',
+            color: '#666',
+            p: '7px 0',
+            minWidth: '100px',
+            maxWidth: '100px',
+            '&:hover': {
+              border: '1px solid #666',
+              color: '#666',
+              opacity: '0.8',
+            },
+          }}>
+            Cancel
+          </Button>
+          <Button variant='outlined' onClick={() => handleDeleteProject2(openConfirmDelete)} sx={{
+            fontSize: '14px',
+            backgroundColor: 'error.main',
+            color: '#fff',
+            p: '7px 0',
+            minWidth: '100px',
+            maxWidth: '100px',
+            '&:hover': {
+              backgroundColor: 'error.main',
+              color: '#fff',
+              opacity: '0.8',
+            },
+          }}>Delete</Button>
+        </DialogActions>
+      </Dialog>
       <Box sx={{ mt: '20px', p: '20px', borderBottom: '1px solid #000' }}>
         <Box
           sx={{
@@ -208,7 +257,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
             <Button
               fullWidth
               variant='contained'
-              onClick={() => handleDeleteProject(project?._id)}
+              onClick={() => handleDeleteProject(project)}
               sx={{
                 fontSize: '14px',
                 color: '#fff',

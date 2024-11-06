@@ -1,26 +1,20 @@
 import { useEffect, useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-
 import Box from '@mui/material/Box';
-import FormControl from '@mui/material/FormControl';
 import CloseIcon from '@mui/icons-material/Close';
-import Select from '@mui/material/Select';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
-import { formatDate, formatDateToSubmit } from '../../untils/format';
+import { formatDate } from '../../untils/format';
 import { GetAllSample, CreateNewSample, DeleteSample } from '../../apis/index';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import {
   Alert,
   Button,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
-  InputLabel,
   TextField,
   Tooltip,
-} from '@mui/material';
+} from '@mui/material'
 import MySample from '../Sample/MySample';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -35,6 +29,7 @@ function MyPhase({ phaseList, deletePhase }) {
   const [currentId, setCurrentId] = useState(phaseList[0]?._id);
   const [openForm, setOpenForm] = useState(false);
   const [recallApi, setRecallApi] = useState(undefined);
+  const [openConfirmDelete, setOpenConfirmDelete] = useState(undefined)
   useEffect(() => {
     setCurrentId(phaseList[0]?._id);
   }, [phaseList]);
@@ -71,20 +66,22 @@ function MyPhase({ phaseList, deletePhase }) {
         toast.error(err?.response?.data?.message, { position: 'top-center' });
       });
   };
-  const deleteSample = (id) => {
-    console.log('id: ', id);
-    DeleteSample(id)
+  const deleteSample = (sample) => {
+    DeleteSample(sample._id)
       .then((data) => {
-        toast.success('Delete sample successfuly', { position: 'top-center' });
-        setRecallApi((a) => a + 'a');
+        toast.success('Delete sample successfuly', { position: 'top-center' })
+        setRecallApi((a) => a + 'a')
       })
       .catch((err) => {
-        toast.error(err, { position: 'top-center' });
+        toast.error(err, { position: 'top-center' })
       });
   };
-  const handleDeletePhase = (id) => {
-    console.log('id: ', id);
-    deletePhase(id);
+  const handleDeletePhase = (phase) => {
+    setOpenConfirmDelete(phase)
+  };
+  const handleDeletePhase2 = (phase) => {
+    setOpenConfirmDelete(undefined)
+    deletePhase(phase)
   };
   const handleCloseForm = () => {
     resetField('collectionDate');
@@ -96,6 +93,48 @@ function MyPhase({ phaseList, deletePhase }) {
   };
   return (
     <Box sx={{ mt: '20px', padding: '20px' }}>
+
+      <Dialog
+        open={!!openConfirmDelete}
+        onClose={() => setOpenConfirmDelete(undefined)}
+        sx={{
+          '& .MuiPaper-root': { minWidth: '800px', maxWidth: '800px' },
+        }}
+      >
+        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+          {`Do you want delete phase: ${openConfirmDelete?.phaseName}`}
+        </DialogTitle>
+        <DialogActions>
+          <Button variant='text' onClick={() => setOpenConfirmDelete(undefined)} sx={{
+            fontSize: '14px',
+            border: '1px solid #666',
+            color: '#666',
+            p: '7px 0',
+            minWidth: '100px',
+            maxWidth: '100px',
+            '&:hover': {
+              border: '1px solid #666',
+              color: '#666',
+              opacity: '0.8',
+            },
+          }}>
+            Cancel
+          </Button>
+          <Button variant='outlined' onClick={() => handleDeletePhase2(openConfirmDelete)} sx={{
+            fontSize: '14px',
+            backgroundColor: 'error.main',
+            color: '#fff',
+            p: '7px 0',
+            minWidth: '100px',
+            maxWidth: '100px',
+            '&:hover': {
+              backgroundColor: 'error.main',
+              color: '#fff',
+              opacity: '0.8',
+            },
+          }}>Delete</Button>
+        </DialogActions>
+      </Dialog>
       <Box
         sx={{ overflow: 'auto', maxWidth: '100%', display: 'flex', gap: '8px' }}
       >
@@ -142,7 +181,7 @@ function MyPhase({ phaseList, deletePhase }) {
         <Box sx={{ minWidth: '160px', mb: '32px' }}>
           <Button
             variant='contained'
-            onClick={() => handleDeletePhase(currentPhase?._id)}
+            onClick={() => handleDeletePhase(currentPhase)}
             sx={{
               fontSize: '14px',
               color: '#fff',

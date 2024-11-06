@@ -84,8 +84,8 @@ function Home() {
 	let i = 0;
 	const [MyProjectList, setMyProjectList] = useState([]);
 	const [elseProjectList, setElseProjectList] = useState([]);
-	const deleteProject = (id) => {
-		DeleteProject(token, id)
+	const deleteProject = (project) => {
+		DeleteProject(token, project._id)
 			.then((data) => {
 				toast.success('Delete project successfuly', { position: 'top-center' });
 				setTest((a) => a + 'a');

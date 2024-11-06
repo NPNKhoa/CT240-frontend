@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useForm } from 'react-hook-form';
 import Box from '@mui/material/Box';
