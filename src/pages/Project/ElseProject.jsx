@@ -31,8 +31,8 @@ function ElseProject({ project, type }) {
   const [phaseList, setPhaseList] = useState([]);
   const token = localStorage.getItem('Authorization');
   const [colorStatus] = useState({
-    active: 'green',
-    completed: 'yellow',
+    active: 'blue',
+    completed: 'green',
     canceled: 'red',
   });
   useEffect(() => {
