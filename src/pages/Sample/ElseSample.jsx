@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -12,20 +12,45 @@ import MoreHorizTwoToneIcon from '@mui/icons-material/MoreHorizTwoTone'
 import SendIcon from '@mui/icons-material/Send'
 import KeyboardArrowUpTwoToneIcon from '@mui/icons-material/KeyboardArrowUpTwoTone'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
-import { GetAllQuestions, getQuestionById } from '../../apis/index'
+import { CreateRespones, GetAllQuestions, getQuestionById } from '../../apis/index'
 import { TextField } from '@mui/material'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 function ElseSample({ sampleList }) {
 	const [testQuestion, setTestQuestion] = useState(undefined)
+	console.log('testQuestion: ', testQuestion)
 	const { register, handleSubmit, formState: { errors } } = useForm()
-
+	const test = useRef(null)
 	const token = localStorage.getItem('Authorization')
+
 	const handleSubmitForm = (data) => {
-		console.log('data form: ', data)
+		const formDataList = []
+		for (const [key, value] of Object.entries(data)) {
+			console.log(`${key}: ${value}`)
+			if (testQuestion?.question?.map(a => a?._id).includes(key)) {
+				const formData = new FormData()
+				formData.append('questionId', key)
+				if (typeof value === 'string') {
+					formData.append('responseAnswer', value)
+				} else {
+					const fileLength = value.length
+					for (let i = 0; i < fileLength; i++) {
+						formData.append('files', value[i])
+					}
+				}
+				formDataList.push(formData)
+			}
+		}
+		formDataList.forEach((formData) => {
+			CreateRespones(token, formData)
+				.then(data => {
+					toast.success(`Submit response for question: ${data?.questionId?.question} successfuly! `, { position: 'top-center' })
+				})
+				.catch(err => toast.error(err?.response?.data?.message, { position: 'top-center' }))
+		})
 
 	}
 	const getQuestionBySampleId = async (sample) => {
-		console.log('sample: ', sample)
 		try {
 			// Gọi API getQuestionById cho từng questionId và thu thập kết quả
 			const questionArray = await Promise.all(
@@ -163,7 +188,6 @@ function ElseSample({ sampleList }) {
 																		</Typography>
 																		<Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
 																			<Box sx={{
-
 																				flex: '1',
 																				'& .MuiFormLabel-root': {
 																					fontSize: '16px',
@@ -181,6 +205,7 @@ function ElseSample({ sampleList }) {
 																					autoFocus
 																					size="small"
 																					fullWidth
+																					inputProps={question?.questionType === 'file' || question?.questionType === 'image' ? { multiple: true } : {}}
 																					label={question?.questionType === 'file' || question?.questionType === 'image' ? '' : 'Answer'}
 																					type={question?.questionType === 'file' || question?.questionType === 'image' ? 'file' : 'text'}
 																					variant="outlined"
