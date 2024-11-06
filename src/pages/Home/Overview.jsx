@@ -27,7 +27,7 @@ function Overview() {
       position: 'relative',
     },
     heading: {
-      fontFamily: '"Times New Roman"',
+      fontFamily: 'Arial, Helvetica, sans-serif',
       fontSize: '50px',
       paddingLeft: '20px',
       marginTop: '0px',

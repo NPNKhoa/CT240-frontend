@@ -53,7 +53,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
   const [createUser, setCreateUser] = useState(false);
   const [createUserText, setCreateUserText] = useState('');
   const [phaseList, setPhaseList] = useState([]);
-  const [openConfirmDelete, setOpenConfirmDelete] = useState(undefined)
+  const [openConfirmDelete, setOpenConfirmDelete] = useState(undefined);
 
   const token = localStorage.getItem('Authorization');
   const [colorStatus] = useState({
@@ -105,12 +105,12 @@ function MyProject({ project, type, deleteProject, updateProject }) {
     // setTitle('Overview')
   };
   const handleDeleteProject = (project) => {
-    setOpenConfirmDelete(project)
+    setOpenConfirmDelete(project);
     // deleteProject(project)
   };
   const handleDeleteProject2 = (project) => {
     // setOpenConfirmDelete(project)
-    deleteProject(project)
+    deleteProject(project);
   };
 
   const handleCreateUser = (projectId) => {
@@ -184,38 +184,48 @@ function MyProject({ project, type, deleteProject, updateProject }) {
           '& .MuiPaper-root': { minWidth: '800px', maxWidth: '800px' },
         }}
       >
-        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+        <DialogTitle style={{ cursor: 'move' }} id='draggable-dialog-title'>
           {`Do you want delete project: ${openConfirmDelete?.projectName}`}
         </DialogTitle>
         <DialogActions>
-          <Button variant='text' onClick={() => setOpenConfirmDelete(undefined)} sx={{
-            fontSize: '14px',
-            border: '1px solid #666',
-            color: '#666',
-            p: '7px 0',
-            minWidth: '100px',
-            maxWidth: '100px',
-            '&:hover': {
+          <Button
+            variant='text'
+            onClick={() => setOpenConfirmDelete(undefined)}
+            sx={{
+              fontSize: '14px',
               border: '1px solid #666',
               color: '#666',
-              opacity: '0.8',
-            },
-          }}>
+              p: '7px 0',
+              minWidth: '100px',
+              maxWidth: '100px',
+              '&:hover': {
+                border: '1px solid #666',
+                color: '#666',
+                opacity: '0.8',
+              },
+            }}
+          >
             Cancel
           </Button>
-          <Button variant='outlined' onClick={() => handleDeleteProject2(openConfirmDelete)} sx={{
-            fontSize: '14px',
-            backgroundColor: 'error.main',
-            color: '#fff',
-            p: '7px 0',
-            minWidth: '100px',
-            maxWidth: '100px',
-            '&:hover': {
+          <Button
+            variant='outlined'
+            onClick={() => handleDeleteProject2(openConfirmDelete)}
+            sx={{
+              fontSize: '14px',
               backgroundColor: 'error.main',
               color: '#fff',
-              opacity: '0.8',
-            },
-          }}>Delete</Button>
+              p: '7px 0',
+              minWidth: '100px',
+              maxWidth: '100px',
+              '&:hover': {
+                backgroundColor: 'error.main',
+                color: '#fff',
+                opacity: '0.8',
+              },
+            }}
+          >
+            Delete
+          </Button>
         </DialogActions>
       </Dialog>
       <Box sx={{ mt: '20px', p: '20px', borderBottom: '1px solid #000' }}>
@@ -227,9 +237,8 @@ function MyProject({ project, type, deleteProject, updateProject }) {
           }}
         >
           <Box sx={{ maxWidth: '1000px' }}>
-            <Typography variant='h6' sx={{ textAlign: 'justify' }}>
-              {' '}
-              Description: {project?.projectDescription}{' '}
+            <Typography variant='h6'>
+              Type: {currType?.projectTypeName}
             </Typography>
             <Typography
               variant='h6'
@@ -239,18 +248,13 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                 '& span': { color: colorStatus[project?.projectStatus] },
               }}
             >
-              {' '}
               Status: <span> {project?.projectStatus}</span>
             </Typography>
             <Typography variant='h6'>
-              Start Date: {formatDate(project?.startDate)}{' '}
+              Start Date: {formatDate(project?.startDate)}
             </Typography>
-            <Typography variant='h6'>
-              End Date: {formatDate(project?.endDate)}{' '}
-            </Typography>
-            <Typography variant='h6'>
-              {' '}
-              Type: {currType?.projectTypeName}{' '}
+            <Typography variant='h6' sx={{ textAlign: 'justify' }}>
+              Description: {project?.projectDescription}
             </Typography>
           </Box>
           <Box sx={{ minWidth: '160px' }}>
@@ -284,7 +288,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
           }}
         >
           <Box sx={{ display: 'flex', gap: '32px' }}>
-            <Box sx={{ minWidth: '200px', }}>
+            <Box sx={{ minWidth: '200px' }}>
               <Button
                 fullWidth
                 variant='outlined'
@@ -647,7 +651,13 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                         </Alert>
                       )}
                     </Box>
-                    <Box sx={{ display: 'flex', gap: { xs: '0', sm: '20px' }, flexDirection: { xs: 'column', sm: 'row' } }}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        gap: { xs: '0', sm: '20px' },
+                        flexDirection: { xs: 'column', sm: 'row' },
+                      }}
+                    >
                       <Box
                         sx={{
                           marginTop: '1.2em',
@@ -743,7 +753,13 @@ function MyProject({ project, type, deleteProject, updateProject }) {
             </Dialog>
           </Box>
 
-          <Box sx={{ minWidth: '200px', maxWidth: { xs: '200px', lg: 'none' }, mb: { xs: '20px', lg: 'none' } }}>
+          <Box
+            sx={{
+              minWidth: '200px',
+              maxWidth: { xs: '200px', lg: 'none' },
+              mb: { xs: '20px', lg: 'none' },
+            }}
+          >
             <Button
               fullWidth
               variant='outlined'
