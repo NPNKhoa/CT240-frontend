@@ -170,4 +170,13 @@ export const GetAllRespones = async () => {
 	const response = await axios.get(`${API_ROOT}/responses`)
 	return response.data
 }
+export const CreateRespones = async (token, data) => {
+	const response = await axios.post(`${API_ROOT}/responses`, data, {
+		headers: {
+			'Content-Type': 'multipart/form-data',
+			'Authorization': JSON.parse(token)
+		}
+	})
+	return response.data
+}
 

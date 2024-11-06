@@ -30,18 +30,21 @@ function ListRepones({ responeList }) {
 								<b>Answer: </b> {res?.responseAnswer}
 							</Typography>
 						}
-						{res?.fileIds?.map(file => (
-							<Box key={file._id} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
-								{file?.fileType?.includes('image') &&
-									<img src={file?.storageURL} alt="" style={{ maxWidth: '500px', minWidth: '500px' }} />
-								}
-								{file?.fileType?.includes('pdf') &&
-									<a href={file?.storageURL} target="_blank" rel="noreferrer" >
-										<PdfLogo />
-									</a>
-								}
-							</Box>
-						))}
+						<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', flexWrap: 'wrap' }}>
+
+							{res?.fileIds?.map(file => (
+								<Box key={file._id}>
+									{file?.fileType?.includes('image') &&
+										<img src={file?.storageURL} alt="" style={{ maxWidth: '400px', minWidth: '400px' }} />
+									}
+									{file?.fileType?.includes('pdf') &&
+										<a href={file?.storageURL} target="_blank" rel="noreferrer" >
+											<PdfLogo />
+										</a>
+									}
+								</Box>
+							))}
+						</Box>
 					</Box>
 				</Box>
 			))

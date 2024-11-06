@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -12,15 +12,17 @@ import MoreHorizTwoToneIcon from '@mui/icons-material/MoreHorizTwoTone'
 import SendIcon from '@mui/icons-material/Send'
 import KeyboardArrowUpTwoToneIcon from '@mui/icons-material/KeyboardArrowUpTwoTone'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
-import { GetAllQuestions, getQuestionById } from '../../apis/index'
+import { CreateRespones, GetAllQuestions, getQuestionById } from '../../apis/index'
 import { TextField } from '@mui/material'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 function ElseSample({ sampleList }) {
 	const [testQuestion, setTestQuestion] = useState(undefined)
 	console.log('testQuestion: ', testQuestion)
 	const { register, handleSubmit, formState: { errors } } = useForm()
-
+	const test = useRef(null)
 	const token = localStorage.getItem('Authorization')
+
 	const handleSubmitForm = (data) => {
 		const formDataList = []
 		for (const [key, value] of Object.entries(data)) {
@@ -31,23 +33,21 @@ function ElseSample({ sampleList }) {
 				if (typeof value === 'string') {
 					formData.append('responseAnswer', value)
 				} else {
-					formData.append('files', value)
+					const fileLength = value.length
+					for (let i = 0; i < fileLength; i++) {
+						formData.append('files', value[i])
+					}
 				}
 				formDataList.push(formData)
 			}
-			// if (testQuestion?.question?.map(a => a?._id).includes(key)) {
-			// 	const formData = {}
-			// 	formData.questionId = key
-			// 	if (typeof value === 'string') {
-			// 		formData.responseAnswer = value
-			// 	} else {
-			// 		formData.files = value
-
-			// 	}
-			// 	formDataList.push(formData)
-			// }
 		}
-		console.log('formDataList: ', formDataList)
+		formDataList.forEach((formData) => {
+			CreateRespones(token, formData)
+				.then(data => {
+					toast.success(`Submit response for question: ${data?.questionId?.question} successfuly! `, { position: 'top-center' })
+				})
+				.catch(err => toast.error(err?.response?.data?.message, { position: 'top-center' }))
+		})
 
 	}
 	const getQuestionBySampleId = async (sample) => {
