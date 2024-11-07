@@ -221,7 +221,7 @@ function Home() {
 							<Box>
 								<Box sx={{ display: 'flex', gap: '20px' }}>
 									<Typography variant='h6' component='div' sx={{ flexGrow: 1, fontSize: { xs: '1rem ', lg: '1.5rem ' }, }}>
-										{userInfor.email}
+										{userInfor?.email}
 									</Typography>
 									{windowWidth < 700 && <LogoutIcon onClick={handleLogout} />}
 									{windowWidth >= 700 &&
