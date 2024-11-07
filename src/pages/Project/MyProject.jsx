@@ -292,7 +292,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
             mt: '20px',
           }}
         >
-          <Box sx={{ display: 'flex', gap: '32px' }}>
+          <Box sx={{ display: 'flex', gap: { xs: '20px', lg: '32px' }, flexDirection: { xs: 'column', lg: 'row' } }}>
             <Box sx={{ minWidth: '200px' }}>
               <Button
                 fullWidth

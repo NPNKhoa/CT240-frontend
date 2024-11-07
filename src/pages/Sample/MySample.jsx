@@ -446,8 +446,8 @@ function MySample({ sampleList, deleteSample }) {
                             </Box>
                             <Box
                               sx={{
-                                maxWidth: { xs: '80px', lg: '200px' },
-                                minWidth: { xs: '80px', lg: '200px' },
+                                maxWidth: { xs: '20%', lg: '200px' },
+                                minWidth: { xs: '20%', lg: '200px' },
                                 background: 'transparent',
                                 '& .MuiInputBase-root': {
                                   color: 'primary.dark',
@@ -504,8 +504,8 @@ function MySample({ sampleList, deleteSample }) {
                               onClick={() => handleCreateQuestion(sample)}
                               sx={{
                                 fontSize: { xs: '0.75rem', lg: '1rem' },
-                                minWidth: { xs: '80px', lg: '160px' },
-                                maxWidth: { xs: '80px', lg: '160px' },
+                                minWidth: { xs: '15%', lg: '160px' },
+                                maxWidth: { xs: '15%', lg: '160px' },
                                 backgroundColor: '#6ea033',
                                 color: '#fff',
                                 p: '7px 0',
@@ -514,9 +514,15 @@ function MySample({ sampleList, deleteSample }) {
                                   color: '#fff',
                                   opacity: '0.8',
                                 },
+                                '& .test': {
+                                  display: { xs: 'none', lg: 'inline' }
+                                }
                               }}
                             >
-                              Submit
+                              <span className='test'>
+
+                                Submit
+                              </span>
                             </Button>
                             <Button
                               variant='contained'
@@ -527,16 +533,21 @@ function MySample({ sampleList, deleteSample }) {
                                 backgroundColor: 'error.main',
                                 color: '#fff',
                                 p: '7px 0',
-                                minWidth: { xs: '64px', lg: '100px' },
-                                maxWidth: { xs: '64px', lg: '100px' },
+                                minWidth: { xs: '15%', lg: '100px' },
+                                maxWidth: { xs: '15%', lg: '100px' },
                                 '&:hover': {
                                   backgroundColor: 'error.main',
                                   color: '#fff',
                                   opacity: '0.8',
                                 },
+                                '& .test': {
+                                  display: { xs: 'none', lg: 'inline' }
+                                }
                               }}
                             >
-                              Close
+                              <span className='test'>
+                                Close
+                              </span>
                             </Button>
                           </Box>
                         )}
@@ -604,8 +615,8 @@ function MySample({ sampleList, deleteSample }) {
                             </Box>
                             <Box
                               sx={{
-                                maxWidth: { xs: '80px', lg: '200px' },
-                                minWidth: { xs: '80px', lg: '200px' },
+                                maxWidth: { xs: '20%', lg: '200px' },
+                                minWidth: { xs: '20%', lg: '200px' },
                                 background: 'transparent',
                                 '& .MuiInputBase-root': {
                                   color: 'primary.dark',
@@ -662,8 +673,8 @@ function MySample({ sampleList, deleteSample }) {
                               onClick={() => handleCreateQuestion(sample)}
                               sx={{
                                 fontSize: { xs: '0.75rem', lg: '1rem' },
-                                minWidth: { xs: '80px', lg: '160px' },
-                                maxWidth: { xs: '80px', lg: '160px' },
+                                minWidth: { xs: '20%', lg: '160px' },
+                                maxWidth: { xs: '20%', lg: '160px' },
                                 backgroundColor: '#6ea033',
                                 color: '#fff',
                                 p: '7px 0',
@@ -672,9 +683,15 @@ function MySample({ sampleList, deleteSample }) {
                                   color: '#fff',
                                   opacity: '0.8',
                                 },
+                                '& .test': {
+                                  display: { xs: 'none', lg: 'inline' }
+                                }
                               }}
                             >
-                              Submit
+                              <span className='test'>
+
+                                Submit
+                              </span>
                             </Button>
                             <Button
                               variant='contained'
@@ -685,16 +702,21 @@ function MySample({ sampleList, deleteSample }) {
                                 backgroundColor: 'error.main',
                                 color: '#fff',
                                 p: '7px 0',
-                                minWidth: { xs: '64px', lg: '100px' },
-                                maxWidth: { xs: '64px', lg: '100px' },
+                                minWidth: { xs: '20%', lg: '100px' },
+                                maxWidth: { xs: '20%', lg: '100px' },
                                 '&:hover': {
                                   backgroundColor: 'error.main',
                                   color: '#fff',
                                   opacity: '0.8',
                                 },
+                                '& .test': {
+                                  display: { xs: 'none', lg: 'inline' }
+                                }
                               }}
                             >
-                              Close
+                              <span className='test'>
+                                Close
+                              </span>
                             </Button>
                           </Box>
                         )}
@@ -719,15 +741,16 @@ function MySample({ sampleList, deleteSample }) {
                               },
                             }}
                           >
-                            <Typography variant='body1' sx={{ flex: '1', }}>
+                            <Typography variant='body1' sx={{ flex: '1' }}>
                               Question
                             </Typography>
                             <Typography
                               variant='body1'
                               sx={{
-                                maxWidth: '200px',
-                                minWidth: '200px',
+                                maxWidth: { xs: '20%', lg: '200px' },
+                                minWidth: { xs: '20%', lg: '200px' },
                                 textAlign: 'center',
+                                fontSize: { xs: '0.75rem', lg: '1rem' }
                               }}
                             >
                               View Detail
@@ -764,8 +787,8 @@ function MySample({ sampleList, deleteSample }) {
                                     p: '',
                                     fontSize: { xs: '0.75rem', lg: '1rem' },
                                     fontWeight: '700',
-                                    minWidth: '200px',
-                                    maxWidth: '200px',
+                                    maxWidth: { xs: '20%', lg: '200px' },
+                                    minWidth: { xs: '20%', lg: '200px' },
                                     textAlign: 'center',
                                   }}
                                 ></Button>

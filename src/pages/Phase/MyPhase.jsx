@@ -178,8 +178,9 @@ function MyPhase({ phaseList, deletePhase }) {
           <Box
             sx={{
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
+              alignItems: { xs: 'flex-start', lg: 'center' },
+              justifyContent: { xs: 'flex-start', lg: 'space-between' },
+              flexDirection: { xs: 'column', lg: 'row' },
               width: '100%',
               mt: '2rem',
             }}
