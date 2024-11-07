@@ -39,7 +39,7 @@ function UpdateProjectForm({ projectInfoProp, typeList, updateProject }) {
   return (
     <form onSubmit={handleSubmit(handleUpdateProject)}>
       <Box sx={{ padding: '1em 1em 1em 1em' }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: { xs: '1.2em', lg: '0' }, flexDirection: { xs: 'column', lg: 'row' } }}>
           <Box
             sx={{
               maxWidth: {
@@ -157,7 +157,6 @@ function UpdateProjectForm({ projectInfoProp, typeList, updateProject }) {
             </FormControl>
           </Box>
         </Box>
-
         <Box
           sx={{
             marginTop: '1.2em',
@@ -224,7 +223,7 @@ function UpdateProjectForm({ projectInfoProp, typeList, updateProject }) {
             {...register('projectDescription')}
           />
         </Box>
-        <Box sx={{ display: 'flex', gap: '20px' }}>
+        <Box sx={{ display: 'flex', gap: { xs: '0', lg: '20px' }, flexDirection: { xs: 'column', lg: 'row' } }}>
           <Box
             sx={{
               marginTop: '1.2em',
@@ -318,7 +317,7 @@ function UpdateProjectForm({ projectInfoProp, typeList, updateProject }) {
       >
         Update
       </Button>
-    </form>
+    </form >
   );
 }
 

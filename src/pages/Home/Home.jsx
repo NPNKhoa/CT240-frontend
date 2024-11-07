@@ -53,7 +53,7 @@ function Home() {
 	const token = localStorage.getItem('Authorization');
 	const userInfor = JSON.parse(localStorage.getItem('userInfo'));
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth)
-	const [DRAWER_WIDTH, setDRAWER_WIDTH] = useState(windowWidth < 800 ? '100%' : '320px')
+	const [DRAWER_WIDTH, setDRAWER_WIDTH] = useState(windowWidth < 800 ? '100vw' : '320px')
 	const [openDrawer, setOpenDrawer] = useState(true);
 	const [openForm, setOpenForm] = useState(false);
 	const [title, setTitle] = useState('Overview');
@@ -63,7 +63,7 @@ function Home() {
 	const typeNameList = typeList?.map((i) => i.projectTypeName);
 	useEffect(() => {
 		if (windowWidth < 800) {
-			setDRAWER_WIDTH('100%')
+			setDRAWER_WIDTH('100vw')
 			setOpenDrawer(false)
 		} else {
 			setDRAWER_WIDTH('320px')
@@ -192,14 +192,14 @@ function Home() {
 		navigate('/login');
 	};
 	return (
-		<Box sx={{ backgroundColor: '#fff' }}>
+		<Box sx={{ backgroundColor: '#fff', overflow: 'hidden' }}>
 			<Box sx={{ display: 'flex' }}>
 				<Box
 					sx={{
 						ml: openDrawer ? DRAWER_WIDTH : '0',
 						mr: `-${DRAWER_WIDTH}`,
 						flexGrow: '1',
-						width: '100%',
+						width: '100vw',
 					}}
 				>
 					<AppBar position='static'>
@@ -344,7 +344,7 @@ function Home() {
 													display: 'flex',
 													alignItems: 'center',
 													justifyContent: 'space-between',
-													width: '100%',
+													width: '100vw',
 												}}
 											>
 												<Typography
@@ -662,7 +662,7 @@ function Home() {
 												display: 'flex',
 												alignItems: 'center',
 												justifyContent: 'space-between',
-												width: '100%',
+												width: '100vw',
 											}}
 										>
 											<Typography
@@ -695,7 +695,7 @@ function Home() {
 				sx={{
 					ml: openDrawer ? DRAWER_WIDTH : '0',
 					mr: `-${DRAWER_WIDTH}`,
-					width: openDrawer ? `calc(100% - ${DRAWER_WIDTH})` : '100%',
+					width: openDrawer ? `calc(100vw - ${DRAWER_WIDTH})` : '100vw',
 				}}
 			>
 				{title === 'Overview' && <Overview />}
