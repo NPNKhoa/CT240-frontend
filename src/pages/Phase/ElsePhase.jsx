@@ -42,20 +42,24 @@ function ElsePhase({ phaseList }) {
           value={currentId}
           onChange={(e) => setCurrentId(e.target.value)}
           fullWidth
-          sx={{background: '#6ea033',
+          sx={{
+            border: '1px #000 solid',
+            borderRadius: '0.5rem',
             '&:hover': {
-                  opacity: 0.8,
-                },
+              opacity: 0.8,
+            },
           }}
         >
           {phaseList.map((phase) => (
-            <MenuItem key={phase._id} value={phase._id}
-            sx={{
-              fontSize: '15px',
-              '&:hover': {
+            <MenuItem
+              key={phase._id}
+              value={phase._id}
+              sx={{
+                fontSize: '15px',
+                '&:hover': {
                   opacity: 0.8,
                 },
-            }}
+              }}
             >
               {phase.phaseName}
             </MenuItem>
@@ -63,7 +67,14 @@ function ElsePhase({ phaseList }) {
         </Select>
       ) : (
         // Danh sách phase cho các thiết bị lớn hơn mobile
-        <Box sx={{ overflow: 'auto', maxWidth: '100%', display: 'flex', gap: '8px' }}>
+        <Box
+          sx={{
+            overflow: 'auto',
+            maxWidth: '100%',
+            display: 'flex',
+            gap: '8px',
+          }}
+        >
           {phaseList.map((phase, i) => (
             <Box
               key={i}
@@ -94,14 +105,23 @@ function ElsePhase({ phaseList }) {
         <Box sx={{ mt: '20px', p: '8px' }}>
           <Typography
             variant='body1'
-            sx={{ mb: '12px', fontSize: { xs: '0.75rem !important', lg: '1rem !important' } }}
+            sx={{
+              mb: '12px',
+              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
+            }}
           >
             {currentPhase?.phaseDescription}
           </Typography>
-          <Typography variant='body1' sx={{ fontSize: { xs: '1rem !important', lg: '1rem !important' } }}>
+          <Typography
+            variant='body1'
+            sx={{ fontSize: { xs: '1rem !important', lg: '1rem !important' } }}
+          >
             <b>Start Date: </b> {formatDate(currentPhase?.startDate)}{' '}
           </Typography>
-          <Typography variant='body1' sx={{ fontSize: { xs: '1rem !important', lg: '1rem !important' } }}>
+          <Typography
+            variant='body1'
+            sx={{ fontSize: { xs: '1rem !important', lg: '1rem !important' } }}
+          >
             <b>End Date: </b> {formatDate(currentPhase?.endDate)}{' '}
           </Typography>
         </Box>
