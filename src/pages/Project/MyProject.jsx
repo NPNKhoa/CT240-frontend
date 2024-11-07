@@ -60,6 +60,16 @@ function MyProject({ project, type, deleteProject, updateProject }) {
   const [openConfirmDelete, setOpenConfirmDelete] = useState(undefined);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    const hadleResize = (event) => {
+      setWindowWidth(event.srcElement.innerWidth);
+    };
+    window.addEventListener('resize', hadleResize);
+    return () => {
+      window.removeEventListener('resize', hadleResize);
+    };
+  }, []);
+
   const token = localStorage.getItem('Authorization');
   const [colorStatus] = useState({
     active: 'blue',
@@ -236,6 +246,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
           </Button>
         </DialogActions>
       </Dialog>
+
       <Box sx={{ mt: '20px', p: '1rem', borderBottom: '1px solid #000' }}>
         <Box
           sx={{
@@ -243,6 +254,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
             justifyContent: 'space-between',
             alignItems: 'flex-start',
             width: '100%',
+            mb: '1rem',
           }}
         >
           <Box
@@ -297,60 +309,6 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                 </span>
               </Typography>
             </Box>
-
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: '1rem',
-                mt: '1rem',
-              }}
-            >
-              {windowWidth < 800 || (
-                <Button
-                  fullWidth
-                  variant='outlined'
-                  endIcon={<EditIcon />}
-                  onClick={() => setOpenUpdate(true)}
-                  sx={{
-                    fontSize: {
-                      xs: '0.75rem !important',
-                      lg: '1rem !important',
-                    },
-                    color: '#000',
-                    border: '1px solid #000',
-                    '&:hover': {
-                      border: '1px solid #000',
-                      opacity: '0.8',
-                    },
-                  }}
-                >
-                  Edit project
-                </Button>
-              )}
-              {windowWidth < 800 || (
-                <Button
-                  fullWidth
-                  variant='outlined'
-                  onClick={() => setOpenViewMemberList(true)}
-                  sx={{
-                    fontSize: {
-                      xs: '0.75rem !important',
-                      lg: '1rem !important',
-                    },
-                    color: '#000',
-                    border: '1px solid #000',
-                    '&:hover': {
-                      border: '1px solid #000',
-                      opacity: '0.8',
-                    },
-                  }}
-                >
-                  View memberList
-                </Button>
-              )}
-            </Box>
           </Box>
 
           {windowWidth < 800 ? (
@@ -394,7 +352,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
         </Box>
 
         <Typography sx={{ textAlign: 'justify' }}>
-          Description:{' '}
+          <strong style={{ fontSize: '1.2rem' }}>Description</strong>:{' '}
           <span
             style={{
               fontWeight: '400',
@@ -404,6 +362,60 @@ function MyProject({ project, type, deleteProject, updateProject }) {
             {project?.projectDescription}
           </span>
         </Typography>
+
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '1rem',
+            mt: '1rem',
+          }}
+        >
+          {windowWidth < 800 || (
+            <Button
+              fullWidth
+              variant='outlined'
+              endIcon={<EditIcon />}
+              onClick={() => setOpenUpdate(true)}
+              sx={{
+                fontSize: {
+                  xs: '0.75rem !important',
+                  lg: '1rem !important',
+                },
+                color: '#000',
+                border: '1px solid #000',
+                '&:hover': {
+                  border: '1px solid #000',
+                  opacity: '0.8',
+                },
+              }}
+            >
+              Edit project
+            </Button>
+          )}
+          {windowWidth < 800 || (
+            <Button
+              fullWidth
+              variant='outlined'
+              onClick={() => setOpenViewMemberList(true)}
+              sx={{
+                fontSize: {
+                  xs: '0.75rem !important',
+                  lg: '1rem !important',
+                },
+                color: '#000',
+                border: '1px solid #000',
+                '&:hover': {
+                  border: '1px solid #000',
+                  opacity: '0.8',
+                },
+              }}
+            >
+              View memberList
+            </Button>
+          )}
+        </Box>
 
         <Box
           sx={{
