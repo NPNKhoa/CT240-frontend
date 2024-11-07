@@ -443,7 +443,6 @@ function Home() {
                           '& fieldset': {
                             borderColor: '#000 !important',
                           },
-
                           '& .MuiOutlinedInput-notchedOutline': {
                             border: '1px solid #000',
                             borderColor: '#000',
@@ -681,7 +680,6 @@ function Home() {
               </DialogContent>
             </Dialog>
           </Box>
-
           <Divider textAlign='center' sx={{ mt: '20px' }}>
             <Chip
               label='Project Has Joined'

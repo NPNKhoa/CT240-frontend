@@ -186,7 +186,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
         open={!!openConfirmDelete}
         onClose={() => setOpenConfirmDelete(undefined)}
         sx={{
-          '& .MuiPaper-root': { minWidth: '800px', maxWidth: '800px' },
+          '& .MuiPaper-root': { minWidth: { xs: '80%', lg: '800px' }, maxWidth: { xs: '80%', lg: '800px' } },
         }}
       >
         <DialogTitle style={{ cursor: 'move' }} id='draggable-dialog-title'>
@@ -427,7 +427,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
               onClose={() => setOpenViewMemberList(false)}
               sx={{
                 '& .MuiPaper-root': {
-                  minWidth: { xs: '600px', lg: '1200px' },
+                  minWidth: { xs: '80%', lg: '1200px' },
                 },
               }}
             >
@@ -521,19 +521,24 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                             xs: '0.75rem !important',
                             lg: '1rem !important',
                           },
-                          minWidth: '160px',
+                          minWidth: { xs: '15%', lg: '160px' },
+                          maxWidth: { xs: '15%', lg: '160px' },
                           backgroundColor: '#6ea033',
                           color: '#fff',
                           p: '7px 0',
-                          maxWidth: '160px',
                           '&:hover': {
                             backgroundColor: '#6ea033',
                             color: '#fff',
                             opacity: '0.8',
                           },
+                          '& .test': {
+                            display: { xs: 'none', lg: 'inline' }
+                          }
                         }}
                       >
-                        Submit
+                        <span className='test'>
+                          Submit
+                        </span>
                       </Button>
                       <Button
                         variant='contained'
@@ -547,16 +552,21 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                           backgroundColor: 'error.main',
                           color: '#fff',
                           p: '7px 0',
-                          minWidth: '100px',
-                          maxWidth: '100px',
+                          minWidth: { xs: '10%', lg: '100px' },
+                          maxWidth: { xs: '10%', lg: '100px' },
                           '&:hover': {
                             backgroundColor: 'error.main',
                             color: '#fff',
                             opacity: '0.8',
                           },
+                          '& .test': {
+                            display: { xs: 'none', lg: 'inline' }
+                          }
                         }}
                       >
-                        Close
+                        <span className='test'>
+                          Close
+                        </span>
                       </Button>
                     </Box>
                   )}
@@ -610,6 +620,8 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                             color: 'primary.dark',
                             minWidth: '25%',
                             maxWidth: '25%',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
                             textAlign: 'center',
                             fontSize: {
                               xs: '0.75rem !important',

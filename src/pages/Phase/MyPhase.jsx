@@ -98,7 +98,7 @@ function MyPhase({ phaseList, deletePhase }) {
         open={!!openConfirmDelete}
         onClose={() => setOpenConfirmDelete(undefined)}
         sx={{
-          '& .MuiPaper-root': { minWidth: '800px', maxWidth: '800px' },
+          '& .MuiPaper-root': { minWidth: { xs: '80%', lg: '800px' }, maxWidth: { xs: '80%', lg: '800px' } },
         }}
       >
         <DialogTitle style={{ cursor: 'move' }} id='draggable-dialog-title'>

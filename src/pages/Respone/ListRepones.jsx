@@ -11,11 +11,11 @@ function ListRepones({ responeList }) {
         responeList?.map((res) => (
           <Box key={res._id}>
             <Box sx={{ padding: '8px', border: '1px solid #000', mb: '12px' }}>
-              <Typography variant='h6' sx={{ flex: '1', fontWeight: 'bold' }}>
+              <Typography variant='h6' sx={{ flex: '1', fontWeight: 'bold', fontSize: { xs: '0.75rem', lg: '1rem' } }}>
                 User: {res?.userId?.email}
               </Typography>
               {res?.responseAnswer && (
-                <Typography variant='h6' sx={{ flex: '1', mb: '12px' }}>
+                <Typography variant='h6' sx={{ flex: '1', mb: '12px', fontSize: { xs: '0.75rem', lg: '1rem' } }}>
                   <b>Answer: </b> {res?.responseAnswer}
                 </Typography>
               )}
@@ -24,7 +24,7 @@ function ListRepones({ responeList }) {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-evenly',
-                  flexWrap: 'wrap',
+                  flexWrap: 'wrap'
                 }}
               >
                 {res?.fileIds?.map((file) => (
@@ -33,7 +33,7 @@ function ListRepones({ responeList }) {
                       <img
                         src={file?.storageURL}
                         alt=''
-                        style={{ maxWidth: '400px', minWidth: '400px' }}
+                        style={{ maxWidth: { xs: '80%', lg: '400px' }, minWidth: { xs: '80%', lg: '400px' } }}
                       />
                     )}
                     {file?.fileType?.includes('pdf') && (

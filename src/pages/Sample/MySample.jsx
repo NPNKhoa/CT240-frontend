@@ -117,7 +117,7 @@ function MySample({ sampleList, deleteSample }) {
         open={!!openConfirmDelete}
         onClose={() => setOpenConfirmDelete(undefined)}
         sx={{
-          '& .MuiPaper-root': { minWidth: '800px', maxWidth: '800px' },
+          '& .MuiPaper-root': { minWidth: { xs: '80%', lg: '800px' }, maxWidth: { xs: '80%', lg: '800px' } },
         }}
       >
         <DialogTitle style={{ cursor: 'move' }} id='draggable-dialog-title'>
@@ -504,8 +504,8 @@ function MySample({ sampleList, deleteSample }) {
                               onClick={() => handleCreateQuestion(sample)}
                               sx={{
                                 fontSize: { xs: '0.75rem', lg: '1rem' },
-                                minWidth: { xs: '80px', lg: '160px' },
-                                maxWidth: { xs: '80px', lg: '160px' },
+                                minWidth: { xs: '15%', lg: '160px' },
+                                maxWidth: { xs: '15%', lg: '160px' },
                                 backgroundColor: '#6ea033',
                                 color: '#fff',
                                 p: '7px 0',
@@ -514,9 +514,14 @@ function MySample({ sampleList, deleteSample }) {
                                   color: '#fff',
                                   opacity: '0.8',
                                 },
+                                '& .test': {
+                                  display: { xs: 'none', lg: 'inline' }
+                                }
                               }}
                             >
-                              Submit
+                              <span className='test'>
+                                Submit
+                              </span>
                             </Button>
                             <Button
                               variant='contained'
@@ -527,16 +532,21 @@ function MySample({ sampleList, deleteSample }) {
                                 backgroundColor: 'error.main',
                                 color: '#fff',
                                 p: '7px 0',
-                                minWidth: { xs: '64px', lg: '100px' },
-                                maxWidth: { xs: '64px', lg: '100px' },
+                                minWidth: { xs: '15%', lg: '100px' },
+                                maxWidth: { xs: '15%', lg: '100px' },
                                 '&:hover': {
                                   backgroundColor: 'error.main',
                                   color: '#fff',
                                   opacity: '0.8',
                                 },
+                                '& .test': {
+                                  display: { xs: 'none', lg: 'inline' }
+                                }
                               }}
                             >
-                              Close
+                              <span className='test'>
+                                Close
+                              </span>
                             </Button>
                           </Box>
                         )}
@@ -662,8 +672,8 @@ function MySample({ sampleList, deleteSample }) {
                               onClick={() => handleCreateQuestion(sample)}
                               sx={{
                                 fontSize: { xs: '0.75rem', lg: '1rem' },
-                                minWidth: { xs: '80px', lg: '160px' },
-                                maxWidth: { xs: '80px', lg: '160px' },
+                                minWidth: { xs: '15%', lg: '160px' },
+                                maxWidth: { xs: '15%', lg: '160px' },
                                 backgroundColor: '#6ea033',
                                 color: '#fff',
                                 p: '7px 0',
@@ -672,9 +682,15 @@ function MySample({ sampleList, deleteSample }) {
                                   color: '#fff',
                                   opacity: '0.8',
                                 },
+                                '& .test': {
+                                  display: { xs: 'none', lg: 'inline' }
+                                }
                               }}
                             >
-                              Submit
+                              <span className='test'>
+
+                                Submit
+                              </span>
                             </Button>
                             <Button
                               variant='contained'
@@ -685,16 +701,21 @@ function MySample({ sampleList, deleteSample }) {
                                 backgroundColor: 'error.main',
                                 color: '#fff',
                                 p: '7px 0',
-                                minWidth: { xs: '64px', lg: '100px' },
-                                maxWidth: { xs: '64px', lg: '100px' },
+                                minWidth: { xs: '15%', lg: '100px' },
+                                maxWidth: { xs: '15%', lg: '100px' },
                                 '&:hover': {
                                   backgroundColor: 'error.main',
                                   color: '#fff',
                                   opacity: '0.8',
                                 },
+                                '& .test': {
+                                  display: { xs: 'none', lg: 'inline' }
+                                }
                               }}
                             >
-                              Close
+                              <span className='test'>
+                                Close
+                              </span>
                             </Button>
                           </Box>
                         )}
@@ -725,8 +746,8 @@ function MySample({ sampleList, deleteSample }) {
                             <Typography
                               variant='body1'
                               sx={{
-                                maxWidth: '200px',
-                                minWidth: '200px',
+                                maxWidth: { xs: '20%', lg: '200px' },
+                                minWidth: { xs: '20%', lg: '200px' },
                                 textAlign: 'center',
                               }}
                             >
@@ -764,9 +785,9 @@ function MySample({ sampleList, deleteSample }) {
                                     p: '',
                                     fontSize: { xs: '0.75rem', lg: '1rem' },
                                     fontWeight: '700',
-                                    minWidth: '200px',
-                                    maxWidth: '200px',
-                                    textAlign: 'center',
+                                    maxWidth: { xs: '20%', lg: '200px' },
+                                    minWidth: { xs: '20%', lg: '200px' },
+                                    textAlign: 'center'
                                   }}
                                 ></Button>
                                 <Dialog
@@ -774,8 +795,7 @@ function MySample({ sampleList, deleteSample }) {
                                   onClose={handleCloseViewDetail}
                                   sx={{
                                     '& .MuiPaper-root': {
-                                      minwidth: '100%',
-                                      maxwidth: '100%',
+                                      minWidth: { xs: '80%', lg: '1200px' }, maxWidth: { xs: '80%', lg: '1200px' },
                                     },
                                   }}
                                 >
@@ -793,7 +813,7 @@ function MySample({ sampleList, deleteSample }) {
                                           position: 'absolute',
                                           top: '8px',
                                           right: '8px',
-                                          cursor: 'pointer',
+                                          cursor: 'pointer'
                                         }}
                                       />
                                     </Tooltip>
