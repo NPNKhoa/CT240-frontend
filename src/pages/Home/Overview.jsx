@@ -28,7 +28,7 @@ function Overview() {
     },
     heading: {
       fontFamily: 'Arial, Helvetica, sans-serif',
-      fontSize: '50px',
+      fontSize: { xs: '1rem', md: '3.5rem' },
       paddingLeft: '20px',
       marginTop: '0px',
       letterSpacing: '2px',
@@ -62,16 +62,15 @@ function Overview() {
     <Box sx={styles.main}>
       <Box sx={styles.content}>
         <h1 style={styles.heading}>
-          Sample Collecting For
+          Sample Collecting
           <br />
-          <span style={styles.Agriculture}>Agriculture</span>
         </h1>
         <p style={styles.paragraph}>
           Sample Collecting is a web application designed for collecting and
-          managing data related to agriculture, environment, fisheries,
-          scientific research. The application allows users to collect images
-          and sample information for scientific research and learning activities
-          directly on their browser quickly and without data loss.
+          managing data from any type of projects. This application allows users
+          to collect images and sample information for scientific research and
+          learning activities directly on their browser quickly and without data
+          losing.
         </p>
       </Box>
     </Box>

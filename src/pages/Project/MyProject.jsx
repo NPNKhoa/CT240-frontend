@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Alert,
   Button,
@@ -13,6 +14,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  IconButton,
+  Stack,
   TextField,
   Tooltip,
 } from '@mui/material';
@@ -34,6 +37,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import SendIcon from '@mui/icons-material/Send';
 import { formatDate } from '../../untils/format';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 function MyProject({ project, type, deleteProject, updateProject }) {
   const [currType] = useState(type.find((i) => i._id === project?.projectType));
@@ -54,6 +58,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
   const [createUserText, setCreateUserText] = useState('');
   const [phaseList, setPhaseList] = useState([]);
   const [openConfirmDelete, setOpenConfirmDelete] = useState(undefined);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const token = localStorage.getItem('Authorization');
   const [colorStatus] = useState({
@@ -228,48 +233,171 @@ function MyProject({ project, type, deleteProject, updateProject }) {
           </Button>
         </DialogActions>
       </Dialog>
-      <Box sx={{ mt: '20px', p: '20px', borderBottom: '1px solid #000' }}>
+      <Box sx={{ mt: '20px', p: '1rem', borderBottom: '1px solid #000' }}>
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'flex-start',
+            width: '100%',
           }}
         >
-          <Box sx={{
-            maxWidth: '1000px',
-            '& .MuiTypography-h6 ': {
-              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
-            },
-          }}>
-            <Typography variant='h6'>
-              Type: {currType?.projectTypeName}
-            </Typography>
-            <Typography
-              variant='h6'
+          <Box
+            sx={{
+              width: { xs: '65%', md: '80%' },
+            }}
+          >
+            <Box
               sx={{
-                textAlign: 'justify',
-                textTransform: 'capitalize',
-                '& span': { color: colorStatus[project?.projectStatus] },
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}
             >
-              Status: <span> {project?.projectStatus}</span>
+              <Typography>
+                Type:{' '}
+                <span
+                  style={{
+                    fontWeight: '400',
+                    fontSize: { xs: '1.25rem', md: '1.4rem' },
+                  }}
+                >
+                  {currType?.projectTypeName}
+                </span>
+              </Typography>
+              <Typography
+                sx={{
+                  textAlign: 'justify',
+                  textTransform: 'capitalize',
+                  '& span': { color: colorStatus[project?.projectStatus] },
+                }}
+              >
+                Status:{' '}
+                <span
+                  style={{
+                    fontWeight: '400',
+                    fontSize: { xs: '1.25rem', md: '1.4rem' },
+                  }}
+                >
+                  {' '}
+                  {project?.projectStatus}
+                </span>
+              </Typography>
+              <Typography>
+                Start Date:{' '}
+                <span
+                  style={{
+                    fontWeight: '400',
+                    fontSize: { xs: '1.25rem', md: '1.4rem' },
+                  }}
+                >
+                  {formatDate(project?.startDate)}
+                </span>
+              </Typography>
+            </Box>
+
+            <Typography sx={{ textAlign: 'justify' }}>
+              Description:{' '}
+              <span
+                style={{
+                  fontWeight: '400',
+                  fontSize: { xs: '1.25rem', md: '1.4rem' },
+                }}
+              >
+                {project?.projectDescription}
+              </span>
             </Typography>
-            <Typography variant='h6'>
-              Start Date: {formatDate(project?.startDate)}
-            </Typography>
-            <Typography variant='h6' sx={{ textAlign: 'justify' }}>
-              Description: {project?.projectDescription}
-            </Typography>
+
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '1rem',
+                mt: '1rem',
+              }}
+            >
+              {windowWidth < 800 || (
+                <Button
+                  fullWidth
+                  variant='outlined'
+                  endIcon={<EditIcon />}
+                  onClick={() => setOpenUpdate(true)}
+                  sx={{
+                    fontSize: {
+                      xs: '0.75rem !important',
+                      lg: '1rem !important',
+                    },
+                    color: '#000',
+                    border: '1px solid #000',
+                    '&:hover': {
+                      border: '1px solid #000',
+                      opacity: '0.8',
+                    },
+                  }}
+                >
+                  Edit project
+                </Button>
+              )}
+
+              {windowWidth < 800 || (
+                <Button
+                  fullWidth
+                  variant='outlined'
+                  onClick={() => setOpenViewMemberList(true)}
+                  sx={{
+                    fontSize: {
+                      xs: '0.75rem !important',
+                      lg: '1rem !important',
+                    },
+                    color: '#000',
+                    border: '1px solid #000',
+                    '&:hover': {
+                      border: '1px solid #000',
+                      opacity: '0.8',
+                    },
+                  }}
+                >
+                  View memberList
+                </Button>
+              )}
+            </Box>
           </Box>
-          <Box sx={{ minWidth: '160px' }}>
+
+          {windowWidth < 800 ? (
+            <Box>
+              <IconButton
+                aria-label='delete'
+                onClick={() => setOpenUpdate(true)}
+                color='inherit'
+              >
+                <EditIcon />
+              </IconButton>
+
+              <IconButton
+                aria-label='delete'
+                onClick={() => setOpenViewMemberList(true)}
+                color='inherit'
+              >
+                <VisibilityIcon />
+              </IconButton>
+
+              <IconButton
+                aria-label='delete'
+                onClick={() => handleDeleteProject(project)}
+                color='inherit'
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Box>
+          ) : (
             <Button
-              fullWidth
               variant='contained'
               onClick={() => handleDeleteProject(project)}
               sx={{
                 fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                 color: '#fff',
+                width: '20%',
                 backgroundColor: 'error.main',
                 border: '1px solid error.main',
                 '&:hover': {
@@ -281,280 +409,294 @@ function MyProject({ project, type, deleteProject, updateProject }) {
             >
               Delete Project
             </Button>
-          </Box>
+          )}
         </Box>
         <Box
           sx={{
             display: 'flex',
+            width: '100%',
             justifyContent: { xs: 'flex-start', lg: 'space-between' },
             alignItems: { xs: 'flex-start', lg: 'center' },
             flexDirection: { xs: 'column-reverse', lg: 'row' },
             mt: '20px',
           }}
         >
-          <Box sx={{ display: 'flex', gap: '32px' }}>
-            <Box sx={{ minWidth: '200px' }}>
-              <Button
-                fullWidth
-                variant='outlined'
-                onClick={() => setOpenViewMemberList(true)}
-                sx={{
-                  fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
-                  color: '#000',
-                  border: '1px solid #000',
-                  '&:hover': {
-                    border: '1px solid #000',
-                    opacity: '0.8',
-                  },
-                }}
+          <Box sx={{ display: 'flex', gap: '32px', width: '100%' }}>
+            <Dialog
+              open={openViewMemberList}
+              onClose={() => setOpenViewMemberList(false)}
+              sx={{
+                '& .MuiPaper-root': {
+                  minWidth: { xs: '600px', lg: '1200px' },
+                },
+              }}
+            >
+              <DialogTitle
+                sx={{ backgroundColor: 'secondary.main', color: '#fff' }}
               >
-                View memberList
-              </Button>
-              <Dialog
-                open={openViewMemberList}
-                onClose={() => setOpenViewMemberList(false)}
-                sx={{ '& .MuiPaper-root': { minWidth: { xs: '600px', lg: '1200px' } } }}
-              >
-                <DialogTitle
-                  sx={{ backgroundColor: 'secondary.main', color: '#fff' }}
-                >
-                  View Member List
-                  <Tooltip title='Close '>
-                    <CloseIcon
-                      onClick={() => setOpenViewMemberList(false)}
+                View Member List
+                <Tooltip title='Close '>
+                  <CloseIcon
+                    onClick={() => setOpenViewMemberList(false)}
+                    sx={{
+                      position: 'absolute',
+                      top: '8px',
+                      right: '8px',
+                      cursor: 'pointer',
+                    }}
+                  />
+                </Tooltip>
+              </DialogTitle>
+              <DialogContent>
+                <Box sx={{ m: '20px 0' }}>
+                  {!createUser && (
+                    <Button
+                      fullWidth
+                      variant='outlined'
+                      startIcon={<AddToPhotosIcon />}
+                      onClick={() => setCreateUser(true)}
                       sx={{
-                        position: 'absolute',
-                        top: '8px',
-                        right: '8px',
-                        cursor: 'pointer',
-                      }}
-                    />
-                  </Tooltip>
-                </DialogTitle>
-                <DialogContent>
-                  <Box sx={{ m: '20px 0' }}>
-                    {!createUser && (
-                      <Button
-                        fullWidth
-                        variant='outlined'
-                        startIcon={<AddToPhotosIcon />}
-                        onClick={() => setCreateUser(true)}
-                        sx={{
-                          fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
-                          color: '#000',
+                        fontSize: {
+                          xs: '0.75rem !important',
+                          lg: '1rem !important',
+                        },
+                        color: '#000',
+                        border: '1px solid #000',
+                        '&:hover': {
                           border: '1px solid #000',
+                          opacity: '0.8',
+                        },
+                      }}
+                    >
+                      Add new Member
+                    </Button>
+                  )}
+                  {createUser && (
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '20px',
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          flex: '1',
+                          '& .MuiFormLabel-root': {
+                            fontSize: {
+                              xs: '0.75rem !important',
+                              lg: '1rem !important',
+                            },
+                            right: 'auto',
+                            left: '0',
+                          },
+                          '&  .MuiOutlinedInput-root ': {
+                            fontSize: {
+                              xs: '0.75rem !important',
+                              lg: '1rem !important',
+                            },
+                            ' & .MuiOutlinedInput-notchedOutline': {
+                              border: '1px solid #000 !important',
+                            },
+                          },
+                        }}
+                      >
+                        <TextField
+                          autoFocus
+                          size='small'
+                          fullWidth
+                          label='Email'
+                          type='text'
+                          variant='outlined'
+                          value={createUserText}
+                          onChange={(e) => setCreateUserText(e.target.value)}
+                        />
+                      </Box>
+                      <Button
+                        variant='outlined'
+                        startIcon={<SendIcon />}
+                        onClick={() => handleCreateUser(project?._id)}
+                        sx={{
+                          fontSize: {
+                            xs: '0.75rem !important',
+                            lg: '1rem !important',
+                          },
+                          minWidth: '160px',
+                          backgroundColor: '#6ea033',
+                          color: '#fff',
+                          p: '7px 0',
+                          maxWidth: '160px',
                           '&:hover': {
-                            border: '1px solid #000',
+                            backgroundColor: '#6ea033',
+                            color: '#fff',
                             opacity: '0.8',
                           },
                         }}
                       >
-                        Add new Member
+                        Submit
                       </Button>
-                    )}
-                    {createUser && (
+                      <Button
+                        variant='contained'
+                        startIcon={<HighlightOffIcon />}
+                        onClick={handleCloseCreateUser}
+                        sx={{
+                          fontSize: {
+                            xs: '0.75rem !important',
+                            lg: '1rem !important',
+                          },
+                          backgroundColor: 'error.main',
+                          color: '#fff',
+                          p: '7px 0',
+                          minWidth: '100px',
+                          maxWidth: '100px',
+                          '&:hover': {
+                            backgroundColor: 'error.main',
+                            color: '#fff',
+                            opacity: '0.8',
+                          },
+                        }}
+                      >
+                        Close
+                      </Button>
+                    </Box>
+                  )}
+                  <Box
+                    sx={{
+                      mt: '20px',
+                      display: 'flex',
+                      borderBottom: '1px solid #000',
+                      justifyContent: 'space-between',
+                      '& .MuiTypography-body1 ': {
+                        fontWeight: '700',
+                        color: 'primary.dark',
+                        minWidth: '25%',
+                        maxWidth: '25%',
+                        textAlign: 'center',
+                        fontSize: {
+                          xs: '0.75rem !important',
+                          lg: '1rem !important',
+                        },
+                        padding: '12px 0',
+                      },
+                    }}
+                  >
+                    <Typography variant='body1' sx={{ flex: '1' }}>
+                      Email
+                    </Typography>
+                    <Typography variant='body1' sx={{ flex: '1' }}>
+                      Fullname
+                    </Typography>
+                    <Typography variant='body1' sx={{ flex: '1' }}>
+                      User name
+                    </Typography>
+                    <Typography variant='body1' sx={{ flex: '1' }}>
+                      Delete User
+                    </Typography>
+                  </Box>
+                  {!isEmpty(userList) &&
+                    userList?.map((user) => (
                       <Box
+                        key={user?._id}
                         sx={{
                           display: 'flex',
+                          position: 'relative',
+                          justifyContent: 'space-between',
+                          backgroundColor: '#fff',
                           alignItems: 'center',
-                          gap: '20px',
+                          boxShadow: '0px 0px 1px #888888',
+                          padding: '12px 0',
+                          textAlign: 'center',
+                          '& .MuiButtonBase-root, & .MuiTypography-h6  ': {
+                            color: 'primary.dark',
+                            minWidth: '25%',
+                            maxWidth: '25%',
+                            textAlign: 'center',
+                            fontSize: {
+                              xs: '0.75rem !important',
+                              lg: '1rem !important',
+                            },
+                          },
+                          '&:hover': {
+                            backgroundColor: 'rgba(0,0,0,0.03)',
+                          },
                         }}
                       >
                         <Box
                           sx={{
+                            position: 'absolute',
+                            top: { xs: '-8px', lg: '0' },
+                            left: { xs: '-8px', lg: '0' },
+                            backgroundColor: 'secondary.main',
+                            color: '#fff',
+                            fontSize: {
+                              xs: '0.7rem !important',
+                              lg: '1rem !important',
+                            },
+                            userSelect: 'none',
+                            padding: { xs: '2px', lg: '0.1rem 0.5rem' },
+                            borderRadius: '0.25rem',
+                            display:
+                              user?._id === currUser._id ? 'block' : 'none',
+                          }}
+                        >
+                          Your account
+                        </Box>
+                        <Typography variant='h6' sx={{ flex: '1' }}>
+                          {user?.email}
+                        </Typography>
+                        <Typography variant='h6' sx={{ flex: '1' }}>
+                          {user?.fullName}
+                        </Typography>
+                        <Typography variant='h6' sx={{ flex: '1' }}>
+                          {user?.username}
+                        </Typography>
+                        <Button
+                          variant='text'
+                          endIcon={
+                            user?._id !== currUser._id ? (
+                              <DeleteForeverIcon />
+                            ) : (
+                              <Box />
+                            )
+                          }
+                          onClick={() =>
+                            handleDeleteUser(user?._id, project?._id)
+                          }
+                          sx={{
+                            color: '#000',
+                            p: '',
+                            fontSize: {
+                              xs: '0.75rem !important',
+                              lg: '1rem !important',
+                            },
+                            fontWeight: '700',
                             flex: '1',
-                            '& .MuiFormLabel-root': {
-                              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
-                              right: 'auto',
-                              left: '0',
-                            },
-                            '&  .MuiOutlinedInput-root ': {
-                              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
-                              ' & .MuiOutlinedInput-notchedOutline': {
-                                border: '1px solid #000 !important',
-                              },
-                            },
                           }}
-                        >
-                          <TextField
-                            autoFocus
-                            size='small'
-                            fullWidth
-                            label='Email'
-                            type='text'
-                            variant='outlined'
-                            value={createUserText}
-                            onChange={(e) => setCreateUserText(e.target.value)}
-                          />
-                        </Box>
-                        <Button
-                          variant='outlined'
-                          startIcon={<SendIcon />}
-                          onClick={() => handleCreateUser(project?._id)}
-                          sx={{
-                            fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
-                            minWidth: '160px',
-                            backgroundColor: '#6ea033',
-                            color: '#fff',
-                            p: '7px 0',
-                            maxWidth: '160px',
-                            '&:hover': {
-                              backgroundColor: '#6ea033',
-                              color: '#fff',
-                              opacity: '0.8',
-                            },
-                          }}
-                        >
-                          Submit
-                        </Button>
-                        <Button
-                          variant='contained'
-                          startIcon={<HighlightOffIcon />}
-                          onClick={handleCloseCreateUser}
-                          sx={{
-                            fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
-                            backgroundColor: 'error.main',
-                            color: '#fff',
-                            p: '7px 0',
-                            minWidth: '100px',
-                            maxWidth: '100px',
-                            '&:hover': {
-                              backgroundColor: 'error.main',
-                              color: '#fff',
-                              opacity: '0.8',
-                            },
-                          }}
-                        >
-                          Close
-                        </Button>
+                        ></Button>
                       </Box>
-                    )}
-                    <Box
-                      sx={{
-                        mt: '20px',
-                        display: 'flex',
-                        borderBottom: '1px solid #000',
-                        justifyContent: 'space-between',
-                        '& .MuiTypography-body1 ': {
-                          fontWeight: '700',
-                          color: 'primary.dark',
-                          minWidth: '25%',
-                          maxWidth: '25%',
-                          textAlign: 'center',
-                          fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
-                          padding: '12px 0',
-                        },
-                      }}
-                    >
-                      <Typography variant='body1' sx={{ flex: '1' }}>
-                        Email
-                      </Typography>
-                      <Typography variant='body1' sx={{ flex: '1' }}>
-                        Fullname
-                      </Typography>
-                      <Typography variant='body1' sx={{ flex: '1' }}>
-                        User name
-                      </Typography>
-                      <Typography variant='body1' sx={{ flex: '1' }}>
-                        Delete User
-                      </Typography>
-                    </Box>
-                    {!isEmpty(userList) &&
-                      userList?.map((user) => (
-                        <Box
-                          key={user?._id}
-                          sx={{
-                            display: 'flex',
-                            position: 'relative',
-                            justifyContent: 'space-between',
-                            backgroundColor: '#fff',
-                            alignItems: 'center',
-                            boxShadow: '0px 0px 1px #888888',
-                            padding: '12px 0',
-                            textAlign: 'center',
-                            '& .MuiButtonBase-root, & .MuiTypography-h6  ': {
-                              color: 'primary.dark',
-                              minWidth: '25%',
-                              maxWidth: '25%', textAlign: 'center',
-                              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
-                            },
-                            '&:hover': {
-                              backgroundColor: 'rgba(0,0,0,0.03)',
-                            },
-                          }}
-                        >
-                          <Box
-                            sx={{
-                              position: 'absolute',
-                              top: { xs: '-8px', lg: '0' },
-                              left: { xs: '-8px', lg: '0' },
-                              backgroundColor: 'secondary.main',
-                              color: '#fff',
-                              fontSize: { xs: '0.7rem !important', lg: '1rem !important' },
-                              userSelect: 'none',
-                              padding: { xs: '2px', lg: '0.1rem 0.5rem' },
-                              borderRadius: '0.25rem',
-                              display:
-                                user?._id === currUser._id ? 'block' : 'none',
-                            }}
-                          >
-                            Your account
-                          </Box>
-                          <Typography variant='h6' sx={{ flex: '1' }}>
-                            {user?.email}
-                          </Typography>
-                          <Typography variant='h6' sx={{ flex: '1' }}>
-                            {user?.fullName}
-                          </Typography>
-                          <Typography variant='h6' sx={{ flex: '1' }}>
-                            {user?.username}
-                          </Typography>
-                          <Button
-                            variant='text'
-                            endIcon={
-                              user?._id !== currUser._id ? (
-                                <DeleteForeverIcon />
-                              ) : (
-                                <Box />
-                              )
-                            }
-                            onClick={() =>
-                              handleDeleteUser(user?._id, project?._id)
-                            }
-                            sx={{
-                              color: '#000',
-                              p: '',
-                              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
-                              fontWeight: '700',
-                              flex: '1',
-                            }}
-                          ></Button>
-                        </Box>
-                      ))}
-                  </Box>
-                </DialogContent>
-              </Dialog>
-            </Box>
+                    ))}
+                </Box>
+              </DialogContent>
+            </Dialog>
 
-            <Box sx={{ minWidth: '200px' }}>
-              <Button
-                fullWidth
-                variant='outlined'
-                startIcon={<AddToPhotosIcon />}
-                onClick={() => setOpenForm(true)}
-                sx={{
-                  fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
-                  color: '#000',
+            <Button
+              variant='outlined'
+              startIcon={<AddToPhotosIcon />}
+              onClick={() => setOpenForm(true)}
+              sx={{
+                fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
+                color: '#fff',
+                bgcolor: '#7bbf2f',
+                width: { xs: '100%', md: '25%' },
+                border: '1px solid #000',
+                '&:hover': {
                   border: '1px solid #000',
-                  '&:hover': {
-                    border: '1px solid #000',
-                    opacity: '0.8',
-                  },
-                }}
-              >
-                Create Phase
-              </Button>
-            </Box>
+                  bgcolor: '#97cf57',
+                },
+              }}
+            >
+              Create Phase
+            </Button>
             <Dialog open={openForm} onClose={handleCloseForm}>
               <DialogTitle
                 sx={{ backgroundColor: 'secondary.main', color: '#fff' }}
@@ -579,12 +721,18 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                       sx={{
                         marginTop: '1.2em',
                         '& .MuiFormLabel-root': {
-                          fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
+                          fontSize: {
+                            xs: '0.75rem !important',
+                            lg: '1rem !important',
+                          },
                           right: 'auto',
                           left: '0',
                         },
                         '&  .MuiOutlinedInput-root ': {
-                          fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
+                          fontSize: {
+                            xs: '0.75rem !important',
+                            lg: '1rem !important',
+                          },
                           ' & .MuiOutlinedInput-notchedOutline': {
                             border: '1px solid #000 !important',
                           },
@@ -617,12 +765,18 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                       sx={{
                         marginTop: '1.2em',
                         '& .MuiFormLabel-root': {
-                          fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
+                          fontSize: {
+                            xs: '0.75rem !important',
+                            lg: '1rem !important',
+                          },
                           right: 'auto',
                           left: '0',
                         },
                         '&  .MuiOutlinedInput-root ': {
-                          fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
+                          fontSize: {
+                            xs: '0.75rem !important',
+                            lg: '1rem !important',
+                          },
                           ' & .MuiOutlinedInput-notchedOutline': {
                             border: '1px solid #000 !important',
                           },
@@ -665,12 +819,18 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                           minWidth: { xs: '100%', sm: '200px' },
                           maxWidth: { xs: '100%', sm: '200px' },
                           '& .MuiFormLabel-root': {
-                            fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
+                            fontSize: {
+                              xs: '0.75rem !important',
+                              lg: '1rem !important',
+                            },
                             right: 'auto',
                             left: '0',
                           },
                           '&  .MuiOutlinedInput-root ': {
-                            fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
+                            fontSize: {
+                              xs: '0.75rem !important',
+                              lg: '1rem !important',
+                            },
                             ' & .MuiOutlinedInput-notchedOutline': {
                               border: '1px solid #000 !important',
                             },
@@ -707,12 +867,18 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                           minWidth: { xs: '100%', sm: '200px' },
                           maxWidth: { xs: '100%', sm: '200px' },
                           '& .MuiFormLabel-root': {
-                            fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
+                            fontSize: {
+                              xs: '0.75rem !important',
+                              lg: '1rem !important',
+                            },
                             right: 'auto',
                             left: '0',
                           },
                           '&  .MuiOutlinedInput-root ': {
-                            fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
+                            fontSize: {
+                              xs: '0.75rem !important',
+                              lg: '1rem !important',
+                            },
                             ' & .MuiOutlinedInput-notchedOutline': {
                               border: '1px solid #000 !important',
                             },
@@ -753,32 +919,6 @@ function MyProject({ project, type, deleteProject, updateProject }) {
               </DialogContent>
             </Dialog>
           </Box>
-
-          <Box
-            sx={{
-              minWidth: '200px',
-              maxWidth: { xs: '200px', lg: 'none' },
-              mb: { xs: '20px', lg: 'none' },
-            }}
-          >
-            <Button
-              fullWidth
-              variant='outlined'
-              endIcon={<EditIcon />}
-              onClick={() => setOpenUpdate(true)}
-              sx={{
-                fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
-                color: '#000',
-                border: '1px solid #000',
-                '&:hover': {
-                  border: '1px solid #000',
-                  opacity: '0.8',
-                },
-              }}
-            >
-              Edit project
-            </Button>
-          </Box>
         </Box>
         <Dialog open={openUpdate} onClose={handleCloseUpdate} sx={{}}>
           <DialogTitle
@@ -806,19 +946,15 @@ function MyProject({ project, type, deleteProject, updateProject }) {
           </DialogContent>
         </Dialog>
       </Box>
-      {
-        !isEmpty(phaseList) && (
-          <MyPhase phaseList={phaseList} deletePhase={deletePhase} />
-        )
-      }
-      {
-        isEmpty(phaseList) && (
-          <Box sx={{ mt: '40px', ml: '40px' }}>
-            <Typography variant='h5'>There are no phases to display</Typography>
-          </Box>
-        )
-      }
-    </Box >
+      {!isEmpty(phaseList) && (
+        <MyPhase phaseList={phaseList} deletePhase={deletePhase} />
+      )}
+      {isEmpty(phaseList) && (
+        <Box sx={{ mt: '40px', ml: '40px' }}>
+          <Typography variant='h5'>There are no phases to display</Typography>
+        </Box>
+      )}
+    </Box>
   );
 }
 
