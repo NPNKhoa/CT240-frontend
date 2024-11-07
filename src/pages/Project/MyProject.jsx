@@ -192,7 +192,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
             variant='text'
             onClick={() => setOpenConfirmDelete(undefined)}
             sx={{
-              fontSize: '14px',
+              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
               border: '1px solid #666',
               color: '#666',
               p: '7px 0',
@@ -211,7 +211,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
             variant='outlined'
             onClick={() => handleDeleteProject2(openConfirmDelete)}
             sx={{
-              fontSize: '14px',
+              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
               backgroundColor: 'error.main',
               color: '#fff',
               p: '7px 0',
@@ -236,7 +236,12 @@ function MyProject({ project, type, deleteProject, updateProject }) {
             alignItems: 'flex-start',
           }}
         >
-          <Box sx={{ maxWidth: '1000px' }}>
+          <Box sx={{
+            maxWidth: '1000px',
+            '& .MuiTypography-h6 ': {
+              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
+            },
+          }}>
             <Typography variant='h6'>
               Type: {currType?.projectTypeName}
             </Typography>
@@ -263,7 +268,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
               variant='contained'
               onClick={() => handleDeleteProject(project)}
               sx={{
-                fontSize: '14px',
+                fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                 color: '#fff',
                 backgroundColor: 'error.main',
                 border: '1px solid error.main',
@@ -294,7 +299,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                 variant='outlined'
                 onClick={() => setOpenViewMemberList(true)}
                 sx={{
-                  fontSize: '14px',
+                  fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                   color: '#000',
                   border: '1px solid #000',
                   '&:hover': {
@@ -308,12 +313,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
               <Dialog
                 open={openViewMemberList}
                 onClose={() => setOpenViewMemberList(false)}
-                sx={{
-                  '& .MuiPaper-root': {
-                    minwidth: '100%',
-                    maxwidth: '100%',
-                  },
-                }}
+                sx={{ '& .MuiPaper-root': { minWidth: { xs: '600px', lg: '1200px' } } }}
               >
                 <DialogTitle
                   sx={{ backgroundColor: 'secondary.main', color: '#fff' }}
@@ -340,7 +340,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                         startIcon={<AddToPhotosIcon />}
                         onClick={() => setCreateUser(true)}
                         sx={{
-                          fontSize: '14px',
+                          fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                           color: '#000',
                           border: '1px solid #000',
                           '&:hover': {
@@ -364,12 +364,12 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                           sx={{
                             flex: '1',
                             '& .MuiFormLabel-root': {
-                              fontSize: '16px',
+                              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                               right: 'auto',
                               left: '0',
                             },
                             '&  .MuiOutlinedInput-root ': {
-                              fontSize: '16px',
+                              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                               ' & .MuiOutlinedInput-notchedOutline': {
                                 border: '1px solid #000 !important',
                               },
@@ -392,7 +392,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                           startIcon={<SendIcon />}
                           onClick={() => handleCreateUser(project?._id)}
                           sx={{
-                            fontSize: '14px',
+                            fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                             minWidth: '160px',
                             backgroundColor: '#6ea033',
                             color: '#fff',
@@ -412,7 +412,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                           startIcon={<HighlightOffIcon />}
                           onClick={handleCloseCreateUser}
                           sx={{
-                            fontSize: '14px',
+                            fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                             backgroundColor: 'error.main',
                             color: '#fff',
                             p: '7px 0',
@@ -438,10 +438,10 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                         '& .MuiTypography-body1 ': {
                           fontWeight: '700',
                           color: 'primary.dark',
-                          minWidth: '200px',
-                          maxWidth: '200px',
+                          minWidth: '25%',
+                          maxWidth: '25%',
                           textAlign: 'center',
-                          fontSize: '16px',
+                          fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                           padding: '12px 0',
                         },
                       }}
@@ -474,8 +474,9 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                             textAlign: 'center',
                             '& .MuiButtonBase-root, & .MuiTypography-h6  ': {
                               color: 'primary.dark',
-                              minWidth: '200px',
-                              maxWidth: '200px',
+                              minWidth: '25%',
+                              maxWidth: '25%', textAlign: 'center',
+                              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                             },
                             '&:hover': {
                               backgroundColor: 'rgba(0,0,0,0.03)',
@@ -485,13 +486,13 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                           <Box
                             sx={{
                               position: 'absolute',
-                              top: '0',
-                              left: '0',
+                              top: { xs: '-8px', lg: '0' },
+                              left: { xs: '-8px', lg: '0' },
                               backgroundColor: 'secondary.main',
                               color: '#fff',
-                              fontSize: '10px',
+                              fontSize: { xs: '0.7rem !important', lg: '1rem !important' },
                               userSelect: 'none',
-                              padding: '0.1rem 0.5rem',
+                              padding: { xs: '2px', lg: '0.1rem 0.5rem' },
                               borderRadius: '0.25rem',
                               display:
                                 user?._id === currUser._id ? 'block' : 'none',
@@ -523,7 +524,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                             sx={{
                               color: '#000',
                               p: '',
-                              fontSize: '16px',
+                              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                               fontWeight: '700',
                               flex: '1',
                             }}
@@ -542,7 +543,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                 startIcon={<AddToPhotosIcon />}
                 onClick={() => setOpenForm(true)}
                 sx={{
-                  fontSize: '14px',
+                  fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                   color: '#000',
                   border: '1px solid #000',
                   '&:hover': {
@@ -578,12 +579,12 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                       sx={{
                         marginTop: '1.2em',
                         '& .MuiFormLabel-root': {
-                          fontSize: '16px',
+                          fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                           right: 'auto',
                           left: '0',
                         },
                         '&  .MuiOutlinedInput-root ': {
-                          fontSize: '16px',
+                          fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                           ' & .MuiOutlinedInput-notchedOutline': {
                             border: '1px solid #000 !important',
                           },
@@ -616,12 +617,12 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                       sx={{
                         marginTop: '1.2em',
                         '& .MuiFormLabel-root': {
-                          fontSize: '16px',
+                          fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                           right: 'auto',
                           left: '0',
                         },
                         '&  .MuiOutlinedInput-root ': {
-                          fontSize: '16px',
+                          fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                           ' & .MuiOutlinedInput-notchedOutline': {
                             border: '1px solid #000 !important',
                           },
@@ -664,12 +665,12 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                           minWidth: { xs: '100%', sm: '200px' },
                           maxWidth: { xs: '100%', sm: '200px' },
                           '& .MuiFormLabel-root': {
-                            fontSize: '16px',
+                            fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                             right: 'auto',
                             left: '0',
                           },
                           '&  .MuiOutlinedInput-root ': {
-                            fontSize: '16px',
+                            fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                             ' & .MuiOutlinedInput-notchedOutline': {
                               border: '1px solid #000 !important',
                             },
@@ -706,12 +707,12 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                           minWidth: { xs: '100%', sm: '200px' },
                           maxWidth: { xs: '100%', sm: '200px' },
                           '& .MuiFormLabel-root': {
-                            fontSize: '16px',
+                            fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                             right: 'auto',
                             left: '0',
                           },
                           '&  .MuiOutlinedInput-root ': {
-                            fontSize: '16px',
+                            fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                             ' & .MuiOutlinedInput-notchedOutline': {
                               border: '1px solid #000 !important',
                             },
@@ -766,7 +767,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
               endIcon={<EditIcon />}
               onClick={() => setOpenUpdate(true)}
               sx={{
-                fontSize: '14px',
+                fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                 color: '#000',
                 border: '1px solid #000',
                 '&:hover': {
@@ -805,15 +806,19 @@ function MyProject({ project, type, deleteProject, updateProject }) {
           </DialogContent>
         </Dialog>
       </Box>
-      {!isEmpty(phaseList) && (
-        <MyPhase phaseList={phaseList} deletePhase={deletePhase} />
-      )}
-      {isEmpty(phaseList) && (
-        <Box sx={{ mt: '40px', ml: '40px' }}>
-          <Typography variant='h5'>There are no phases to display</Typography>
-        </Box>
-      )}
-    </Box>
+      {
+        !isEmpty(phaseList) && (
+          <MyPhase phaseList={phaseList} deletePhase={deletePhase} />
+        )
+      }
+      {
+        isEmpty(phaseList) && (
+          <Box sx={{ mt: '40px', ml: '40px' }}>
+            <Typography variant='h5'>There are no phases to display</Typography>
+          </Box>
+        )
+      }
+    </Box >
   );
 }
 

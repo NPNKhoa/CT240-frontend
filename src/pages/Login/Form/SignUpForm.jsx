@@ -40,12 +40,12 @@ function SignUpForm({ goToOtherForm, submitSignUp }) {
 							<Box sx={{
 								marginTop: '0.6em',
 								'& .MuiFormLabel-root': {
-									fontSize: '16px',
+									fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 									right: 'auto',
 									left: '0'
 								},
 								'&  .MuiOutlinedInput-root ': {
-									fontSize: '16px',
+									fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 									' & .MuiOutlinedInput-notchedOutline': {
 										border: '1px solid #000 !important'
 
@@ -71,12 +71,12 @@ function SignUpForm({ goToOtherForm, submitSignUp }) {
 							<Box sx={{
 								marginTop: '0.6em',
 								'& .MuiFormLabel-root': {
-									fontSize: '16px',
+									fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 									right: 'auto',
 									left: '0'
 								},
 								'&  .MuiOutlinedInput-root ': {
-									fontSize: '16px',
+									fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 									' & .MuiOutlinedInput-notchedOutline': {
 										border: '1px solid #000 !important'
 
@@ -102,12 +102,12 @@ function SignUpForm({ goToOtherForm, submitSignUp }) {
 							<Box sx={{
 								marginTop: '0.6em',
 								'& .MuiFormLabel-root': {
-									fontSize: '16px',
+									fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 									right: 'auto',
 									left: '0'
 								},
 								'&  .MuiOutlinedInput-root ': {
-									fontSize: '16px',
+									fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 									' & .MuiOutlinedInput-notchedOutline': {
 										border: '1px solid #000 !important'
 									}
@@ -137,12 +137,12 @@ function SignUpForm({ goToOtherForm, submitSignUp }) {
 							<Box sx={{
 								marginTop: '0.6em',
 								'& .MuiFormLabel-root': {
-									fontSize: '16px',
+									fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 									right: 'auto',
 									left: '0'
 								},
 								'&  .MuiOutlinedInput-root ': {
-									fontSize: '16px',
+									fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 									' & .MuiOutlinedInput-notchedOutline': {
 										border: '1px solid #000 !important'
 									}
@@ -178,12 +178,12 @@ function SignUpForm({ goToOtherForm, submitSignUp }) {
 							<Box sx={{
 								marginTop: '0.6em',
 								'& .MuiFormLabel-root': {
-									fontSize: '16px',
+									fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 									right: 'auto',
 									left: '0'
 								},
 								'&  .MuiOutlinedInput-root ': {
-									fontSize: '16px',
+									fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 									' & .MuiOutlinedInput-notchedOutline': {
 										border: '1px solid #000 !important'
 									}
@@ -213,12 +213,12 @@ function SignUpForm({ goToOtherForm, submitSignUp }) {
 							<Box sx={{
 								marginTop: '0.6em',
 								'& .MuiFormLabel-root': {
-									fontSize: '16px',
+									fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 									right: 'auto',
 									left: '0'
 								},
 								'&  .MuiOutlinedInput-root ': {
-									fontSize: '16px',
+									fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 									' & .MuiOutlinedInput-notchedOutline': {
 										border: '1px solid #000 !important'
 									}
@@ -250,12 +250,12 @@ function SignUpForm({ goToOtherForm, submitSignUp }) {
 							<Box sx={{
 								marginTop: '0.6em',
 								'& .MuiFormLabel-root': {
-									fontSize: '16px',
+									fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 									right: 'auto',
 									left: '0'
 								},
 								'&  .MuiOutlinedInput-root ': {
-									fontSize: '16px',
+									fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 									' & .MuiOutlinedInput-notchedOutline': {
 										border: '1px solid #000 !important'
 									}

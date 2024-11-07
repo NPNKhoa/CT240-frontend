@@ -109,7 +109,7 @@ function MyPhase({ phaseList, deletePhase }) {
             variant='text'
             onClick={() => setOpenConfirmDelete(undefined)}
             sx={{
-              fontSize: '14px',
+              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
               border: '1px solid #666',
               color: '#666',
               p: '7px 0',
@@ -128,7 +128,7 @@ function MyPhase({ phaseList, deletePhase }) {
             variant='outlined'
             onClick={() => handleDeletePhase2(openConfirmDelete)}
             sx={{
-              fontSize: '14px',
+              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
               backgroundColor: 'error.main',
               color: '#fff',
               p: '7px 0',
@@ -152,7 +152,7 @@ function MyPhase({ phaseList, deletePhase }) {
           <Box
             sx={{
               color: index === i ? '#fff' : '#6ea033',
-              fontSize: '1.2rem',
+              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
               fontWeight: 500,
               minWidth: '200px',
               maxWidth: '200px',
@@ -194,12 +194,12 @@ function MyPhase({ phaseList, deletePhase }) {
             >
               <Typography
                 variant='body1'
-                sx={{ fontSize: { xs: '0.75rem', md: '1rem' } }}
+                sx={{ mb: '12px', fontSize: { xs: '0.75rem', lg: '1rem' }, '& span, & b': { fontSize: { xs: '0.75rem', lg: '1rem' }, color: '#333' } }}
               >
                 <b>Start Date: </b>{' '}
                 <span
                   style={{
-                    fontSize: { xs: '0.75rem', md: '1.25rem' },
+                    fontSize: { xs: '0.75rem', lg: '1rem' },
                     color: '#333',
                   }}
                 >
@@ -208,14 +208,10 @@ function MyPhase({ phaseList, deletePhase }) {
               </Typography>
               <Typography
                 variant='body1'
-                sx={{ fontSize: { xs: '0.75rem', md: '1rem' } }}
+                sx={{ mb: '12px', fontSize: { xs: '0.75rem', lg: '1rem' }, '& span, & b': { fontSize: { xs: '0.75rem', lg: '1rem' }, color: '#333' } }}
               >
                 <b>End Date: </b>{' '}
                 <span
-                  style={{
-                    fontSize: { xs: '0.75rem', md: '1.25rem' },
-                    color: '#333',
-                  }}
                 >
                   {formatDate(currentPhase?.endDate)}
                 </span>
@@ -226,7 +222,7 @@ function MyPhase({ phaseList, deletePhase }) {
               variant='contained'
               onClick={() => handleDeletePhase(currentPhase)}
               sx={{
-                fontSize: { xs: '0.75rem', md: '1rem' },
+                fontSize: { xs: '0.75rem', lg: '1rem' },
                 color: '#fff',
                 backgroundColor: 'error.main',
                 border: '1px solid error.main',
@@ -243,10 +239,10 @@ function MyPhase({ phaseList, deletePhase }) {
 
           <Typography
             variant='body1'
-            sx={{ mb: '12px', fontSize: { xs: '0.75rem', md: '1.25rem' } }}
+            sx={{ mb: '12px', fontSize: { xs: '0.75rem', lg: '1rem' }, '& span, & b': { fontSize: { xs: '0.75rem', lg: '1rem' }, color: '#333' } }}
           >
             <b>Description: </b>
-            <span style={{ fontSize: '1.25rem', color: '#333' }}>
+            <span>
               {currentPhase?.phaseDescription}
             </span>
           </Typography>
@@ -258,7 +254,7 @@ function MyPhase({ phaseList, deletePhase }) {
             startIcon={<AddToPhotosIcon />}
             onClick={() => setOpenForm(true)}
             sx={{
-              fontSize: '14px',
+              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
               color: '#000',
               border: '1px solid #000',
               '&:hover': {
@@ -299,12 +295,12 @@ function MyPhase({ phaseList, deletePhase }) {
                     sx={{
                       marginTop: '1.2em',
                       '& .MuiFormLabel-root': {
-                        fontSize: '16px',
+                        fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                         right: 'auto',
                         left: '0',
                       },
                       '&  .MuiOutlinedInput-root ': {
-                        fontSize: '16px',
+                        fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                         ' & .MuiOutlinedInput-notchedOutline': {
                           border: '1px solid #000 !important',
                         },
@@ -337,12 +333,12 @@ function MyPhase({ phaseList, deletePhase }) {
                     sx={{
                       marginTop: '1.2em',
                       '& .MuiFormLabel-root': {
-                        fontSize: '16px',
+                        fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                         right: 'auto',
                         left: '0',
                       },
                       '&  .MuiOutlinedInput-root ': {
-                        fontSize: '16px',
+                        fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                         ' & .MuiOutlinedInput-notchedOutline': {
                           border: '1px solid #000 !important',
                         },
@@ -376,12 +372,12 @@ function MyPhase({ phaseList, deletePhase }) {
                     sx={{
                       marginTop: '1.2em',
                       '& .MuiFormLabel-root': {
-                        fontSize: '16px',
+                        fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                         right: 'auto',
                         left: '0',
                       },
                       '&  .MuiOutlinedInput-root ': {
-                        fontSize: '16px',
+                        fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                         ' & .MuiOutlinedInput-notchedOutline': {
                           border: '1px solid #000 !important',
                         },
@@ -415,12 +411,12 @@ function MyPhase({ phaseList, deletePhase }) {
                     sx={{
                       marginTop: '1.2em',
                       '& .MuiFormLabel-root': {
-                        fontSize: '16px',
+                        fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                         right: 'auto',
                         left: '0',
                       },
                       '&  .MuiOutlinedInput-root ': {
-                        fontSize: '16px',
+                        fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                         ' & .MuiOutlinedInput-notchedOutline': {
                           border: '1px solid #000 !important',
                         },
@@ -454,12 +450,12 @@ function MyPhase({ phaseList, deletePhase }) {
                     sx={{
                       marginTop: '1.2em',
                       '& .MuiFormLabel-root': {
-                        fontSize: '16px',
+                        fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                         right: 'auto',
                         left: '0',
                       },
                       '&  .MuiOutlinedInput-root ': {
-                        fontSize: '16px',
+                        fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                         ' & .MuiOutlinedInput-notchedOutline': {
                           border: '1px solid #000 !important',
                         },

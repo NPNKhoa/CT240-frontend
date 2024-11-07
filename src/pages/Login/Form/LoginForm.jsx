@@ -20,12 +20,12 @@ function LoginForm({ goToOtherForm, submitLogIn }) {
 						<Box sx={{
 							marginTop: '1.2em',
 							'& .MuiFormLabel-root': {
-								fontSize: '16px',
+								fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 								right: 'auto',
 								left: '0'
 							},
 							'&  .MuiOutlinedInput-root ': {
-								fontSize: '16px',
+								fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 								' & .MuiOutlinedInput-notchedOutline': {
 									border: '1px solid #000 !important'
 								}
@@ -55,12 +55,12 @@ function LoginForm({ goToOtherForm, submitLogIn }) {
 						<Box sx={{
 							marginTop: '1.2em',
 							'& .MuiFormLabel-root': {
-								fontSize: '16px',
+								fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 								right: 'auto',
 								left: '0'
 							},
 							'&  .MuiOutlinedInput-root ': {
-								fontSize: '16px',
+								fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
 								' & .MuiOutlinedInput-notchedOutline': {
 									border: '1px solid #000 !important'
 								}

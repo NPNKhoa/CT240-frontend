@@ -54,7 +54,7 @@ function UpdateProjectForm({ projectInfoProp, typeList, updateProject }) {
               background: 'transparent',
               '& .MuiInputBase-root': {
                 color: 'primary.dark',
-                fontSize: '18px',
+                fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                 '& div': {
                   p: ' 8px 12px',
                 },
@@ -68,7 +68,7 @@ function UpdateProjectForm({ projectInfoProp, typeList, updateProject }) {
                 },
               },
               '& .MuiFormLabel-root': {
-                fontSize: '16px',
+                fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                 right: 'auto',
                 left: '0',
                 bottom: '16px',
@@ -114,7 +114,7 @@ function UpdateProjectForm({ projectInfoProp, typeList, updateProject }) {
               background: 'transparent',
               '& .MuiInputBase-root': {
                 color: 'primary.dark',
-                fontSize: '18px',
+                fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                 '& div': {
                   p: ' 8px 12px',
                 },
@@ -128,7 +128,7 @@ function UpdateProjectForm({ projectInfoProp, typeList, updateProject }) {
                 },
               },
               '& .MuiFormLabel-root': {
-                fontSize: '16px',
+                fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                 right: 'auto',
                 left: '0',
                 bottom: '16px',
@@ -162,12 +162,12 @@ function UpdateProjectForm({ projectInfoProp, typeList, updateProject }) {
           sx={{
             marginTop: '1.2em',
             '& .MuiFormLabel-root': {
-              fontSize: '16px',
+              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
               right: 'auto',
               left: '0',
             },
             '&  .MuiOutlinedInput-root ': {
-              fontSize: '16px',
+              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
               ' & .MuiOutlinedInput-notchedOutline': {
                 border: '1px solid #000 !important',
               },
@@ -201,12 +201,12 @@ function UpdateProjectForm({ projectInfoProp, typeList, updateProject }) {
           sx={{
             marginTop: '1.2em',
             '& .MuiFormLabel-root': {
-              fontSize: '16px',
+              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
               right: 'auto',
               left: '0',
             },
             '&  .MuiOutlinedInput-root ': {
-              fontSize: '16px',
+              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
               ' & .MuiOutlinedInput-notchedOutline': {
                 border: '1px solid #000 !important',
               },
@@ -231,12 +231,12 @@ function UpdateProjectForm({ projectInfoProp, typeList, updateProject }) {
               minWidth: '200px',
               maxWidth: '200px',
               '& .MuiFormLabel-root': {
-                fontSize: '16px',
+                fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                 right: 'auto',
                 left: '0',
               },
               '&  .MuiOutlinedInput-root ': {
-                fontSize: '16px',
+                fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                 ' & .MuiOutlinedInput-notchedOutline': {
                   border: '1px solid #000 !important',
                 },
@@ -274,12 +274,12 @@ function UpdateProjectForm({ projectInfoProp, typeList, updateProject }) {
               minWidth: '200px',
               maxWidth: '200px',
               '& .MuiFormLabel-root': {
-                fontSize: '16px',
+                fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                 right: 'auto',
                 left: '0',
               },
               '&  .MuiOutlinedInput-root ': {
-                fontSize: '16px',
+                fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
                 ' & .MuiOutlinedInput-notchedOutline': {
                   border: '1px solid #000 !important',
                 },
