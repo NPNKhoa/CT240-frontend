@@ -18,6 +18,9 @@ import {
 import MySample from '../Sample/MySample';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import MenuItem from '@mui/material/MenuItem';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Select from '@mui/material/Select';
 
 function MyPhase({ phaseList, deletePhase }) {
   const {
@@ -92,6 +95,8 @@ function MyPhase({ phaseList, deletePhase }) {
     setOpenForm(false);
   };
 
+  const isMobile = useMediaQuery('(max-width:600px)');
+
   return (
     <Box sx={{ mt: '20px', padding: '20px' }}>
       <Dialog
@@ -148,34 +153,75 @@ function MyPhase({ phaseList, deletePhase }) {
           </Button>
         </DialogActions>
       </Dialog>
-      <Box
-        sx={{ overflow: 'auto', maxWidth: '100%', display: 'flex', gap: '8px' }}
-      >
-        {phaseList.map((phase, i) => (
-          <Box
-            sx={{
-              color: index === i ? '#fff' : '#6ea033',
-              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
-              fontWeight: 500,
-              minWidth: '200px',
-              maxWidth: '200px',
-              padding: '0.5rem 0.75rem',
-              textAlign: 'center',
-              backgroundColor: index === i ? '#6ea033' : '#fff',
-              cursor: 'pointer',
-              border: '1px solid #6ea033',
-              borderRadius: '0.3rem',
-              '&:hover': {
-                opacity: 0.8,
-              },
-            }}
-            key={i}
-            onClick={() => setCurrentId(phase?._id)}
-          >
-            {phase.phaseName}
-          </Box>
-        ))}
+      <Box sx={{ padding: '20px', mt: '20px' }}>
+      {isMobile ? (
+        // Dropdown cho chế độ mobile
+        <Select
+          value={currentId}
+          onChange={(e) => setCurrentId(e.target.value)}
+          fullWidth
+          sx={{
+            border: '1px #000 solid',
+            borderRadius: '0.5rem',
+            '&:hover': {
+              opacity: 0.8,
+            },
+          }}
+        >
+          {phaseList.map((phase) => (
+            <MenuItem
+              key={phase._id}
+              value={phase._id}
+              sx={{
+                fontSize: '15px',
+                '&:hover': {
+                  opacity: 0.8,
+                },
+              }}
+            >
+              {phase.phaseName}
+            </MenuItem>
+          ))}
+        </Select>
+      ) : (
+        // Danh sách phase cho các thiết bị lớn hơn mobile
+        <Box
+          sx={{
+            overflow: 'auto',
+            maxWidth: '100%',
+            display: 'flex',
+            gap: '8px',
+          }}
+        >
+          {phaseList.map((phase) => (
+            <Box
+              key={phase._id}
+              onClick={() => setCurrentId(phase._id)}
+              sx={{
+                color: phase._id === currentId ? '#fff' : '#6ea033',
+                fontSize: { xs: '0.75rem', lg: '1rem' },
+                fontWeight: 500,
+                minWidth: '200px',
+                maxWidth: '200px',
+                padding: '0.5rem 0.75rem',
+                textAlign: 'center',
+                backgroundColor: phase._id === currentId ? '#6ea033' : '#fff',
+                cursor: 'pointer',
+                border: '1px solid #6ea033',
+                borderRadius: '0.3rem',
+                '&:hover': {
+                  opacity: 0.8,
+                },
+              }}
+            >
+              {phase.phaseName}
+            </Box>
+          ))}
+        </Box>
+      )}
       </Box>
+
+
       <Box>
         <Box>
           <Box
