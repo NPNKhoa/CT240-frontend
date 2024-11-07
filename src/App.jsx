@@ -17,9 +17,9 @@ function App() {
 
       <Route path='/login' element={<Login />} />
 
-      {/* <Route element={<ProtectedRoute />}> */}
-      <Route path='/home' element={<Home />} />
-      {/* </Route> */}
+      <Route element={<ProtectedRoute />}>
+        <Route path='/home' element={<Home />} />
+      </Route>
 
       <Route path='*' element={<Navigate to='/home' replace={true} />} />
     </Routes>

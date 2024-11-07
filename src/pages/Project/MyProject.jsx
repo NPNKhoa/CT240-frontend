@@ -186,7 +186,10 @@ function MyProject({ project, type, deleteProject, updateProject }) {
         open={!!openConfirmDelete}
         onClose={() => setOpenConfirmDelete(undefined)}
         sx={{
-          '& .MuiPaper-root': { minWidth: { xs: '80%', lg: '800px' }, maxWidth: { xs: '80%', lg: '800px' } },
+          '& .MuiPaper-root': {
+            minWidth: { xs: '80%', lg: '800px' },
+            maxWidth: { xs: '80%', lg: '800px' },
+          },
         }}
       >
         <DialogTitle style={{ cursor: 'move' }} id='draggable-dialog-title'>
@@ -532,13 +535,11 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                             opacity: '0.8',
                           },
                           '& .test': {
-                            display: { xs: 'none', lg: 'inline' }
-                          }
+                            display: { xs: 'none', lg: 'inline' },
+                          },
                         }}
                       >
-                        <span className='test'>
-                          Submit
-                        </span>
+                        <span className='test'>Submit</span>
                       </Button>
                       <Button
                         variant='contained'
@@ -560,13 +561,11 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                             opacity: '0.8',
                           },
                           '& .test': {
-                            display: { xs: 'none', lg: 'inline' }
-                          }
+                            display: { xs: 'none', lg: 'inline' },
+                          },
                         }}
                       >
-                        <span className='test'>
-                          Close
-                        </span>
+                        <span className='test'>Close</span>
                       </Button>
                     </Box>
                   )}
