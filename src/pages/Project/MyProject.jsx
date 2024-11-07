@@ -247,7 +247,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
         >
           <Box
             sx={{
-              width: { xs: '65%', md: '80%' },
+              width: { xs: '75%', md: '75%' },
             }}
           >
             <Box
@@ -258,10 +258,10 @@ function MyProject({ project, type, deleteProject, updateProject }) {
               }}
             >
               <Typography>
-                Type:{' '}
+                Type:{windowWidth < 800 ? <br /> : ' '}
                 <span
                   style={{
-                    fontWeight: '400',
+                    fontWeight: '600',
                     fontSize: { xs: '1.25rem', md: '1.4rem' },
                   }}
                 >
@@ -275,22 +275,21 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                   '& span': { color: colorStatus[project?.projectStatus] },
                 }}
               >
-                Status:{' '}
+                Status:{windowWidth < 800 ? <br /> : ' '}
                 <span
                   style={{
-                    fontWeight: '400',
+                    fontWeight: '600',
                     fontSize: { xs: '1.25rem', md: '1.4rem' },
                   }}
                 >
-                  {' '}
                   {project?.projectStatus}
                 </span>
               </Typography>
               <Typography>
-                Start Date:{' '}
+                Start Date:{windowWidth < 800 ? <br /> : ' '}
                 <span
                   style={{
-                    fontWeight: '400',
+                    fontWeight: '600',
                     fontSize: { xs: '1.25rem', md: '1.4rem' },
                   }}
                 >
@@ -298,18 +297,6 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                 </span>
               </Typography>
             </Box>
-
-            <Typography sx={{ textAlign: 'justify' }}>
-              Description:{' '}
-              <span
-                style={{
-                  fontWeight: '400',
-                  fontSize: { xs: '1.25rem', md: '1.4rem' },
-                }}
-              >
-                {project?.projectDescription}
-              </span>
-            </Typography>
 
             <Box
               sx={{
@@ -342,7 +329,6 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                   Edit project
                 </Button>
               )}
-
               {windowWidth < 800 || (
                 <Button
                   fullWidth
@@ -379,14 +365,6 @@ function MyProject({ project, type, deleteProject, updateProject }) {
 
               <IconButton
                 aria-label='delete'
-                onClick={() => setOpenViewMemberList(true)}
-                color='inherit'
-              >
-                <VisibilityIcon />
-              </IconButton>
-
-              <IconButton
-                aria-label='delete'
                 onClick={() => handleDeleteProject(project)}
                 color='inherit'
               >
@@ -414,6 +392,19 @@ function MyProject({ project, type, deleteProject, updateProject }) {
             </Button>
           )}
         </Box>
+
+        <Typography sx={{ textAlign: 'justify' }}>
+          Description:{' '}
+          <span
+            style={{
+              fontWeight: '400',
+              fontSize: { xs: '1.25rem', md: '1.4rem' },
+            }}
+          >
+            {project?.projectDescription}
+          </span>
+        </Typography>
+
         <Box
           sx={{
             display: 'flex',
@@ -578,8 +569,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                       '& .MuiTypography-body1 ': {
                         fontWeight: '700',
                         color: 'primary.dark',
-                        minWidth: '25%',
-                        maxWidth: '25%',
+                        width: { xs: '30%', md: '40%' },
                         textAlign: 'center',
                         fontSize: {
                           xs: '0.75rem !important',
@@ -589,18 +579,14 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                       },
                     }}
                   >
-                    <Typography variant='body1' sx={{ flex: '1' }}>
+                    <Typography
+                      variant='body1'
+                      sx={{ width: { xs: '40% !important' } }}
+                    >
                       Email
                     </Typography>
-                    <Typography variant='body1' sx={{ flex: '1' }}>
-                      Fullname
-                    </Typography>
-                    <Typography variant='body1' sx={{ flex: '1' }}>
-                      User name
-                    </Typography>
-                    <Typography variant='body1' sx={{ flex: '1' }}>
-                      Delete User
-                    </Typography>
+                    <Typography variant='body1'>Fullname</Typography>
+                    <Typography variant='body1'>Account</Typography>
                   </Box>
                   {!isEmpty(userList) &&
                     userList?.map((user) => (
@@ -608,20 +594,17 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                         key={user?._id}
                         sx={{
                           display: 'flex',
-                          position: 'relative',
                           justifyContent: 'space-between',
                           backgroundColor: '#fff',
                           alignItems: 'center',
                           boxShadow: '0px 0px 1px #888888',
                           padding: '12px 0',
                           textAlign: 'center',
-                          '& .MuiButtonBase-root, & .MuiTypography-h6  ': {
-                            color: 'primary.dark',
-                            minWidth: '25%',
-                            maxWidth: '25%',
+                          '& .MuiButtonBase-root, & .MuiTypography-p': {
+                            width: { xs: '30%', md: '40%' },
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
-                            textAlign: 'center',
+                            textAlign: 'center !important',
                             fontSize: {
                               xs: '0.75rem !important',
                               lg: '1rem !important',
@@ -632,58 +615,55 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                           },
                         }}
                       >
-                        <Box
+                        <Typography
+                          variant='p'
                           sx={{
-                            position: 'absolute',
-                            top: { xs: '-8px', lg: '0' },
-                            left: { xs: '-8px', lg: '0' },
-                            backgroundColor: 'secondary.main',
-                            color: '#fff',
                             fontSize: {
                               xs: '0.7rem !important',
-                              lg: '1rem !important',
+                              md: '1rem !important',
                             },
-                            userSelect: 'none',
-                            padding: { xs: '2px', lg: '0.1rem 0.5rem' },
-                            borderRadius: '0.25rem',
-                            display:
-                              user?._id === currUser._id ? 'block' : 'none',
+                            width: { xs: '40% !important' },
                           }}
                         >
-                          Your account
-                        </Box>
-                        <Typography variant='h6' sx={{ flex: '1' }}>
                           {user?.email}
                         </Typography>
-                        <Typography variant='h6' sx={{ flex: '1' }}>
+                        <Typography
+                          variant='p'
+                          sx={{
+                            fontSize: {
+                              xs: '0.7rem !important',
+                              md: '1rem !important',
+                            },
+                          }}
+                        >
                           {user?.fullName}
                         </Typography>
-                        <Typography variant='h6' sx={{ flex: '1' }}>
-                          {user?.username}
-                        </Typography>
-                        <Button
-                          variant='text'
-                          endIcon={
-                            user?._id !== currUser._id ? (
-                              <DeleteForeverIcon />
-                            ) : (
-                              <Box />
-                            )
-                          }
-                          onClick={() =>
-                            handleDeleteUser(user?._id, project?._id)
-                          }
-                          sx={{
-                            color: '#000',
-                            p: '',
-                            fontSize: {
-                              xs: '0.75rem !important',
-                              lg: '1rem !important',
-                            },
-                            fontWeight: '700',
-                            flex: '1',
-                          }}
-                        ></Button>
+                        {user?._id !== currUser._id ? (
+                          <Button
+                            variant='text'
+                            endIcon={<DeleteForeverIcon />}
+                            onClick={() =>
+                              handleDeleteUser(user?._id, project?._id)
+                            }
+                            sx={{
+                              color: '#000',
+                              p: '',
+                              fontSize: {
+                                xs: '0.75rem !important',
+                                lg: '1rem !important',
+                              },
+                              fontWeight: '700',
+                            }}
+                          ></Button>
+                        ) : (
+                          <Typography
+                            variant='p'
+                            fontSize={'0.6rem'}
+                            color={'#6ea033'}
+                          >
+                            Your account
+                          </Typography>
+                        )}
                       </Box>
                     ))}
                 </Box>
@@ -708,6 +688,29 @@ function MyProject({ project, type, deleteProject, updateProject }) {
             >
               Create Phase
             </Button>
+
+            {windowWidth < 800 && (
+              <Button
+                fullWidth
+                variant='outlined'
+                onClick={() => setOpenViewMemberList(true)}
+                sx={{
+                  fontSize: {
+                    xs: '0.75rem !important',
+                    lg: '1rem !important',
+                  },
+                  color: '#000',
+                  border: '1px solid #000',
+                  '&:hover': {
+                    border: '1px solid #000',
+                    opacity: '0.8',
+                  },
+                }}
+              >
+                View memberList
+              </Button>
+            )}
+
             <Dialog open={openForm} onClose={handleCloseForm}>
               <DialogTitle
                 sx={{ backgroundColor: 'secondary.main', color: '#fff' }}
@@ -962,7 +965,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
       )}
       {isEmpty(phaseList) && (
         <Box sx={{ mt: '40px', ml: '40px' }}>
-          <Typography variant='h5'>There are no phases to display</Typography>
+          <Typography variant='h5'>There is no phase to display</Typography>
         </Box>
       )}
     </Box>
