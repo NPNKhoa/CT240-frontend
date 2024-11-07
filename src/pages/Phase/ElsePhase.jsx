@@ -1,38 +1,25 @@
 import { useEffect, useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-
 import Box from '@mui/material/Box';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import Chip from '@mui/material/Chip';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import { isEmpty } from 'lodash';
-import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
-
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { Button, InputLabel } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import ElseSample from '../Sample/ElseSample';
 import { formatDate } from '../../untils/format';
 import { GetAllSample } from '../../apis';
+
 function ElsePhase({ phaseList }) {
   const [currentId, setCurrentId] = useState(phaseList[0]?._id);
   const index = phaseList.findIndex((phase) => phase?._id === currentId);
   const currentPhase = phaseList[index];
+
+  // Kiểm tra nếu màn hình ở chế độ mobile
+  const isMobile = useMediaQuery('(max-width:600px)');
+
   useEffect(() => {
     setCurrentId(phaseList[0]?._id);
   }, [phaseList]);
+
   const [sampleList, setSampleList] = useState([]);
   useEffect(() => {
     GetAllSample().then((data) => {
@@ -46,48 +33,75 @@ function ElsePhase({ phaseList }) {
       setSampleList(test);
     });
   }, []);
+
   return (
     <Box sx={{ padding: '20px', mt: '20px' }}>
-      <Box
-        sx={{ overflow: 'auto', maxWidth: '100%', display: 'flex', gap: '8px' }}
-      >
-        {phaseList.map((phase, i) => (
-          <Box
+      {isMobile ? (
+        // Dropdown cho chế độ mobile
+        <Select
+          value={currentId}
+          onChange={(e) => setCurrentId(e.target.value)}
+          fullWidth
+          sx={{background: '#6ea033',
+            '&:hover': {
+                  opacity: 0.8,
+                },
+          }}
+        >
+          {phaseList.map((phase) => (
+            <MenuItem key={phase._id} value={phase._id}
             sx={{
-              color: index === i ? '#fff' : '#6ea033',
-              fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
-              fontWeight: 500,
-              minWidth: '200px',
-              maxWidth: '200px',
-              padding: '0.5rem 0.75rem',
-              textAlign: 'center',
-              backgroundColor: index === i ? '#6ea033' : '#fff',
-              cursor: 'pointer',
-              border: '1px solid #6ea033',
-              borderRadius: '0.3rem',
+              fontSize: '15px',
               '&:hover': {
-                opacity: 0.8,
-              },
+                  opacity: 0.8,
+                },
             }}
-            key={i}
-            onClick={() => setCurrentId(phase?._id)}
-          >
-            {phase.phaseName}
-          </Box>
-        ))}
-      </Box>
+            >
+              {phase.phaseName}
+            </MenuItem>
+          ))}
+        </Select>
+      ) : (
+        // Danh sách phase cho các thiết bị lớn hơn mobile
+        <Box sx={{ overflow: 'auto', maxWidth: '100%', display: 'flex', gap: '8px' }}>
+          {phaseList.map((phase, i) => (
+            <Box
+              key={i}
+              sx={{
+                color: index === i ? '#fff' : '#6ea033',
+                fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
+                fontWeight: 500,
+                minWidth: '200px',
+                maxWidth: '200px',
+                padding: '0.5rem 0.75rem',
+                textAlign: 'center',
+                backgroundColor: index === i ? '#6ea033' : '#fff',
+                cursor: 'pointer',
+                border: '1px solid #6ea033',
+                borderRadius: '0.3rem',
+                '&:hover': {
+                  opacity: 0.8,
+                },
+              }}
+              onClick={() => setCurrentId(phase?._id)}
+            >
+              {phase.phaseName}
+            </Box>
+          ))}
+        </Box>
+      )}
       <Box>
         <Box sx={{ mt: '20px', p: '8px' }}>
           <Typography
             variant='body1'
-            sx={{ mb: '12px', fontSize: { xs: '0.75rem !important', lg: '1rem !important' }, }}
+            sx={{ mb: '12px', fontSize: { xs: '0.75rem !important', lg: '1rem !important' } }}
           >
             {currentPhase?.phaseDescription}
           </Typography>
-          <Typography variant='body1' sx={{ fontSize: { xs: '0.75rem !important', lg: '1rem !important' }, }}>
+          <Typography variant='body1' sx={{ fontSize: { xs: '1rem !important', lg: '1rem !important' } }}>
             <b>Start Date: </b> {formatDate(currentPhase?.startDate)}{' '}
           </Typography>
-          <Typography variant='body1' sx={{ fontSize: { xs: '0.75rem !important', lg: '1rem !important' }, }}>
+          <Typography variant='body1' sx={{ fontSize: { xs: '1rem !important', lg: '1rem !important' } }}>
             <b>End Date: </b> {formatDate(currentPhase?.endDate)}{' '}
           </Typography>
         </Box>
