@@ -197,8 +197,8 @@ function MyProject({ project, type, deleteProject, updateProject }) {
         onClose={() => setOpenConfirmDelete(undefined)}
         sx={{
           '& .MuiPaper-root': {
-            minWidth: { xs: '80%', lg: '800px' },
-            maxWidth: { xs: '80%', lg: '800px' },
+            minWidth: { xs: '90%', lg: '800px' },
+            maxWidth: { xs: '90%', lg: '800px' },
           },
         }}
       >
@@ -433,7 +433,8 @@ function MyProject({ project, type, deleteProject, updateProject }) {
               onClose={() => setOpenViewMemberList(false)}
               sx={{
                 '& .MuiPaper-root': {
-                  minWidth: { xs: '80%', lg: '1200px' },
+                  minWidth: { xs: '90%', lg: '1200px' },
+                  maxWidth: { xs: '90%', lg: '1200px' },
                 },
               }}
             >
@@ -527,6 +528,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                             xs: '0.75rem !important',
                             lg: '1rem !important',
                           },
+                          display: { xs: 'none', lg: 'flex' },
                           minWidth: { xs: '15%', lg: '160px' },
                           maxWidth: { xs: '15%', lg: '160px' },
                           backgroundColor: '#6ea033',
@@ -545,6 +547,32 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                         <span className='test'>Submit</span>
                       </Button>
                       <Button
+                        variant='outlined'
+                        onClick={() => handleCreateUser(project?._id)}
+                        sx={{
+                          fontSize: {
+                            xs: '0.75rem !important',
+                            lg: '1rem !important',
+                          },
+                          display: { xs: 'flex', lg: 'none' },
+                          minWidth: { xs: '15%', lg: '160px' },
+                          maxWidth: { xs: '15%', lg: '160px' },
+                          backgroundColor: '#6ea033',
+                          color: '#fff',
+                          p: '6px 0 6px 4px',
+                          '&:hover': {
+                            backgroundColor: '#6ea033',
+                            color: '#fff',
+                            opacity: '0.8',
+                          },
+                          '& .test': {
+                            display: { xs: 'none', lg: 'inline' },
+                          },
+                        }}
+                      >
+                        <SendIcon />
+                      </Button>
+                      <Button
                         variant='contained'
                         startIcon={<HighlightOffIcon />}
                         onClick={handleCloseCreateUser}
@@ -553,6 +581,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                             xs: '0.75rem !important',
                             lg: '1rem !important',
                           },
+                          display: { xs: 'none', lg: 'flex' },
                           backgroundColor: 'error.main',
                           color: '#fff',
                           p: '7px 0',
@@ -569,6 +598,29 @@ function MyProject({ project, type, deleteProject, updateProject }) {
                         }}
                       >
                         <span className='test'>Close</span>
+                      </Button>
+                      <Button
+                        variant='contained'
+                        onClick={handleCloseCreateUser}
+                        sx={{
+                          fontSize: {
+                            xs: '0.75rem !important',
+                            lg: '1rem !important',
+                          },
+                          display: { xs: 'flex', lg: 'none' },
+                          backgroundColor: 'error.main',
+                          color: '#fff',
+                          p: '6px 0',
+                          minWidth: { xs: '10%', lg: '100px' },
+                          maxWidth: { xs: '10%', lg: '100px' },
+                          '&:hover': {
+                            backgroundColor: 'error.main',
+                            color: '#fff',
+                            opacity: '0.8',
+                          },
+                        }}
+                      >
+                        <HighlightOffIcon />
                       </Button>
                     </Box>
                   )}
@@ -723,7 +775,12 @@ function MyProject({ project, type, deleteProject, updateProject }) {
               </Button>
             )}
 
-            <Dialog open={openForm} onClose={handleCloseForm}>
+            <Dialog open={openForm} onClose={handleCloseForm} sx={{
+              '& .MuiPaper-root': {
+                minWidth: { xs: '90%', lg: 'unset' },
+                maxWidth: { xs: '90%', lg: 'unset' },
+              },
+            }}>
               <DialogTitle
                 sx={{ backgroundColor: 'secondary.main', color: '#fff' }}
               >
@@ -946,7 +1003,12 @@ function MyProject({ project, type, deleteProject, updateProject }) {
             </Dialog>
           </Box>
         </Box>
-        <Dialog open={openUpdate} onClose={handleCloseUpdate} sx={{}}>
+        <Dialog open={openUpdate} onClose={handleCloseUpdate} sx={{
+          '& .MuiPaper-root': {
+            minWidth: { xs: '90%', lg: 'unset' },
+            maxWidth: { xs: '90%', lg: 'unset' },
+          },
+        }}>
           <DialogTitle
             sx={{ backgroundColor: 'secondary.main', color: '#fff' }}
           >

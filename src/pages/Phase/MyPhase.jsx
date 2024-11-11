@@ -20,7 +20,9 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import MenuItem from '@mui/material/MenuItem';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import Select from '@mui/material/Select';
+import Select from '@mui/material/Select'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
 
 function MyPhase({ phaseList, deletePhase }) {
   const {
@@ -104,8 +106,8 @@ function MyPhase({ phaseList, deletePhase }) {
         onClose={() => setOpenConfirmDelete(undefined)}
         sx={{
           '& .MuiPaper-root': {
-            minWidth: { xs: '80%', lg: '800px' },
-            maxWidth: { xs: '80%', lg: '800px' },
+            minWidth: { xs: '90%', lg: '800px' },
+            maxWidth: { xs: '90%', lg: '800px' },
           },
         }}
       >
@@ -154,73 +156,69 @@ function MyPhase({ phaseList, deletePhase }) {
         </DialogActions>
       </Dialog>
       <Box sx={{ padding: '20px', mt: '20px' }}>
-      {isMobile ? (
-        // Dropdown cho chế độ mobile
-        <Select
-          value={currentId}
-          onChange={(e) => setCurrentId(e.target.value)}
-          fullWidth
-          sx={{
-            border: '1px #000 solid',
-            borderRadius: '0.5rem',
-            '&:hover': {
-              opacity: 0.8,
-            },
-          }}
-        >
-          {phaseList.map((phase) => (
-            <MenuItem
-              key={phase._id}
-              value={phase._id}
+        {isMobile ? (
+          // Dropdown cho chế độ mobile
+          <Select
+            value={currentId}
+            onChange={(e) => setCurrentId(e.target.value)}
+            fullWidth
+            sx={{
+              border: '1px #000 solid',
+              borderRadius: '0.5rem',
+              '&:hover': {
+                opacity: 0.8,
+              },
+            }}
+          >
+            {phaseList.map((phase) => (
+              <MenuItem
+                key={phase._id}
+                value={phase._id}
+                sx={{
+                  fontSize: '15px',
+                  '&:hover': {
+                    opacity: 0.8,
+                  },
+                }}
+              >
+                {phase.phaseName}
+              </MenuItem>
+            ))}
+          </Select>
+        ) : (
+          <Box sx={{ maxWidth: '100%', border: '2px solid #6ea033', borderRadius: '4px' }}>
+            <Tabs
+              value={currentId}
+              onChange={(a, b) => setCurrentId(b)}
+              variant="scrollable"
+              scrollButtons="auto"
               sx={{
-                fontSize: '15px',
-                '&:hover': {
-                  opacity: 0.8,
+                maxWidth: '100%',
+                display: 'flex',
+                padding: '4px',
+                gap: '8px',
+                '& .MuiTab-root.Mui-selected': {
+                  color: 'secondary.main',
+                  fontWeight: 'bold'
+                },
+                '& .MuiTabs-indicator': {
+                  backgroundColor: 'secondary.main',
                 },
               }}
             >
-              {phase.phaseName}
-            </MenuItem>
-          ))}
-        </Select>
-      ) : (
-        // Danh sách phase cho các thiết bị lớn hơn mobile
-        <Box
-          sx={{
-            overflow: 'auto',
-            maxWidth: '100%',
-            display: 'flex',
-            gap: '8px',
-          }}
-        >
-          {phaseList.map((phase) => (
-            <Box
-              key={phase._id}
-              onClick={() => setCurrentId(phase._id)}
-              sx={{
-                color: phase._id === currentId ? '#fff' : '#6ea033',
-                fontSize: { xs: '0.75rem', lg: '1rem' },
-                fontWeight: 500,
-                minWidth: '200px',
-                maxWidth: '200px',
-                padding: '0.5rem 0.75rem',
-                textAlign: 'center',
-                backgroundColor: phase._id === currentId ? '#6ea033' : '#fff',
-                cursor: 'pointer',
-                border: '1px solid #6ea033',
-                borderRadius: '0.3rem',
-                '&:hover': {
-                  opacity: 0.8,
-                },
-              }}
-            >
-              {phase.phaseName}
-            </Box>
-          ))}
-        </Box>
-      )}
+              {phaseList.map((phase) => (
+                <Tab
+                  key={phase._id}
+                  label={phase.phaseName}
+                  value={phase._id}
+                >
+                </Tab>
+              )
+              )}
+            </Tabs>
+          </Box>
+        )}
       </Box>
-
 
       <Box>
         <Box>
@@ -334,7 +332,10 @@ function MyPhase({ phaseList, deletePhase }) {
             open={openForm}
             onClose={handleCloseForm}
             sx={{
-              '& .MuiPaper-root': { minWidth: '50%', maxWidth: '50%' },
+              '& .MuiPaper-root': {
+                minWidth: { xs: '90%', lg: '50%' },
+                maxWidth: { xs: '90%', lg: '50%' },
+              },
             }}
           >
             <DialogTitle
