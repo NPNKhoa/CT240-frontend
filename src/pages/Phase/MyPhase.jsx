@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
+
+import DeleteIcon from '@mui/icons-material/Delete';
 import { formatDate } from '../../untils/format';
 import { GetAllSample, CreateNewSample, DeleteSample } from '../../apis/index';
 import {
@@ -12,9 +14,13 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  IconButton,
+  InputLabel,
   TextField,
   Tooltip,
 } from '@mui/material';
+import Divider from '@mui/material/Divider';
 import MySample from '../Sample/MySample';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -41,6 +47,16 @@ function MyPhase({ phaseList, deletePhase }) {
   const index = phaseList.findIndex((phase) => phase?._id === currentId);
   const currentPhase = phaseList[index];
   const [sampleList, setSampleList] = useState([]);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const hadleResize = (event) => {
+      setWindowWidth(event.srcElement.innerWidth);
+    };
+    window.addEventListener('resize', hadleResize);
+    return () => {
+      window.removeEventListener('resize', hadleResize);
+    };
+  }, []);
   useEffect(() => {
     GetAllSample().then((data) => {
       const test = data.map((i) => {
@@ -155,38 +171,77 @@ function MyPhase({ phaseList, deletePhase }) {
           </Button>
         </DialogActions>
       </Dialog>
-      <Box sx={{ padding: '20px', mt: '20px' }}>
+      <Box sx={{
+        padding: '20px',
+        mt: '20px',
+        background: 'transparent',
+        '& .MuiInputBase-root': {
+          color: 'primary.dark',
+          fontSize: {
+            xs: '0.75rem !important',
+            lg: '1rem !important',
+          },
+          '& div': {
+            p: ' 8px 12px',
+          },
+          '& fieldset': {
+            borderColor: '#000 !important',
+          },
+          '& .MuiOutlinedInput-notchedOutline': {
+            border: '1px solid #000',
+            borderColor: '#000',
+          },
+        },
+        '& .MuiFormLabel-root': {
+          fontSize: {
+            xs: '0.85rem !important',
+            lg: '1rem !important'
+          },
+          right: 'auto',
+          left: '0',
+          bottom: '16px',
+          lineHeight: '1.4375em',
+          backgroundColor: '#fff'
+        },
+      }}>
         {isMobile ? (
-          // Dropdown cho chế độ mobile
-          <Select
-            value={currentId}
-            onChange={(e) => setCurrentId(e.target.value)}
-            fullWidth
-            sx={{
-              border: '1px #000 solid',
-              borderRadius: '0.5rem',
-              '&:hover': {
-                opacity: 0.8,
-              },
-            }}
-          >
-            {phaseList.map((phase) => (
-              <MenuItem
-                key={phase._id}
-                value={phase._id}
-                sx={{
-                  fontSize: '15px',
-                  '&:hover': {
-                    opacity: 0.8,
-                  },
-                }}
-              >
-                {phase.phaseName}
-              </MenuItem>
-            ))}
-          </Select>
+          <FormControl fullWidth>
+            <InputLabel
+              size='small'
+              variant='outlined'
+            >
+              Phases
+            </InputLabel>
+            <Select
+              value={currentId}
+              onChange={(e) => setCurrentId(e.target.value)}
+              fullWidth
+              sx={{
+                border: '1px #000 solid',
+                borderRadius: '0.5rem',
+                '&:hover': {
+                  opacity: 0.8,
+                },
+              }}
+            >
+              {phaseList.map((phase) => (
+                <MenuItem
+                  key={phase._id}
+                  value={phase._id}
+                  sx={{
+                    fontSize: '15px',
+                    '&:hover': {
+                      opacity: 0.8,
+                    },
+                  }}
+                >
+                  {phase.phaseName}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         ) : (
-          <Box sx={{ maxWidth: '100%', border: '2px solid #6ea033', borderRadius: '4px' }}>
+          <Box sx={{ maxWidth: '100%', borderRadius: '4px' }}>
             <Tabs
               value={currentId}
               onChange={(a, b) => setCurrentId(b)}
@@ -216,6 +271,7 @@ function MyPhase({ phaseList, deletePhase }) {
               )
               )}
             </Tabs>
+            <Divider />
           </Box>
         )}
       </Box>
@@ -275,24 +331,36 @@ function MyPhase({ phaseList, deletePhase }) {
                 <span>{formatDate(currentPhase?.endDate)}</span>
               </Typography>
             </Box>
-
-            <Button
-              variant='contained'
-              onClick={() => handleDeletePhase(currentPhase)}
-              sx={{
-                fontSize: { xs: '0.75rem', lg: '1rem' },
-                color: '#fff',
-                backgroundColor: 'error.main',
-                border: '1px solid error.main',
-                '&:hover': {
-                  border: '1px solid error.main',
-                  opacity: '0.8',
+            {windowWidth < 800 ? (
+              <Box>
+                <IconButton
+                  aria-label='delete'
+                  onClick={() => handleDeletePhase(currentPhase)}
+                  color='inherit'
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            ) : (
+              <Button
+                variant='contained'
+                onClick={() => handleDeletePhase(currentPhase)}
+                sx={{
+                  fontSize: { xs: '0.75rem', lg: '1rem' },
+                  color: '#fff',
                   backgroundColor: 'error.main',
-                },
-              }}
-            >
-              Delete Phase
-            </Button>
+                  border: '1px solid error.main',
+                  '&:hover': {
+                    border: '1px solid error.main',
+                    opacity: '0.8',
+                    backgroundColor: 'error.main',
+                  },
+                }}
+              >
+                Delete Phase
+              </Button>
+            )}
+
           </Box>
 
           <Typography
