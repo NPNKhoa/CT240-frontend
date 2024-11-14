@@ -7,6 +7,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import ElseSample from '../Sample/ElseSample';
 import { formatDate } from '../../untils/format';
 import { GetAllSample } from '../../apis';
+import { FormControl, InputLabel } from '@mui/material';
 
 function ElsePhase({ phaseList, projectStatus }) {
   const [currentId, setCurrentId] = useState(phaseList[0]?._id);
@@ -35,9 +36,48 @@ function ElsePhase({ phaseList, projectStatus }) {
   }, []);
 
   return (
-    <Box sx={{ padding: '20px', mt: '20px' }}>
+    <Box sx={{
+      padding: '20px',
+      mt: '20px',
+      background: 'transparent',
+      '& .MuiInputBase-root': {
+        color: 'primary.dark',
+        fontSize: {
+          xs: '0.75rem !important',
+          lg: '1rem !important',
+        },
+        '& div': {
+          p: ' 8px 12px',
+        },
+        '& fieldset': {
+          borderColor: '#000 !important',
+        },
+        '& .MuiOutlinedInput-notchedOutline': {
+          border: '1px solid #000',
+          borderColor: '#000',
+        },
+      },
+      '& .MuiFormLabel-root': {
+        fontSize: {
+          xs: '0.85rem !important',
+          lg: '1rem !important'
+        },
+        right: 'auto',
+        left: '0',
+        bottom: '16px',
+        lineHeight: '1.4375em',
+        backgroundColor: '#fff'
+      },
+    }}>
       {isMobile ? (
         // Dropdown cho chế độ mobile
+        <FormControl fullWidth>
+           <InputLabel
+              size='small'
+              variant='outlined'
+            >
+              Phases
+            </InputLabel>
         <Select
           value={currentId}
           onChange={(e) => setCurrentId(e.target.value)}
@@ -65,6 +105,7 @@ function ElsePhase({ phaseList, projectStatus }) {
             </MenuItem>
           ))}
         </Select>
+        </FormControl>
       ) : (
         // Danh sách phase cho các thiết bị lớn hơn mobile
         <Box
@@ -114,13 +155,13 @@ function ElsePhase({ phaseList, projectStatus }) {
           </Typography>
           <Typography
             variant='body1'
-            sx={{ fontSize: { xs: '1rem !important', lg: '1rem !important' } }}
+            sx={{ fontSize: { xs: '0.8rem !important', lg: '1rem !important' } }}
           >
             <b>Start Date: </b> {formatDate(currentPhase?.startDate)}{' '}
           </Typography>
           <Typography
             variant='body1'
-            sx={{ fontSize: { xs: '1rem !important', lg: '1rem !important' } }}
+            sx={{ fontSize: { xs: '0.8rem !important', lg: '1rem !important' } }}
           >
             <b>End Date: </b> {formatDate(currentPhase?.endDate)}{' '}
           </Typography>

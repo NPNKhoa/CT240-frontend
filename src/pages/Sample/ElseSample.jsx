@@ -105,7 +105,7 @@ function ElseSample({ sampleList, projectStatus }) {
                 minWidth: '20%',
                 maxWidth: '20%',
                 textAlign: 'center',
-                fontSize: { xs: '0.75rem !important', lg: '1rem !important' },
+                fontSize: { xs: '0.65rem !important', lg: '1rem !important' },
                 padding: '12px 0',
               },
             }}
@@ -123,7 +123,7 @@ function ElseSample({ sampleList, projectStatus }) {
               Sample Type
             </Typography>
             <Typography variant='body1' sx={{ flex: '1' }}>
-              View all question
+              Action
             </Typography>
           </Box>
           {sampleList?.map((sample) => (
@@ -211,7 +211,7 @@ function ElseSample({ sampleList, projectStatus }) {
                     {isEmpty(testQuestion?.question) && (
                       <Box>
                         <Typography variant='h6' sx={{ flex: '1', mb: '12px' }}>
-                          There are no questions to display
+                          There is no questions to display
                         </Typography>
                       </Box>
                     )}
