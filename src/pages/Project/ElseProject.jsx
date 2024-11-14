@@ -53,7 +53,7 @@ function ElseProject({ project, type }) {
           </Box>
         </Box>
       </Box>
-      {!isEmpty(phaseList) && <ElsePhase phaseList={phaseList} />}
+      {!isEmpty(phaseList) && <ElsePhase phaseList={phaseList} projectStatus={project?.projectStatus} />}
       {isEmpty(phaseList) && (
         <Box sx={{ mt: '40px', ml: '40px' }}>
           <Typography variant='h5'>There is no phase to display</Typography>

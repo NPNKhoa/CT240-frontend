@@ -40,6 +40,7 @@ import { formatDate } from '../../untils/format';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 function MyProject({ project, type, deleteProject, updateProject }) {
+  console.log('project: ', project)
   const [currType] = useState(type.find((i) => i._id === project?.projectType));
   const currUser = JSON.parse(localStorage.getItem('userInfo'));
   const {
@@ -109,14 +110,24 @@ function MyProject({ project, type, deleteProject, updateProject }) {
     setOpenForm(false);
   };
   const deletePhase = (phase) => {
-    DeletePhase(phase._id, token, project?._id)
-      .then((data) => {
-        toast.success('Delete phase successfuly', { position: 'top-center' });
-        setRecallApi((a) => a + 'a');
-      })
-      .catch((err) => {
-        toast.error(err, { position: 'top-center' });
-      });
+    if (project?.projectStatus !== 'active') {
+      toast.error(
+        <div>
+          You can not delete this phase!!
+          <br />
+          {`Because this project has been ${project?.projectStatus}`}
+        </div >, { position: 'top-center' }
+      )
+    } else {
+      DeletePhase(phase._id, token, project?._id)
+        .then((data) => {
+          toast.success('Delete phase successfuly', { position: 'top-center' });
+          setRecallApi((a) => a + 'a');
+        })
+        .catch((err) => {
+          toast.error(err, { position: 'top-center' });
+        });
+    }
     // setTitle('Overview')
   };
   const handleDeleteProject = (project) => {
@@ -129,62 +140,92 @@ function MyProject({ project, type, deleteProject, updateProject }) {
   };
 
   const handleCreateUser = (projectId) => {
-    const dataSubmit = {
-      projectId,
-      userRole: 'member',
-    };
-    const c = test.find((a) => a?.email === createUserText.trim());
-    if (c) {
-      dataSubmit.userId = c._id;
-      CreateUserProject(dataSubmit)
+    if (project?.projectStatus !== 'active') {
+      toast.error(
+        <div>
+          You can not add new user to this project!!
+          <br />
+          {`Because this project has been ${project?.projectStatus}`}
+        </div >, { position: 'top-center' }
+      )
+    } else {
+      const dataSubmit = {
+        projectId,
+        userRole: 'member',
+      };
+      const c = test.find((a) => a?.email === createUserText.trim());
+      if (c) {
+        dataSubmit.userId = c._id;
+        CreateUserProject(dataSubmit)
+          .then((data) => {
+            toast.success('Add user to peoject successfuly!', {
+              position: 'top-center',
+            });
+            setRecallApi((a) => a + 'b');
+            handleCloseCreateUser();
+          })
+          .catch((err) => {
+            toast.error(err?.response?.data?.message, { position: 'top-center' });
+          });
+      } else {
+        toast.error('This email does not exist', { position: 'top-center' });
+      }
+    }
+  };
+  const handleDeleteUser = (userId, projectId) => {
+    if (project?.projectStatus !== 'active') {
+      toast.error(
+        <div>
+          You can not delete this user!!
+          <br />
+          {`Because this project has been ${project?.projectStatus}`}
+        </div >, { position: 'top-center' }
+      )
+    } else {
+      RemoveUserFromProject(userId, projectId)
         .then((data) => {
-          toast.success('Add user to peoject successfuly!', {
+          toast.success('Remove user successfuly!', {
             position: 'top-center',
           });
           setRecallApi((a) => a + 'b');
-          handleCloseCreateUser();
         })
         .catch((err) => {
           toast.error(err?.response?.data?.message, { position: 'top-center' });
         });
-    } else {
-      toast.error('This email does not exist', { position: 'top-center' });
     }
-  };
-  const handleDeleteUser = (userId, projectId) => {
-    RemoveUserFromProject(userId, projectId)
-      .then((data) => {
-        toast.success('Remove user successfuly!', {
-          position: 'top-center',
-        });
-        setRecallApi((a) => a + 'b');
-      })
-      .catch((err) => {
-        toast.error(err?.response?.data?.message, { position: 'top-center' });
-      });
   };
   const handleCreatePhase = (formData) => {
-    const { phaseName, phaseDescription, startDate, endDate } = formData;
-    const dataSubmit = {
-      phaseName,
-      phaseDescription,
-      startDate: new Date(startDate),
-      projectId: project._id,
-    };
-    if (endDate) {
-      dataSubmit.endDate = new Date(endDate);
-    }
-    CreatePhase(dataSubmit, token, project?._id)
-      .then((data) => {
-        toast.success('Create phase successfuly!', {
-          position: 'top-center',
+    if (project?.projectStatus !== 'active') {
+      toast.error(
+        <div>
+          You can not create new phase!!
+          <br />
+          {`Because this project has been ${project?.projectStatus}`}
+        </div >, { position: 'top-center' }
+      )
+    } else {
+      const { phaseName, phaseDescription, startDate, endDate } = formData;
+      const dataSubmit = {
+        phaseName,
+        phaseDescription,
+        startDate: new Date(startDate),
+        projectId: project._id,
+      };
+      if (endDate) {
+        dataSubmit.endDate = new Date(endDate);
+      }
+      CreatePhase(dataSubmit, token, project?._id)
+        .then((data) => {
+          toast.success('Create phase successfuly!', {
+            position: 'top-center',
+          });
+          setRecallApi(`create phase ${data?._id}`);
+          handleCloseForm();
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data?.message, { position: 'top-center' });
         });
-        setRecallApi(`create phase ${data?._id}`);
-        handleCloseForm();
-      })
-      .catch((err) => {
-        toast.error(err?.response?.data?.message, { position: 'top-center' });
-      });
+    }
   };
   const handleCloseUpdate = () => {
     setOpenUpdate(false);
@@ -1035,7 +1076,7 @@ function MyProject({ project, type, deleteProject, updateProject }) {
         </Dialog>
       </Box>
       {!isEmpty(phaseList) && (
-        <MyPhase phaseList={phaseList} deletePhase={deletePhase} />
+        <MyPhase phaseList={phaseList} deletePhase={deletePhase} projectStatus={project?.projectStatus} />
       )}
       {isEmpty(phaseList) && (
         <Box sx={{ mt: '40px', ml: '40px' }}>
