@@ -14,7 +14,7 @@ import {
 import { TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-function ElseSample({ sampleList }) {
+function ElseSample({ sampleList, projectStatus }) {
   const [testQuestion, setTestQuestion] = useState(undefined)
   const {
     register,
@@ -25,35 +25,45 @@ function ElseSample({ sampleList }) {
   const token = localStorage.getItem('Authorization');
 
   const handleSubmitForm = (data) => {
-    const formDataList = [];
-    for (const [key, value] of Object.entries(data)) {
-      console.log(`${key}: ${value}`);
-      if (testQuestion?.question?.map((a) => a?._id).includes(key)) {
-        const formData = new FormData();
-        formData.append('questionId', key);
-        if (typeof value === 'string') {
-          formData.append('responseAnswer', value);
-        } else {
-          const fileLength = value.length;
-          for (let i = 0; i < fileLength; i++) {
-            formData.append('files', value[i]);
+    if (projectStatus !== 'active') {
+      toast.error(
+        <div>
+          You can not submit this form!!
+          <br />
+          {`Because this project has been ${projectStatus}`}
+        </div >, { position: 'top-center' }
+      )
+    } else {
+      const formDataList = [];
+      for (const [key, value] of Object.entries(data)) {
+        console.log(`${key}: ${value}`);
+        if (testQuestion?.question?.map((a) => a?._id).includes(key)) {
+          const formData = new FormData();
+          formData.append('questionId', key);
+          if (typeof value === 'string') {
+            formData.append('responseAnswer', value);
+          } else {
+            const fileLength = value.length;
+            for (let i = 0; i < fileLength; i++) {
+              formData.append('files', value[i]);
+            }
           }
+          formDataList.push(formData);
         }
-        formDataList.push(formData);
       }
-    }
-    formDataList.forEach((formData) => {
-      CreateRespones(token, formData)
-        .then((data) => {
-          toast.success(
-            `Submit response for question: ${data?.questionId?.question} successfuly! `,
-            { position: 'top-center' }
+      formDataList.forEach((formData) => {
+        CreateRespones(token, formData)
+          .then((data) => {
+            toast.success(
+              `Submit response for question: ${data?.questionId?.question} successfuly! `,
+              { position: 'top-center' }
+            );
+          })
+          .catch((err) =>
+            toast.error(err?.response?.data?.message, { position: 'top-center' })
           );
-        })
-        .catch((err) =>
-          toast.error(err?.response?.data?.message, { position: 'top-center' })
-        );
-    });
+      });
+    }
   };
   const getQuestionBySampleId = async (sample) => {
     try {

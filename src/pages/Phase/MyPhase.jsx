@@ -30,7 +30,7 @@ import Select from '@mui/material/Select'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 
-function MyPhase({ phaseList, deletePhase }) {
+function MyPhase({ phaseList, deletePhase, projectStatus }) {
   const {
     register,
     handleSubmit,
@@ -70,32 +70,53 @@ function MyPhase({ phaseList, deletePhase }) {
     });
   }, [recallApi]);
   const handleCreateSample = (data) => {
-    const dataSubmit = {
-      ...data,
-      collectionDate: new Date(data.collectionDate),
-      phaseId: currentPhase?._id,
-    };
-    CreateNewSample(dataSubmit)
-      .then((data) => {
-        toast.success('Create sample successfuly!', {
-          position: 'top-center',
+    if (projectStatus !== 'active') {
+      toast.error(
+        <div>
+          You can not create new sample!!
+          <br />
+          {`Because this project has been ${projectStatus}`}
+        </div >, { position: 'top-center' }
+      )
+    } else {
+      const dataSubmit = {
+        ...data,
+        collectionDate: new Date(data.collectionDate),
+        phaseId: currentPhase?._id,
+      };
+      CreateNewSample(dataSubmit)
+        .then((data) => {
+          toast.success('Create sample successfuly!', {
+            position: 'top-center',
+          });
+          setRecallApi(`${data._id} create sample`);
+          handleCloseForm();
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data?.message, { position: 'top-center' });
         });
-        setRecallApi(`${data._id} create sample`);
-        handleCloseForm();
-      })
-      .catch((err) => {
-        toast.error(err?.response?.data?.message, { position: 'top-center' });
-      });
+    }
   };
   const deleteSample = (sample) => {
-    DeleteSample(sample._id)
-      .then((data) => {
-        toast.success('Delete sample successfuly', { position: 'top-center' });
-        setRecallApi((a) => a + 'a');
-      })
-      .catch((err) => {
-        toast.error(err, { position: 'top-center' });
-      });
+    if (projectStatus !== 'active') {
+      toast.error(
+        <div>
+          You can not delete this sample!!
+          <br />
+          {`Because this project has been ${projectStatus}`}
+        </div >, { position: 'top-center' }
+      )
+    } else {
+      DeleteSample(sample._id)
+        .then((data) => {
+          toast.success('Delete sample successfuly', { position: 'top-center' });
+          setRecallApi((a) => a + 'a');
+        })
+        .catch((err) => {
+          toast.error(err, { position: 'top-center' });
+        });
+    }
+
   };
   const handleDeletePhase = (phase) => {
     setOpenConfirmDelete(phase);
@@ -678,6 +699,7 @@ function MyPhase({ phaseList, deletePhase }) {
             (i) => i?.phaseId === currentPhase?._id
           )}
           deleteSample={deleteSample}
+          projectStatus={projectStatus}
         />
       </Box>
     </Box>

@@ -8,10 +8,10 @@ import ElseSample from '../Sample/ElseSample';
 import { formatDate } from '../../untils/format';
 import { GetAllSample } from '../../apis';
 
-function ElsePhase({ phaseList }) {
+function ElsePhase({ phaseList, projectStatus }) {
   const [currentId, setCurrentId] = useState(phaseList[0]?._id);
   const index = phaseList.findIndex((phase) => phase?._id === currentId);
-  const currentPhase = phaseList[index];
+  const currentPhase = phaseList[index]
 
   // Kiểm tra nếu màn hình ở chế độ mobile
   const isMobile = useMediaQuery('(max-width:600px)');
@@ -129,6 +129,7 @@ function ElsePhase({ phaseList }) {
           sampleList={sampleList.filter(
             (i) => i?.phaseId === currentPhase?._id
           )}
+          projectStatus={projectStatus}
         />
       </Box>
     </Box>

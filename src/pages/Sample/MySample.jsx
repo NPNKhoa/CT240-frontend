@@ -30,19 +30,19 @@ import {
 } from '@mui/material';
 import { toast } from 'react-toastify';
 import ListRepones from '../Respone/ListRepones';
-function MySample({ sampleList, deleteSample }) {
-  const [testQuestion, setTestQuestion] = useState(undefined);
-  const [createQuestion, setCreateQuestion] = useState(false);
-  const [createQuestionText, setCreateQuestionText] = useState('');
-  const [openViewDetail, setOpenViewDetail] = useState(false);
-  const [questionType, setQuestionType] = useState('text');
-  const [openConfirmDelete, setOpenConfirmDelete] = useState(undefined);
-  const token = localStorage.getItem('Authorization');
+function MySample({ sampleList, deleteSample, projectStatus }) {
+  const [testQuestion, setTestQuestion] = useState(undefined)
+  const [createQuestion, setCreateQuestion] = useState(false)
+  const [createQuestionText, setCreateQuestionText] = useState('')
+  const [openViewDetail, setOpenViewDetail] = useState(false)
+  const [questionType, setQuestionType] = useState('text')
+  const [openConfirmDelete, setOpenConfirmDelete] = useState(undefined)
+  const token = localStorage.getItem('Authorization')
   const handleCloseViewDetail = () => {
-    setOpenViewDetail(false);
-  };
-  const [responeList, setResponeList] = useState([]);
-  const [allRes, setAllRes] = useState([]);
+    setOpenViewDetail(false)
+  }
+  const [responeList, setResponeList] = useState([])
+  const [allRes, setAllRes] = useState([])
   useEffect(() => {
     GetAllRespones()
       .then((data) => {
@@ -57,33 +57,43 @@ function MySample({ sampleList, deleteSample }) {
     setOpenViewDetail(true);
   };
   const handleCreateQuestion = (sample) => {
-    const dataSubmit = {
-      sampleId: sample?._id,
-      question: createQuestionText,
-      questionType: questionType,
-    };
-    CreateQuestion(dataSubmit, token, sample?.projectId)
-      .then((data) => {
-        toast.success('Create question successfuly! ', {
-          position: 'top-center',
+    if (projectStatus !== 'active') {
+      toast.error(
+        <div>
+          You can not create new question!!
+          <br />
+          {`Because this project has been ${projectStatus}`}
+        </div >, { position: 'top-center' }
+      )
+    } else {
+      const dataSubmit = {
+        sampleId: sample?._id,
+        question: createQuestionText,
+        questionType: questionType,
+      };
+      CreateQuestion(dataSubmit, token, sample?.projectId)
+        .then((data) => {
+          toast.success('Create question successfuly! ', {
+            position: 'top-center',
+          });
+          setCreateQuestion(false);
+          setCreateQuestionText('');
+          setQuestionType('text');
+          setTestQuestion((prevTestQuestion) => {
+            // Check if this is the same sampleId
+            if (prevTestQuestion?.sampleId === sample?._id) {
+              return {
+                ...prevTestQuestion,
+                question: [...prevTestQuestion.question, data],
+              };
+            }
+            return prevTestQuestion;
+          });
+        })
+        .catch((err) => {
+          toast.error(err?.response?.data?.message, { position: 'top-center' });
         });
-        setCreateQuestion(false);
-        setCreateQuestionText('');
-        setQuestionType('text');
-        setTestQuestion((prevTestQuestion) => {
-          // Check if this is the same sampleId
-          if (prevTestQuestion?.sampleId === sample?._id) {
-            return {
-              ...prevTestQuestion,
-              question: [...prevTestQuestion.question, data],
-            };
-          }
-          return prevTestQuestion;
-        });
-      })
-      .catch((err) => {
-        toast.error(err?.response?.data?.message, { position: 'top-center' });
-      });
+    }
   };
   const handleCloseCreateQuestion = () => {
     setCreateQuestion(false);
