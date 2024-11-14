@@ -367,7 +367,7 @@ function MySample({ sampleList, deleteSample, projectStatus }) {
                   <Box
                     sx={{
                       backgroundColor: 'rgba(0,0,0,0.03)',
-                      padding: '32px 64px',
+                      padding: { xs: '20px 12px 64px ', lg: '32px 64px' },
                     }}
                   >
                     <Box sx={{ minWidth: '160px' }}>
@@ -456,8 +456,8 @@ function MySample({ sampleList, deleteSample, projectStatus }) {
                             </Box>
                             <Box
                               sx={{
-                                maxWidth: { xs: '80px', lg: '200px' },
-                                minWidth: { xs: '80px', lg: '200px' },
+                                maxWidth: { xs: '25%', lg: '200px' },
+                                minWidth: { xs: '25%', lg: '200px' },
                                 background: 'transparent',
                                 '& .MuiInputBase-root': {
                                   color: 'primary.dark',
@@ -669,8 +669,8 @@ function MySample({ sampleList, deleteSample, projectStatus }) {
                             </Box>
                             <Box
                               sx={{
-                                maxWidth: { xs: '80px', lg: '200px' },
-                                minWidth: { xs: '80px', lg: '200px' },
+                                maxWidth: { xs: '25%', lg: '200px' },
+                                minWidth: { xs: '25%', lg: '200px' },
                                 background: 'transparent',
                                 '& .MuiInputBase-root': {
                                   color: 'primary.dark',
@@ -831,7 +831,7 @@ function MySample({ sampleList, deleteSample, projectStatus }) {
                                 fontWeight: '700',
                                 color: 'primary.dark',
                                 textAlign: 'center',
-                                fontSize: { xs: '0.75rem', lg: '1rem' },
+                                fontSize: { xs: '0.65rem !important', lg: '1rem' },
                                 padding: '12px 0',
                               },
                             }}
@@ -842,8 +842,8 @@ function MySample({ sampleList, deleteSample, projectStatus }) {
                             <Typography
                               variant='body1'
                               sx={{
-                                maxWidth: { xs: '20%', lg: '200px' },
-                                minWidth: { xs: '20%', lg: '200px' },
+                                maxWidth: { xs: '25%', lg: '200px' },
+                                minWidth: { xs: '25%', lg: '200px' },
                                 textAlign: 'center',
                               }}
                             >
