@@ -205,7 +205,8 @@ function ElseSample({ sampleList, projectStatus }) {
                   <Box
                     sx={{
                       backgroundColor: 'rgba(0,0,0,0.03)',
-                      padding: '32px 64px',
+                      padding: { xs: '20px 12px 64px ', lg: '32px 64px' },
+
                     }}
                   >
                     {isEmpty(testQuestion?.question) && (
