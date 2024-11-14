@@ -30,11 +30,7 @@ function ElseProject({ project, type }) {
           }}
         >
           <Box sx={{ maxWidth: '1000px' }}>
-            <Typography variant='h6' sx={{ textAlign: 'justify' }}>
-              {' '}
-              Description: {project.projectDescription}{' '}
-            </Typography>
-            <Typography variant='h6' sx={{ fontSize: '20px' }}>
+            <Typography variant='h6' sx={{ fontSize: '0.75rem' }}>
               {' '}
               Type: {currType?.projectTypeName}{' '}
             </Typography>
@@ -42,13 +38,17 @@ function ElseProject({ project, type }) {
               variant='h6'
               sx={{
                 textAlign: 'justify',
-                fontSize: '20px',
+                fontSize: '0.75rem',
                 textTransform: 'capitalize',
                 '& span': { color: colorStatus[project?.projectStatus] },
               }}
             >
               {' '}
               Status: <span> {project?.projectStatus}</span>
+            </Typography>
+            <Typography variant='h6' sx={{ textAlign: 'justify',fontSize: '0.75rem' }}>
+              {' '}
+              Description: {project.projectDescription}{' '}
             </Typography>
           </Box>
         </Box>

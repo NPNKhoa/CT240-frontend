@@ -221,7 +221,9 @@ function Home() {
               <Typography
                 variant='h6'
                 component='div'
-                sx={{ flexGrow: 1, fontSize: { xs: '1rem ', lg: '1.5rem ' } }}
+                sx={{ flexGrow: 1, fontSize: { xs: '0.75rem ', lg: '1.5rem ' } ,whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',}}
               >
                 {title}
               </Typography>
@@ -232,7 +234,7 @@ function Home() {
                     component='div'
                     sx={{
                       flexGrow: 1,
-                      fontSize: { xs: '1rem ', lg: '1.5rem ' },
+                      fontSize: { xs: '0.75rem ', lg: '1.5rem ' },
                     }}
                   >
                     {userInfor?.email}
