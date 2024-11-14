@@ -195,7 +195,7 @@ function Home() {
     navigate('/login');
   };
   return (
-    <Box sx={{ backgroundColor: '#fff' }}>
+    <Box sx={{ backgroundColor: '#fff', overflow: 'hidden' }}>
       <Box sx={{ display: 'flex' }}>
         <Box
           sx={{
@@ -405,7 +405,12 @@ function Home() {
                 Create New Project
               </Button>
             </List>
-            <Dialog open={openForm} onClose={handleColseForm} sx={{}}>
+            <Dialog open={openForm} onClose={handleColseForm} sx={{
+              '& .MuiPaper-root': {
+                minWidth: { xs: '90%', lg: '800px' },
+                maxWidth: { xs: '90%', lg: '800px' },
+              },
+            }}>
               <DialogTitle
                 sx={{ backgroundColor: 'secondary.main', color: '#fff' }}
               >

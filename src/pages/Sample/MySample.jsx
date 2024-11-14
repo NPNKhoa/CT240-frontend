@@ -117,7 +117,7 @@ function MySample({ sampleList, deleteSample }) {
         open={!!openConfirmDelete}
         onClose={() => setOpenConfirmDelete(undefined)}
         sx={{
-          '& .MuiPaper-root': { minWidth: { xs: '80%', lg: '800px' }, maxWidth: { xs: '80%', lg: '800px' } },
+          '& .MuiPaper-root': { minWidth: { xs: '90%', lg: '800px' }, maxWidth: { xs: '90%', lg: '800px' } },
         }}
       >
         <DialogTitle style={{ cursor: 'move' }} id='draggable-dialog-title'>
@@ -505,6 +505,7 @@ function MySample({ sampleList, deleteSample }) {
                               sx={{
                                 fontSize: { xs: '0.75rem', lg: '1rem' },
                                 minWidth: { xs: '15%', lg: '160px' },
+                                display: { xs: 'none', lg: 'flex' },
                                 maxWidth: { xs: '15%', lg: '160px' },
                                 backgroundColor: '#6ea033',
                                 color: '#fff',
@@ -524,6 +525,29 @@ function MySample({ sampleList, deleteSample }) {
                               </span>
                             </Button>
                             <Button
+                              variant='outlined'
+                              onClick={() => handleCreateQuestion(sample)}
+                              sx={{
+                                fontSize: { xs: '0.75rem', lg: '1rem' },
+                                display: { xs: 'flex', lg: 'none' },
+                                minWidth: { xs: '15%', lg: '160px' },
+                                maxWidth: { xs: '15%', lg: '160px' },
+                                backgroundColor: '#6ea033',
+                                color: '#fff',
+                                p: '6px 0 6px 4px',
+                                '&:hover': {
+                                  backgroundColor: '#6ea033',
+                                  color: '#fff',
+                                  opacity: '0.8',
+                                },
+                                '& .test': {
+                                  display: { xs: 'none', lg: 'inline' }
+                                }
+                              }}
+                            >
+                              <SendIcon />
+                            </Button>
+                            <Button
                               variant='contained'
                               startIcon={<HighlightOffIcon />}
                               onClick={handleCloseCreateQuestion}
@@ -531,6 +555,7 @@ function MySample({ sampleList, deleteSample }) {
                                 fontSize: { xs: '0.75rem', lg: '1rem' },
                                 backgroundColor: 'error.main',
                                 color: '#fff',
+                                display: { xs: 'none', lg: 'flex' },
                                 p: '7px 0',
                                 minWidth: { xs: '15%', lg: '100px' },
                                 maxWidth: { xs: '15%', lg: '100px' },
@@ -547,6 +572,26 @@ function MySample({ sampleList, deleteSample }) {
                               <span className='test'>
                                 Close
                               </span>
+                            </Button>
+                            <Button
+                              variant='contained'
+                              onClick={handleCloseCreateQuestion}
+                              sx={{
+                                fontSize: { xs: '0.75rem', lg: '1rem' },
+                                backgroundColor: 'error.main',
+                                display: { xs: 'flex', lg: 'none' },
+                                color: '#fff',
+                                p: '7px 0',
+                                minWidth: { xs: '15%', lg: '100px' },
+                                maxWidth: { xs: '15%', lg: '100px' },
+                                '&:hover': {
+                                  backgroundColor: 'error.main',
+                                  color: '#fff',
+                                  opacity: '0.8',
+                                }
+                              }}
+                            >
+                              <HighlightOffIcon />
                             </Button>
                           </Box>
                         )}
@@ -673,10 +718,33 @@ function MySample({ sampleList, deleteSample }) {
                               sx={{
                                 fontSize: { xs: '0.75rem', lg: '1rem' },
                                 minWidth: { xs: '15%', lg: '160px' },
+                                display: { xs: 'none', lg: 'flex' },
                                 maxWidth: { xs: '15%', lg: '160px' },
                                 backgroundColor: '#6ea033',
                                 color: '#fff',
                                 p: '7px 0',
+                                '&:hover': {
+                                  backgroundColor: '#6ea033',
+                                  color: '#fff',
+                                  opacity: '0.8',
+                                }
+                              }}
+                            >
+                              <span className='test'>
+                                Submit
+                              </span>
+                            </Button>
+                            <Button
+                              variant='outlined'
+                              onClick={() => handleCreateQuestion(sample)}
+                              sx={{
+                                fontSize: { xs: '0.75rem', lg: '1rem' },
+                                display: { xs: 'flex', lg: 'none' },
+                                minWidth: { xs: '15%', lg: '160px' },
+                                maxWidth: { xs: '15%', lg: '160px' },
+                                backgroundColor: '#6ea033',
+                                color: '#fff',
+                                p: '6px 0 6px 4px',
                                 '&:hover': {
                                   backgroundColor: '#6ea033',
                                   color: '#fff',
@@ -687,10 +755,7 @@ function MySample({ sampleList, deleteSample }) {
                                 }
                               }}
                             >
-                              <span className='test'>
-
-                                Submit
-                              </span>
+                              <SendIcon />
                             </Button>
                             <Button
                               variant='contained'
@@ -700,6 +765,7 @@ function MySample({ sampleList, deleteSample }) {
                                 fontSize: { xs: '0.75rem', lg: '1rem' },
                                 backgroundColor: 'error.main',
                                 color: '#fff',
+                                display: { xs: 'none', lg: 'flex' },
                                 p: '7px 0',
                                 minWidth: { xs: '15%', lg: '100px' },
                                 maxWidth: { xs: '15%', lg: '100px' },
@@ -716,6 +782,26 @@ function MySample({ sampleList, deleteSample }) {
                               <span className='test'>
                                 Close
                               </span>
+                            </Button>
+                            <Button
+                              variant='contained'
+                              onClick={handleCloseCreateQuestion}
+                              sx={{
+                                fontSize: { xs: '0.75rem', lg: '1rem' },
+                                backgroundColor: 'error.main',
+                                display: { xs: 'flex', lg: 'none' },
+                                color: '#fff',
+                                p: '7px 0',
+                                minWidth: { xs: '15%', lg: '100px' },
+                                maxWidth: { xs: '15%', lg: '100px' },
+                                '&:hover': {
+                                  backgroundColor: 'error.main',
+                                  color: '#fff',
+                                  opacity: '0.8',
+                                }
+                              }}
+                            >
+                              <HighlightOffIcon />
                             </Button>
                           </Box>
                         )}
@@ -795,7 +881,7 @@ function MySample({ sampleList, deleteSample }) {
                                   onClose={handleCloseViewDetail}
                                   sx={{
                                     '& .MuiPaper-root': {
-                                      minWidth: { xs: '80%', lg: '1200px' }, maxWidth: { xs: '80%', lg: '1200px' },
+                                      minWidth: { xs: '90%', lg: '1200px' }, maxWidth: { xs: '90%', lg: '1200px' },
                                     },
                                   }}
                                 >
